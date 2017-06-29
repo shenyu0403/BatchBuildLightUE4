@@ -94,19 +94,4 @@
     </entry>
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.5" project-jdk-type="Python SDK" />
-  <component name="PyConsoleOptionsProvider">
-    <option name="myPythonConsoleState">
-      <console-settings is-module-sdk="true">
-        <envs>
-          <env key="MaxPlus" value="C:\MaxPlus\packages" />
-        </envs>
-        <option name="myUseModuleSdk" value="true" />
-        <option name="myEnvs">
-          <map>
-            <entry key="MaxPlus" value="C:\MaxPlus\packages" />
-          </map>
-        </option>
-      </console-settings>
-    </option>
-  </component>
 </project>

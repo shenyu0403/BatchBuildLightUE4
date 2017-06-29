@@ -20,6 +20,7 @@ revisions = []
 # Connect to perfoce to check all map (and lvl ussat)
 # -----------------------------
 def perforcecheckout(levels_used):
+    print('Perforce Depot Path >> ', lvl_path)
     p4 = perforce.connect()
     for i in levels_used:
         levels_dict.get(i)
@@ -28,7 +29,7 @@ def perforcecheckout(levels_used):
         lvl_end = level[1]
         map = lvl_path + r"\\" + lvl_name + '_' + lvl_end + '/'
         depot = lvl_root + lvl_name + '_' + lvl_end + '/'
-        print('Checkout Level > ', map)
+        print('Checkout Level >> ', map)
 
         for filename in os.listdir(os.path.normpath(map)):
             filename = depot + filename
@@ -57,7 +58,7 @@ def buildmap(levels_used):
         ue4_editor = paths_dict['UE4 Editor']
         ue4_project = paths_dict['UE4 Project']
         level = '-map=' + lvl_name + '.umap'
-        print(level)
+        print("Buildlight >> ", level)
         subprocess.run([ue4_editor,
                         ue4_project,
                         '-run=resavepackages',
