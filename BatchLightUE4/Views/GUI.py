@@ -3,6 +3,7 @@ import tkinter.filedialog as tkfile
 import tkinter.messagebox as msg
 import json
 import os
+import perforce
 from ..Models.DB import levels_dict, levels_rendering, paths_dict
 from ..Controllers.BuildLightUE4 import perforcecheckout, buildmap
 
@@ -46,12 +47,32 @@ class UIBuildMap(tk.Tk):
         tk.Label(frame_lvl, text='---- Gymnasium', anchor='w').grid(
             columnspan=2, sticky='EW')
 
+        lvl_root = '//ProVolley/UnrealProjects/ProVolley/Content/Scenes/'
+        p4 = perforce.connect()
         env_names = self.env_names
         for cle, level in env_names.items():
+            # ---------- Check if the level can be Checkout or not
+            lvl_name = level[0]
+            lvl_end = level[1]
+            filename = lvl_root + lvl_name + '_' + lvl_end + '/' + lvl_name \
+                       + '.umap'
+            filename = perforce.Revision(p4, filename)
+            # print(filename)
+
+            if filename.openedBy == str(1):
+                print("Wesh >> ", lvl_name, "state", filename.openedBy)
+                self.checkstate = tk.DISABLED
+            else:
+                print("Etat level >> ", lvl_name, "state", filename.openedBy)
+                self.checkstate = tk.NORMAL
+
+            # ---------- Generate a checkbox Widget
             self.value_checkbox[cle] = tk.BooleanVar(self, '0')
-            self.buttons[cle] = tk.Checkbutton(frame_lvl, text=level,
-                                                variable=self.value_checkbox[cle],
-                                                anchor='w')
+            self.buttons[cle] = tk.Checkbutton(frame_lvl,
+                                               text=level,
+                                               variable=self.value_checkbox[cle],
+                                               anchor='w',
+                                               state=self.checkstate)
             self.buttons[cle].grid(columnspan=2, sticky='EW')
 
             if level[0] == 'GYM02':
