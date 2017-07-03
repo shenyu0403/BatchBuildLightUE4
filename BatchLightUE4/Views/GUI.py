@@ -98,7 +98,7 @@ class UIBuildMap(tk.Tk):
         # ------------------------------------------------
         # Setup path
         frame_setup = tk.LabelFrame(self,
-                                  text="All Levels",
+                                  text="Setup Path",
                                   padx=5,
                                   pady=5)
         frame_setup.grid(columnspan=2)
@@ -107,36 +107,37 @@ class UIBuildMap(tk.Tk):
         self.UE4Path_text = tk.StringVar(self, value=text)
         UE4Path = tk.Entry(frame_setup,
                            textvariable=self.UE4Path_text)
-        UE4Path.grid(column=0, row=4, sticky='EW', padx=5, pady=5)
+        UE4Path.grid(column=0, row=1, sticky='EW', padx=5, pady=5)
         UE4Btn = tk.Button(frame_setup,
                            text=u'UE4.exe File',
                            command=lambda: self.OpenFilExe(
                                self.UE4Path_text,
                                1))
-        UE4Btn.grid(column=1, row=4, sticky='EW', padx=5, pady=5)
+        UE4Btn.grid(column=1, row=1, sticky='EW', padx=5, pady=5)
 
         text = paths_dict["UE4 Project"]
         self.UE4Project_text = tk.StringVar(self, value=text)
         ProjectPath = tk.Entry(frame_setup,
                                textvariable=self.UE4Project_text,)
-        ProjectPath.grid(column=0, row=5, sticky='EW', padx=5, pady=5)
+        ProjectPath.grid(column=0, row=2, sticky='EW', padx=5, pady=5)
         ProjectBtn = tk.Button(frame_setup,
                                text=u'Uproject File',
                                command=lambda: self.OpenFilExe(
                                     self.UE4Project_text,
                                     2))
-        ProjectBtn.grid(column=1, row=5, sticky='EW', padx=5, pady=5)
+        ProjectBtn.grid(column=1, row=2, sticky='EW', padx=5, pady=5)
 
         text = paths_dict["Swarm"]
         self.SAPath_text = tk.StringVar(self, value=text)
         SAPath = tk.Entry(frame_setup,
                            textvariable=self.SAPath_text)
-        SAPath.grid(column=0, row=6, sticky='EW', padx=5, pady=5)
+        SAPath.grid(column=0, row=3, sticky='EW', padx=5, pady=5)
         SABtn = tk.Button(frame_setup,
                            text=u'Swarm Agent File',
                            command=lambda: self.OpenFilExe(self.SAPath_text,
                                                            3))
-        SABtn.grid(column=1, row=6, sticky='EW', padx=5, pady=5)
+        SABtn.grid(column=1, row=3, sticky='EW', padx=5, pady=5)
+
 
         # ------------------------------------------------
         # Event and Command
