@@ -24,3 +24,6 @@ def buildmap(levels_used):
                         # '-mapstorebuildlightmaps=GYM01.umap',
                         # '-AutomatedMapBuild',
                         ])
+
+def swarmsetup():
+    print("Swarm Setup :) .")
