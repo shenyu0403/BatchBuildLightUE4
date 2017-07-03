@@ -104,3 +104,4 @@ substancebridge_updater/
 
 # PyCharm folder and file
 /.idea/
+/BatchLightUE4/Models/setup.json
