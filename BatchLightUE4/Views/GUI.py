@@ -5,7 +5,8 @@ import json
 import os
 import perforce
 from ..Models.DB import levels_dict, levels_rendering, paths_dict
-from ..Controllers.BuildLightUE4 import perforcecheckout, buildmap
+from ..Controllers.Perfoce import perforcecheckout
+from ..Controllers.Swarm import buildmap
 
 # --------
 # UI
