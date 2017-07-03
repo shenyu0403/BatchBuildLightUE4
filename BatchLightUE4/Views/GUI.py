@@ -6,7 +6,7 @@ import os
 import perforce
 from ..Models.DB import levels_dict, levels_rendering, paths_dict
 from ..Controllers.Perfoce import perforcecheckout
-from ..Controllers.Swarm import buildmap
+from ..Controllers.Swarm import buildmap, swarmsetup
 
 # --------
 # UI
@@ -97,25 +97,46 @@ class UIBuildMap(tk.Tk):
 
         # ------------------------------------------------
         # Setup path
+        frame_setup = tk.LabelFrame(self,
+                                  text="All Levels",
+                                  padx=5,
+                                  pady=5)
+        frame_setup.grid(columnspan=2)
+
         text = paths_dict["UE4 Editor"]
         self.UE4Path_text = tk.StringVar(self, value=text)
-        UE4Path = tk.Entry(self,
+        UE4Path = tk.Entry(frame_setup,
                            textvariable=self.UE4Path_text)
         UE4Path.grid(column=0, row=4, sticky='EW', padx=5, pady=5)
-        UE4Btn = tk.Button(self,
-                           text=u'Choose File',
-                           command=self.OpenFileEditor)
+        UE4Btn = tk.Button(frame_setup,
+                           text=u'UE4.exe File',
+                           command=lambda: self.OpenFilExe(
+                               self.UE4Path_text,
+                               1))
         UE4Btn.grid(column=1, row=4, sticky='EW', padx=5, pady=5)
 
         text = paths_dict["UE4 Project"]
         self.UE4Project_text = tk.StringVar(self, value=text)
-        ProjectPath = tk.Entry(self,
+        ProjectPath = tk.Entry(frame_setup,
                                textvariable=self.UE4Project_text,)
         ProjectPath.grid(column=0, row=5, sticky='EW', padx=5, pady=5)
-        ProjectBtn = tk.Button(self,
-                               text=u'Choose File',
-                               command=self.OpenFileProject)
+        ProjectBtn = tk.Button(frame_setup,
+                               text=u'Uproject File',
+                               command=lambda: self.OpenFilExe(
+                                    self.UE4Project_text,
+                                    2))
         ProjectBtn.grid(column=1, row=5, sticky='EW', padx=5, pady=5)
+
+        text = paths_dict["Swarm"]
+        self.SAPath_text = tk.StringVar(self, value=text)
+        SAPath = tk.Entry(frame_setup,
+                           textvariable=self.SAPath_text)
+        SAPath.grid(column=0, row=6, sticky='EW', padx=5, pady=5)
+        SABtn = tk.Button(frame_setup,
+                           text=u'Swarm Agent File',
+                           command=lambda: self.OpenFilExe(self.SAPath_text,
+                                                           3))
+        SABtn.grid(column=1, row=6, sticky='EW', padx=5, pady=5)
 
         # ------------------------------------------------
         # Event and Command
@@ -129,27 +150,23 @@ class UIBuildMap(tk.Tk):
             self.buttons[cle].deselect()
         self.labelVariable.set("Clear list selection")
 
-    def OpenFileEditor(self):
-        self.UE4Path_text.get()
-        text = tkfile.askopenfilename()
-        paths_dict["UE4 Editor"] = text
-        self.UE4Path_text.set(text)
-        path_json = os.path.abspath(
-            "BatchLightUE4/Models/setup.json")
-        with open(path_json, 'w') as f:
-            json.dump(paths_dict, f, indent=4)
+    def OpenFilExe(self, variable, id):
+        # textfield = variable.get()
+        textfield = tkfile.askopenfilename()
 
-    def OpenFileProject(self):
-        self.UE4Project_text.get()
-        text = tkfile.askopenfilename()
-        paths_dict["UE4 Project"] = text
-        print("Text Field > ", text)
-        print(paths_dict)
+        if id == 1:
+            paths_dict["UE4 Editor"] = textfield
+        elif id == 2:
+            paths_dict["UE4 Project"] = textfield
+        elif id == 3:
+            paths_dict["Swarm"] = textfield
+
+        variable.set(textfield)
         path_json = os.path.abspath(
             "BatchLightUE4/Models/setup.json")
-        self.UE4Project_text.set(text)
         with open(path_json, 'w') as f:
             json.dump(paths_dict, f, indent=4)
+        print(textfield, id)
 
     def OnButtonClick(self):
         text = ""
