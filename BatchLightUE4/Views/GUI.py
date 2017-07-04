@@ -58,13 +58,10 @@ class UIBuildMap(tk.Tk):
             filename = lvl_root + lvl_name + '_' + lvl_end + '/' + lvl_name \
                        + '.umap'
             filename = perforce.Revision(p4, filename)
-            # print(filename)
 
             if filename.openedBy == str(1):
-                print("Wesh >> ", lvl_name, "state", filename.openedBy)
                 self.checkstate = tk.DISABLED
             else:
-                print("Etat level >> ", lvl_name, "state", filename.openedBy)
                 self.checkstate = tk.NORMAL
 
             # ---------- Generate a checkbox Widget
@@ -92,8 +89,18 @@ class UIBuildMap(tk.Tk):
 
         tk.Button(self,
                   text=u'Build Light',
-                  command=self.OnButtonClick).grid(columnspan=2,
-                                                   sticky='EW',padx=5, pady=5,)
+                  command=self.OnButtonClick).grid(sticky='EW',
+                                                   column=0,
+                                                   row=2,
+                                                   padx=5,
+                                                   pady=5,)
+
+        self.value_swarm = tk.BooleanVar(self, '0')
+        self.swarmBTN = tk.Checkbutton(self,
+                                       text="All",
+                                       variable=self.value_swarm,
+                                       anchor='w',)
+        self.swarmBTN.grid(column=1,row=2, sticky='EW')
 
         # ------------------------------------------------
         # Setup path
@@ -138,6 +145,24 @@ class UIBuildMap(tk.Tk):
                                                            3))
         SABtn.grid(column=1, row=3, sticky='EW', padx=5, pady=5)
 
+        # ------------------------------------------------
+        # Swarm Setup
+        # frame_swarm = tk.LabelFrame(self,
+        #                           text="Swarm Agent",
+        #                           padx=5,
+        #                           pady=5)
+        # frame_swarm.grid(columnspan=2)
+        # self.value_swarm = tk.BooleanVar(self, '0')
+        #
+        # self.swarmBTN = tk.Checkbutton(frame_swarm,
+        #                                text="Activate Global Swarm Setup",
+        #                                variable=self.value_swarm,
+        #                                anchor='w',)
+        # self.swarmBTN.grid(columnspan=2, sticky='EW')
+
+        # self.swarmSetup = tk.Button(frame_swarm, text="Setup Swarm",
+        #                             command=self.OpenWindow)
+        # self.swarmSetup.grid(columnspan=2, sticky='EW')
 
         # ------------------------------------------------
         # Event and Command
@@ -169,6 +194,10 @@ class UIBuildMap(tk.Tk):
             json.dump(paths_dict, f, indent=4)
         print(textfield, id)
 
+    # def OpenWindow(self):
+    #     print("Swarm Setup")
+    #     tk.Toplevel(SwarmUI)
+
     def OnButtonClick(self):
         text = ""
         for key, value in self.buttons.items():
@@ -181,8 +210,14 @@ class UIBuildMap(tk.Tk):
             elif len(levels_rendering) == 0:
                 text = "Empty Choice"
 
-        print('Index Level Rendering >> ', levels_rendering)
+        # print('Index Level Rendering >> ', levels_rendering)
         self.labelVariable.set(text)
         if msg.askyesno('Launch Build', 'Lancement du calcul ?'):
-            perforcecheckout(levels_rendering)
+            swarm_statut = self.value_swarm.get()
+            if swarm_statut == True:
+                print("Statue Swarm Setup :", swarm_statut)
+                swarmsetup(self.SAPath_text.get())
             buildmap(levels_rendering)
+            perforcecheckout(levels_rendering)
+
+            print("Finish")
