@@ -42,5 +42,6 @@ else:
     paths_dict = {
         "UE4 Editor": "UE4Editor.exe",
         "UE4 Project": "Project.uproject",
+        "Swarm": "SwarmAgent.exe",
     }
 path_project = r"E:\WORKS\Perforce\ProVolley\UnrealProjects\ProVolley\ProVolley.uproject"
