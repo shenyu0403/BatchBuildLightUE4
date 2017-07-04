@@ -1,7 +1,10 @@
 import os
+import json
+import psutil
+import xml.etree.ElementTree as ET
 
 import subprocess
-from ..Models.DB import levels_dict, paths_dict
+from ..Models.DB import levels_dict, paths_dict, slave
 
 # -----------------------------
 # Build level
@@ -25,5 +28,65 @@ def buildmap(levels_used):
                         # '-AutomatedMapBuild',
                         ])
 
-def swarmsetup():
-    print("Swarm Setup :) .")
+def swarmsetup(exe, bool):
+    path_json = os.path.abspath(
+        "BatchLightUE4/Models/setup.json")
+    path_swarm_setup = os.path.dirname(exe)
+    path_swarm_setup = path_swarm_setup + "/" + "SwarmAgent.Options.xml"
+
+    # --------------------  --------------------
+    # Change the Swarm Setup to include all machine selected, need to kill
+    # it and relaunch the programm
+    if os.path.isfile(path_swarm_setup):
+        setup = path_swarm_setup
+        setup = ET.parse(setup)
+        root = setup.getroot()
+        slave_name = str("Agent*, ")
+        # for child in setup:
+        #     print(child.tag, child.attrib)
+
+        ligne = "AllowedRemoteAgentNames"
+        for value in root.iterfind(ligne):
+            if bool is True:
+                for obj in slave.values():
+                    slave_name = slave_name + str(obj[1]) + ", "
+
+            elif bool is False:
+                    slave_name = "Agent*"
+
+            new_value = slave_name
+            value.text = new_value
+
+        # print(root.iter('text'))
+        # print("Text >> ", root.iter('text').text)
+        # print("Attr >> ", root.iter('text').attrib)
+        # print("Tag >> ", root.iter('text').tag)
+        print(path_swarm_setup)
+        setup.write(path_swarm_setup)
+
+        kill_it = "SwarmAgent.exe"
+
+        # Kill the programm to relaunch with a new setup
+        for proc in psutil.process_iter():
+            # check whether the process name matches
+            if proc.name() == kill_it:
+                proc.kill()
+
+
+        # Relaunch the programm
+        soft = os.path.dirname(exe)
+        soft = soft + "/" + kill_it
+        subprocess.Popen(soft, stdout=subprocess.PIPE)
+
+    else:
+        print("No Setup, generate data")
+    # if os.path.isfile(path_json):
+    #     with open(path_json) as f:
+    #         paths_dict = json.load(f)
+
+    # node xml
+    #  - SettableOptions
+    #  -- EnableStandaloneMode > False
+    #  -- AllowedRemoteAgentNames > AGENT*
+    #  -- AllowedRemoteAgentGroup > Default
+    #  -- CoordinatorRemotingHost > BUILDER
