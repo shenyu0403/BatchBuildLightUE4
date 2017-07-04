@@ -27,6 +27,11 @@ levels_dict = {
     13: ('TC02', 'MartinSherpardHall'),
 }
 
+slave = {
+    1: ('Aurel', 'DESKTOP-06QPOKM'),
+    2: ('Quentin', 'MUTTON03'),
+    3: ('Marine', 'WHITESHEEP02'),
+}
 revisions = []
 
 path_json = os.path.abspath(
