@@ -91,7 +91,7 @@ class UIBuildMap(tk.Tk):
                   text=u'Build Light',
                   command=self.OnButtonClick).grid(sticky='EW',
                                                    column=0,
-                                                   row=2,
+                                                   row=3,
                                                    padx=5,
                                                    pady=5,)
 
@@ -100,7 +100,7 @@ class UIBuildMap(tk.Tk):
                                        text="All",
                                        variable=self.value_swarm,
                                        anchor='w',)
-        self.swarmBTN.grid(column=1,row=2, sticky='EW')
+        self.swarmBTN.grid(column=1,row=3, sticky='EW')
 
         # ------------------------------------------------
         # Setup path
@@ -116,7 +116,7 @@ class UIBuildMap(tk.Tk):
                            textvariable=self.UE4Path_text)
         UE4Path.grid(column=0, row=1, sticky='EW', padx=5, pady=5)
         UE4Btn = tk.Button(frame_setup,
-                           text=u'UE4.exe File',
+                           text=u'UE4Editor.exe',
                            command=lambda: self.OpenFilExe(
                                self.UE4Path_text,
                                1))
@@ -128,7 +128,7 @@ class UIBuildMap(tk.Tk):
                                textvariable=self.UE4Project_text,)
         ProjectPath.grid(column=0, row=2, sticky='EW', padx=5, pady=5)
         ProjectBtn = tk.Button(frame_setup,
-                               text=u'Uproject File',
+                               text=u'Uproject',
                                command=lambda: self.OpenFilExe(
                                    self.UE4Project_text,
                                    2))
@@ -140,7 +140,7 @@ class UIBuildMap(tk.Tk):
                           textvariable=self.SAPath_text)
         SAPath.grid(column=0, row=3, sticky='EW', padx=5, pady=5)
         SABtn = tk.Button(frame_setup,
-                          text=u'Swarm Agent File',
+                          text=u'SwarmAgent.exe',
                           command=lambda: self.OpenFilExe(self.SAPath_text,
                                                           3))
         SABtn.grid(column=1, row=3, sticky='EW', padx=5, pady=5)
@@ -198,9 +198,14 @@ class UIBuildMap(tk.Tk):
     #     print("Swarm Setup")
     #     tk.Toplevel(SwarmUI)
 
+    # --------------------  --------------------
+    # This function call perforce and swarm to check out all file and build
+    # all level choiced
     def OnButtonClick(self):
-        text = ""
+        # Generate empty Data
         levels_rendering = []
+        text = ""
+
         for key, value in self.buttons.items():
             check = self.value_checkbox[key].get()
             if check is True:
@@ -215,9 +220,10 @@ class UIBuildMap(tk.Tk):
         self.labelVariable.set(text)
         if msg.askyesno('Launch Build', 'Lancement du calcul ?'):
             swarm_statut = self.value_swarm.get()
-            if swarm_statut == True:
-                print("Statue Swarm Setup :", swarm_statut)
-                swarmsetup(self.SAPath_text.get())
+            # if swarm_statut == True:
+            print("Statue Swarm Setup :", swarm_statut)
+            swarmsetup(self.SAPath_text.get(), swarm_statut)
+
             perforcecheckout(levels_rendering)
             buildmap(levels_rendering)
 
