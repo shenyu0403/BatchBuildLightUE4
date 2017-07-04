@@ -28,7 +28,7 @@ levels_dict = {
 }
 
 slave = {
-    1: ('Aurel', 'DESKTOP-06QPOKM'),
+    1: ('Aurel', 'DESKTOP-O6QPOKM'),
     2: ('Quentin', 'MUTTON03'),
     3: ('Marine', 'WHITESHEEP02'),
 }
