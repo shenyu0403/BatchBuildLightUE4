@@ -27,8 +27,6 @@ levels_dict = {
     13: ('TC02', 'MartinSherpardHall'),
 }
 
-levels_rendering = []
-
 revisions = []
 
 path_json = os.path.abspath(

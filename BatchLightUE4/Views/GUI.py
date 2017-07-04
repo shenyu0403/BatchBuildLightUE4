@@ -4,7 +4,7 @@ import tkinter.messagebox as msg
 import json
 import os
 import perforce
-from ..Models.DB import levels_dict, levels_rendering, paths_dict
+from ..Models.DB import levels_dict, paths_dict
 from ..Controllers.Perfoce import perforcecheckout
 from ..Controllers.Swarm import buildmap, swarmsetup
 
@@ -105,9 +105,9 @@ class UIBuildMap(tk.Tk):
         # ------------------------------------------------
         # Setup path
         frame_setup = tk.LabelFrame(self,
-                                  text="Setup Path",
-                                  padx=5,
-                                  pady=5)
+                                    text="Setup Path",
+                                    padx=5,
+                                    pady=5)
         frame_setup.grid(columnspan=2)
 
         text = paths_dict["UE4 Editor"]
@@ -130,19 +130,19 @@ class UIBuildMap(tk.Tk):
         ProjectBtn = tk.Button(frame_setup,
                                text=u'Uproject File',
                                command=lambda: self.OpenFilExe(
-                                    self.UE4Project_text,
-                                    2))
+                                   self.UE4Project_text,
+                                   2))
         ProjectBtn.grid(column=1, row=2, sticky='EW', padx=5, pady=5)
 
         text = paths_dict["Swarm"]
         self.SAPath_text = tk.StringVar(self, value=text)
         SAPath = tk.Entry(frame_setup,
-                           textvariable=self.SAPath_text)
+                          textvariable=self.SAPath_text)
         SAPath.grid(column=0, row=3, sticky='EW', padx=5, pady=5)
         SABtn = tk.Button(frame_setup,
-                           text=u'Swarm Agent File',
-                           command=lambda: self.OpenFilExe(self.SAPath_text,
-                                                           3))
+                          text=u'Swarm Agent File',
+                          command=lambda: self.OpenFilExe(self.SAPath_text,
+                                                          3))
         SABtn.grid(column=1, row=3, sticky='EW', padx=5, pady=5)
 
         # ------------------------------------------------
@@ -200,6 +200,7 @@ class UIBuildMap(tk.Tk):
 
     def OnButtonClick(self):
         text = ""
+        levels_rendering = []
         for key, value in self.buttons.items():
             check = self.value_checkbox[key].get()
             if check is True:
@@ -217,7 +218,10 @@ class UIBuildMap(tk.Tk):
             if swarm_statut == True:
                 print("Statue Swarm Setup :", swarm_statut)
                 swarmsetup(self.SAPath_text.get())
-            buildmap(levels_rendering)
             perforcecheckout(levels_rendering)
+            buildmap(levels_rendering)
 
-            print("Finish")
+        print("Finish, all index level = ", levels_rendering)
+        levels_rendering = []
+        print("Clean index level = ", levels_rendering)
+
