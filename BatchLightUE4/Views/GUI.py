@@ -220,15 +220,12 @@ class UIBuildMap(tk.Tk):
         if msg.askyesno('Launch Build', 'Lancement du calcul ?'):
             swarm_statut = self.value_swarm.get()
             # if swarm_statut == True:
-            print("Statue Swarm Setup :", swarm_statut)
             swarmsetup(self.SAPath_text.get(), swarm_statut)
 
             perforcecheckout(levels_rendering)
             buildmap(levels_rendering)
 
-        print("Finish, all index level = ", levels_rendering)
         levels_rendering = []
-        print("Clean index level = ", levels_rendering)
         swarmsetup(self.SAPath_text.get(), False)
         print("All levels selected are rendering and checkout")
 
