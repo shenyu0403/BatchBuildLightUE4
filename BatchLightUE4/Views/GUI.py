@@ -216,7 +216,6 @@ class UIBuildMap(tk.Tk):
             elif len(levels_rendering) == 0:
                 text = "Empty Choice"
 
-        # print('Index Level Rendering >> ', levels_rendering)
         self.labelVariable.set(text)
         if msg.askyesno('Launch Build', 'Lancement du calcul ?'):
             swarm_statut = self.value_swarm.get()
