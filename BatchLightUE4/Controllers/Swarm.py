@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 
 import subprocess
 from ..Models.DB import levels_dict, paths_dict, slave
+from BatchLightUE4.Controllers.Logs import logsave
 
 # -----------------------------
 # Build level
@@ -27,6 +28,7 @@ def buildmap(levels_used):
                         # '-mapstorebuildlightmaps=GYM01.umap',
                         # '-AutomatedMapBuild',
                         ])
+        logsave(lvl_name)
 
 def swarmsetup(exe, bool):
     path_json = os.path.abspath(
