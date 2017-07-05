@@ -9,8 +9,8 @@ from ..Models.DB import paths_dict
 def logsave(level):
 
     level = level + ".log"
-    print("Main Module >> ", sys.modules['__main__'].__file__)
-    root_path = sys.modules['__main__'].__file__
+    root_path = sys.path[0]
+    # root_path = os.path.dirname(sys.modules['__main__'].__file__)
     log = paths_dict['UE4 Project']
 
     src = os.path.dirname(log) + "\Saved\Logs\ProVolley.log"
@@ -20,5 +20,7 @@ def logsave(level):
 
     if not os.path.exists(os.path.dirname(dst)):
         os.makedirs(os.path.dirname(dst))
+
+    print("Main Module >> ", root_path)
 
     shutil.copyfile(src, dst)
