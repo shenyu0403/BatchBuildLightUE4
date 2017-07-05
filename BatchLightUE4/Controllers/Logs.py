@@ -7,20 +7,20 @@ from ..Models.DB import paths_dict
 # your rendering errors.
 
 def logsave(level):
-
     level = level + ".log"
     root_path = sys.path[0]
-    # root_path = os.path.dirname(sys.modules['__main__'].__file__)
     log = paths_dict['UE4 Project']
 
     src = os.path.dirname(log) + "\Saved\Logs\ProVolley.log"
     src = os.path.normpath(src)
-    dst = os.path.dirname(root_path) + r'/Logs/' + level
-    dst = os.path.normpath(dst)
+    dst = root_path + r'/Logs/'
+    dst = os.path.normpath(os.path.dirname(dst))
 
-    if not os.path.exists(os.path.dirname(dst)):
-        os.makedirs(os.path.dirname(dst))
+    if not os.path.exists(dst):
+        os.makedirs(dst)
 
-    print("Main Module >> ", root_path)
+    print("Log Folder >> ", dst)
+
+    dst = dst + '\\' + level
 
     shutil.copyfile(src, dst)
