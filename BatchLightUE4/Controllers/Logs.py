@@ -9,6 +9,7 @@ from ..Models.DB import paths_dict
 def logsave(level):
 
     level = level + ".log"
+    print("Main Module >> ", sys.modules['__main__'].__file__)
     root_path = sys.modules['__main__'].__file__
     log = paths_dict['UE4 Project']
 
