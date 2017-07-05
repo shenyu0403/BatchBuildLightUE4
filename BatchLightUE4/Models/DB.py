@@ -4,10 +4,6 @@ import json
 # Generate all data needs to know enviroment we want build, the stadium
 # name, suffix name and -by deduction the path
 # -----------------------------
-lvl_root = '//ProVolley/UnrealProjects/ProVolley/Content/Scenes/'
-lvl_path = "e:/WORKS/Perforce/ProVolley/UnrealProjects/ProVolley/Content" \
-           "/Scenes/"
-
 levels_dict = {
     # Gymnasium
     1: ('GYM01', 'SanJuanTheater'),
@@ -45,6 +41,4 @@ else:
     paths_dict = {
         "UE4 Editor": "UE4Editor.exe",
         "UE4 Project": "Project.uproject",
-        "Swarm": "SwarmAgent.exe",
     }
-path_project = r"E:\WORKS\Perforce\ProVolley\UnrealProjects\ProVolley\ProVolley.uproject"
