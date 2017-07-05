@@ -30,11 +30,16 @@ def buildmap(levels_used):
                         ])
         logsave(lvl_name)
 
-def swarmsetup(exe, bool):
+def swarmsetup(bool):
     path_json = os.path.abspath(
         "BatchLightUE4/Models/setup.json")
-    path_swarm_setup = os.path.dirname(exe)
-    path_swarm_setup = path_swarm_setup + "/" + "SwarmAgent.Options.xml"
+    path_exe = os.path.dirname(paths_dict['UE4 Editor'])
+    os.path.dirname(path_exe)
+    path_exe = os.path.dirname(path_exe)
+    path_exe = path_exe + '/DotNET'
+
+    path_swarm_setup = path_exe + "/" + "SwarmAgent.Options.xml"
+
 
     # --------------------  --------------------
     # Change the Swarm Setup to include all machine selected, need to kill
@@ -59,10 +64,6 @@ def swarmsetup(exe, bool):
             new_value = slave_name
             value.text = new_value
 
-        # print(root.iter('text'))
-        # print("Text >> ", root.iter('text').text)
-        # print("Attr >> ", root.iter('text').attrib)
-        # print("Tag >> ", root.iter('text').tag)
         print(path_swarm_setup)
         setup.write(path_swarm_setup)
 
@@ -76,7 +77,7 @@ def swarmsetup(exe, bool):
 
 
         # Relaunch the programm
-        soft = os.path.dirname(exe)
+        soft = os.path.abspath(path_exe)
         soft = soft + "/" + kill_it
         subprocess.Popen(soft, stdout=subprocess.PIPE)
 

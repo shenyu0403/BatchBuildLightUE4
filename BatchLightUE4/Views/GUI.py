@@ -134,16 +134,16 @@ class UIBuildMap(tk.Tk):
                                    2))
         ProjectBtn.grid(column=1, row=2, sticky='EW', padx=5, pady=5)
 
-        text = paths_dict["Swarm"]
-        self.SAPath_text = tk.StringVar(self, value=text)
-        SAPath = tk.Entry(frame_setup,
-                          textvariable=self.SAPath_text)
-        SAPath.grid(column=0, row=3, sticky='EW', padx=5, pady=5)
-        SABtn = tk.Button(frame_setup,
-                          text=u'SwarmAgent.exe',
-                          command=lambda: self.OpenFilExe(self.SAPath_text,
-                                                          3))
-        SABtn.grid(column=1, row=3, sticky='EW', padx=5, pady=5)
+        # text = paths_dict["Swarm"]
+        # self.SAPath_text = tk.StringVar(self, value=text)
+        # SAPath = tk.Entry(frame_setup,
+        #                   textvariable=self.SAPath_text)
+        # SAPath.grid(column=0, row=3, sticky='EW', padx=5, pady=5)
+        # SABtn = tk.Button(frame_setup,
+        #                   text=u'SwarmAgent.exe',
+        #                   command=lambda: self.OpenFilExe(self.SAPath_text,
+        #                                                   3))
+        # SABtn.grid(column=1, row=3, sticky='EW', padx=5, pady=5)
 
         # ------------------------------------------------
         # Swarm Setup
@@ -220,12 +220,12 @@ class UIBuildMap(tk.Tk):
         if msg.askyesno('Launch Build', 'Lancement du calcul ?'):
             swarm_statut = self.value_swarm.get()
             # if swarm_statut == True:
-            swarmsetup(self.SAPath_text.get(), swarm_statut)
+            swarmsetup(swarm_statut)
 
             perforcecheckout(levels_rendering)
             buildmap(levels_rendering)
 
         levels_rendering = []
-        swarmsetup(self.SAPath_text.get(), False)
+        swarmsetup(False)
         print("All levels selected are rendering and checkout")
 
