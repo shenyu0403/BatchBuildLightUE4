@@ -15,7 +15,7 @@ def buildmap(levels_used):
         levels_dict.get(i)
         level = levels_dict[i]
         lvl_name = level[0]
-        lvl_name = level[1]
+        lvl_end = level[1]
         ue4_editor = paths_dict['UE4 Editor']
         ue4_project = paths_dict['UE4 Project']
         level = '-map=' + lvl_name + '.umap'

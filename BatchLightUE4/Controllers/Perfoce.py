@@ -35,7 +35,6 @@ def perforcecheckout(levels_used):
 
         for filename in os.listdir(os.path.normpath(map)):
             filename = depot + filename
-            print("Loop Filename >> ", filename)
             revisions.append(filename)
 
         description = """[ProVolley][GFX][LightmapAuto] Automatic Build 
