@@ -82,6 +82,11 @@ class UIBuildMap(tk.Tk):
                          anchor='w').grid(
                     columnspan=2, sticky='EW')
 
+            if level[0] == 'TC02':
+                tk.Label(frame_lvl, text='---- Extra Levels',
+                         anchor='w').grid(
+                    columnspan=2, sticky='EW')
+
         # ------------------------------------------------
         # Launch Programm
         self.grid_columnconfigure(0, weight=1)
