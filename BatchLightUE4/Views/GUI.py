@@ -57,6 +57,8 @@ class UIBuildMap(tk.Tk):
             lvl_end = level[1]
             filename = lvl_root + lvl_name + '_' + lvl_end + '/' + lvl_name \
                        + '.umap'
+            if lvl_name == 'CharacterCreator':
+                filename = lvl_root + lvl_name + '/' + lvl_end + '.umap'
             filename = perforce.Revision(p4, filename)
 
             if filename.openedBy == str(1):
@@ -197,7 +199,7 @@ class UIBuildMap(tk.Tk):
             "BatchLightUE4/Models/setup.json")
         with open(path_json, 'w') as f:
             json.dump(paths_dict, f, indent=4)
-        print(textfield, id)
+        # print(textfield, id)
 
     # def OpenWindow(self):
     #     print("Swarm Setup")

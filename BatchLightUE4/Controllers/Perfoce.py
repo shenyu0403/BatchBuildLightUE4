@@ -27,15 +27,19 @@ def perforcecheckout(levels_used):
         lvl_end = level[1]
         map = lvl_path + r"\\" + lvl_name + '_' + lvl_end + '/'
         depot = lvl_root + lvl_name + '_' + lvl_end + '/'
-        print('Checkout Level >> ', map)
+        if lvl_name == 'CharacterCreator':
+            map = lvl_path + r"\\" + lvl_name + '/'
+            depot = lvl_root + lvl_name + '/'
+        print('Path >> ', map)
+        print('Depot >> ', depot)
 
         for filename in os.listdir(os.path.normpath(map)):
             filename = depot + filename
+            print("Loop Filename >> ", filename)
             revisions.append(filename)
 
-        description = """
-        [ProVolley][GFX][LightmapAuto] Automatic Build Lightmap generate for the level
-        """
+        description = """[ProVolley][GFX][LightmapAuto] Automatic Build 
+        Lightmap generate for the level """
         description = description + lvl_name
         cl = p4.findChangelist(description)
         for i in range(len(revisions)):
