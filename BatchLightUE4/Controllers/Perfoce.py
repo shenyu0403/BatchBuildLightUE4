@@ -17,33 +17,29 @@ revisions = []
 # -----------------------------
 # Connect to perfoce to check all map (and lvl ussat)
 # -----------------------------
-def perforcecheckout(levels_used):
-    print('Perforce Depot Path >> ', lvl_path)
+def perforcecheckout(level_used):
     p4 = perforce.connect()
-    for i in levels_used:
-        levels_dict.get(i)
-        level = levels_dict[i]
-        lvl_name = level[0]
-        lvl_end = level[1]
-        map = lvl_path + r"\\" + lvl_name + '_' + lvl_end + '/'
-        depot = lvl_root + lvl_name + '_' + lvl_end + '/'
-        if lvl_name == 'CharacterCreator':
-            map = lvl_path + r"\\" + lvl_name + '/'
-            depot = lvl_root + lvl_name + '/'
-        print('Path >> ', map)
-        print('Depot >> ', depot)
+    # for i in level_used:
+    levels_dict.get(level_used)
+    level = levels_dict.get(level_used)
+    lvl_name = level[0]
+    lvl_end = level[1]
+    map = lvl_path + r"\\" + lvl_name + '_' + lvl_end + '/'
+    depot = lvl_root + lvl_name + '_' + lvl_end + '/'
+    if lvl_name == 'CharacterCreator':
+        map = lvl_path + r"\\" + lvl_name + '/'
+        depot = lvl_root + lvl_name + '/'
 
-        for filename in os.listdir(os.path.normpath(map)):
-            filename = depot + filename
-            revisions.append(filename)
+    for filename in os.listdir(os.path.normpath(map)):
+        filename = depot + filename
+        revisions.append(filename)
 
-        description = """[ProVolley][GFX][LightmapAuto] Automatic Build 
-        Lightmap generate for the level """
-        description = description + lvl_name
-        cl = p4.findChangelist(description)
-        for i in range(len(revisions)):
-            file = revisions[i]
-            p4.ls(file)
-            cl.append(revisions[i])
+    description = """[ProVolley][GFX][LightmapAuto] Automatic Build Lightmap generate for the level """
+    description = description + lvl_name
+    cl = p4.findChangelist(description)
+    for i in range(len(revisions)):
+        file = revisions[i]
+        p4.ls(file)
+        cl.append(revisions[i])
 
-        revisions.clear()
+    revisions.clear()

@@ -1,13 +1,17 @@
 import os
 import sys
 import shutil
-from ..Models.DB import paths_dict
+from ..Models.DB import levels_dict, paths_dict
 
 # This files create a copy of your Unreal log file, useful to see easily
 # your rendering errors.
 
-def logsave(level):
-    level = level + ".log"
+def logsave(level_used):
+    level = levels_dict.get(level_used)
+    lvl_name = level[0]
+    # lvl_end = level[1]
+
+    log_name = lvl_name + ".log"
     root_path = sys.path[0]
     log = paths_dict['UE4 Project']
 
@@ -19,8 +23,6 @@ def logsave(level):
     if not os.path.exists(dst):
         os.makedirs(dst)
 
-    print("Log Folder >> ", dst)
-
-    dst = dst + '\\' + level
+    dst = dst + '\\' + log_name
 
     shutil.copyfile(src, dst)

@@ -7,6 +7,7 @@ import perforce
 from ..Models.DB import levels_dict, paths_dict
 from ..Controllers.Perfoce import perforcecheckout
 from ..Controllers.Swarm import buildmap, swarmsetup
+from ..Controllers.Logs import logsave
 
 # --------
 # UI
@@ -228,9 +229,14 @@ class UIBuildMap(tk.Tk):
             swarm_statut = self.value_swarm.get()
             # if swarm_statut == True:
             swarmsetup(swarm_statut)
+            for level_build in levels_rendering:
+                level = levels_dict.get(level_build)
+                lvl_name = level[0]
+                print("Build Level >> ", lvl_name)
 
-            perforcecheckout(levels_rendering)
-            buildmap(levels_rendering)
+                perforcecheckout(level_build)
+                buildmap(level_build)
+                logsave(level_build)
 
         levels_rendering = []
         swarmsetup(False)

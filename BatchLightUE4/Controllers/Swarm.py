@@ -5,33 +5,28 @@ import xml.etree.ElementTree as ET
 
 import subprocess
 from ..Models.DB import levels_dict, paths_dict, slave
-from BatchLightUE4.Controllers.Logs import logsave
 
 # -----------------------------
 # Build level
 # -----------------------------
-def buildmap(levels_used):
-    for i in levels_used:
-        levels_dict.get(i)
-        level = levels_dict[i]
-        lvl_name = level[0]
-        lvl_end = level[1]
-        ue4_editor = paths_dict['UE4 Editor']
-        ue4_project = paths_dict['UE4 Project']
-        level = '-map=' + lvl_name + '.umap'
-        if lvl_name == 'CharacterCreator':
-            level = '-map=' + lvl_end + '.umap'
-        print("Buildlight >> ", level)
-        subprocess.run([ue4_editor,
-                        ue4_project,
-                        '-run=resavepackages',
-                        '-buildlighting',
-                        '-allowcommandletrendering',
-                        level,
-                        # '-mapstorebuildlightmaps=GYM01.umap',
-                        # '-AutomatedMapBuild',
-                        ])
-        logsave(lvl_name)
+def buildmap(level_used):
+    level = levels_dict.get(level_used)
+    lvl_name = level[0]
+    lvl_end = level[1]
+    ue4_editor = paths_dict['UE4 Editor']
+    ue4_project = paths_dict['UE4 Project']
+    level = '-map=' + lvl_name + '.umap'
+    if lvl_name == 'CharacterCreator':
+        level = '-map=' + lvl_end + '.umap'
+    subprocess.run([ue4_editor,
+                    ue4_project,
+                    '-run=resavepackages',
+                    '-buildlighting',
+                    '-allowcommandletrendering',
+                    level,
+                    # '-mapstorebuildlightmaps=GYM01.umap',
+                    # '-AutomatedMapBuild',
+                    ])
 
 def swarmsetup(bool):
     path_json = os.path.abspath(
@@ -52,8 +47,6 @@ def swarmsetup(bool):
         setup = ET.parse(setup)
         root = setup.getroot()
         slave_name = str("Agent*, ")
-        # for child in setup:
-        #     print(child.tag, child.attrib)
 
         ligne = "AllowedRemoteAgentNames"
         for value in root.iterfind(ligne):
@@ -67,7 +60,6 @@ def swarmsetup(bool):
             new_value = slave_name
             value.text = new_value
 
-        print(path_swarm_setup)
         setup.write(path_swarm_setup)
 
         kill_it = "SwarmAgent.exe"
