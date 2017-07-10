@@ -1,9 +1,9 @@
 import tkinter as tk
 import tkinter.filedialog as tkfile
 import tkinter.messagebox as msg
-import json
-import os
-import perforce
+
+import os, sys, json, perforce
+
 from ..Models.DB import levels_dict, paths_dict
 from ..Controllers.Perfoce import perforcecheckout
 from ..Controllers.Swarm import buildmap, swarmsetup
@@ -142,35 +142,11 @@ class UIBuildMap(tk.Tk):
                                    2))
         ProjectBtn.grid(column=1, row=2, sticky='EW', padx=5, pady=5)
 
-        # text = paths_dict["Swarm"]
-        # self.SAPath_text = tk.StringVar(self, value=text)
-        # SAPath = tk.Entry(frame_setup,
-        #                   textvariable=self.SAPath_text)
-        # SAPath.grid(column=0, row=3, sticky='EW', padx=5, pady=5)
-        # SABtn = tk.Button(frame_setup,
-        #                   text=u'SwarmAgent.exe',
-        #                   command=lambda: self.OpenFilExe(self.SAPath_text,
-        #                                                   3))
-        # SABtn.grid(column=1, row=3, sticky='EW', padx=5, pady=5)
+        Test = tk.Button(self,
+                               text=u'Open log folder',
+                               command=self.OpenLogFolder)
+        Test.grid(column=1, row=5, sticky='EW', padx=5, pady=5)
 
-        # ------------------------------------------------
-        # Swarm Setup
-        # frame_swarm = tk.LabelFrame(self,
-        #                           text="Swarm Agent",
-        #                           padx=5,
-        #                           pady=5)
-        # frame_swarm.grid(columnspan=2)
-        # self.value_swarm = tk.BooleanVar(self, '0')
-        #
-        # self.swarmBTN = tk.Checkbutton(frame_swarm,
-        #                                text="Activate Global Swarm Setup",
-        #                                variable=self.value_swarm,
-        #                                anchor='w',)
-        # self.swarmBTN.grid(columnspan=2, sticky='EW')
-
-        # self.swarmSetup = tk.Button(frame_swarm, text="Setup Swarm",
-        #                             command=self.OpenWindow)
-        # self.swarmSetup.grid(columnspan=2, sticky='EW')
 
         # ------------------------------------------------
         # Event and Command
@@ -202,9 +178,13 @@ class UIBuildMap(tk.Tk):
             json.dump(paths_dict, f, indent=4)
         # print(textfield, id)
 
-    # def OpenWindow(self):
-    #     print("Swarm Setup")
-    #     tk.Toplevel(SwarmUI)
+    def OpenLogFolder(self):
+        path_log = sys.path[0] + '\\Logs\\'
+        print(path_log)
+        os.system("explorer " + path_log)
+
+        text = "Log Folder"
+        self.labelVariable.set(text)
 
     # --------------------  --------------------
     # This function call perforce and swarm to check out all file and build
