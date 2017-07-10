@@ -17,6 +17,8 @@ If your path are allright, select your level and click on build.
 
  You can select the checkbox "All" to force your Swarm Agent to use more machine.
 
+ !! Don't forget to disable your hibernate option from Windows !!
+
 ![alt text](Ressources/ScreenBatchBuildLight.jpg)
 
 ## Batch File
