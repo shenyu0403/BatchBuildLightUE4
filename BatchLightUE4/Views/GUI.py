@@ -142,10 +142,23 @@ class UIBuildMap(tk.Tk):
                                    2))
         ProjectBtn.grid(column=1, row=2, sticky='EW', padx=5, pady=5)
 
-        Test = tk.Button(self,
+        # ------------------------------------------------
+        # Log options
+        LogOpenFolder = tk.Button(self,
                                text=u'Open log folder',
                                command=self.OpenLogFolder)
-        Test.grid(column=1, row=5, sticky='EW', padx=5, pady=5)
+        LogOpenFolder.grid(column=0, row=5, sticky='EW', padx=5, pady=5)
+
+        icon = tk.PhotoImage(file="BatchLightUE4/Ressources/trash.png")
+        print(icon)
+        LogTrash = tk.Button(self,
+                             compound=tk.TOP,
+                             image=icon,
+                             # text='Trash',
+                             # width=14,
+                             # height=16,
+                             )
+        LogTrash.grid(column=1, row=5)
 
 
         # ------------------------------------------------
