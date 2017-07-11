@@ -218,10 +218,22 @@ class UIBuildMap(tk.Tk):
                 text = "Empty Choice"
 
         self.labelVariable.set(text)
+
+        # --------------------  --------------------
+        # Windows to launch the calculation process, simple loop to launch
+        # all process, one after one :
+        #   - Fisrt step disable -temporarily- the hibernate mode with a
+        # simple windows command.
+        #   - Check if the Swarm need to be relaunch with a special setup
+        #   - Checkout the level we want build
+        #   - Now we can build the level
+        #   - New Loop and retarst to the Checkout loop.
         if msg.askyesno('Launch Build', 'Lancement du calcul ?'):
-            swarm_statut = self.value_swarm.get()
-            # if swarm_statut == True:
-            swarmsetup(swarm_statut)
+            os.system('powercfg -h off')
+            print(os.system('powercfg -h off'))
+
+            swarmsetup(self.value_swarm.get())
+
             for level_build in levels_rendering:
                 level = levels_dict.get(level_build)
                 lvl_name = level[0]
@@ -230,6 +242,9 @@ class UIBuildMap(tk.Tk):
                 perforcecheckout(level_build)
                 buildmap(level_build)
                 logsave(level_build)
+
+            os.system('powercfg -h on')
+            print(os.system('powercfg -h on'))
 
         levels_rendering = []
         swarmsetup(False)
