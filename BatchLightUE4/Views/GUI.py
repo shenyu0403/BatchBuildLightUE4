@@ -150,7 +150,6 @@ class UIBuildMap(tk.Tk):
         LogOpenFolder.grid(column=0, row=5, sticky='EW', padx=5, pady=5)
 
         icon = tk.PhotoImage(file="BatchLightUE4/Ressources/trash.png")
-        print(icon)
         LogTrash = tk.Button(self,
                              compound=tk.TOP,
                              image=icon,
