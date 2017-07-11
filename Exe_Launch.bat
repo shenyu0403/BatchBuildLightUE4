@@ -1,1 +1,1 @@
-python.exe "main.py"
+runas /user:Administrator python.exe "main.py"
