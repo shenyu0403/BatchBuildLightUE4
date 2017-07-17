@@ -228,8 +228,8 @@ class UIBuildMap(tk.Tk):
         #   - Now we can build the level
         #   - New Loop and retarst to the Checkout loop.
         if msg.askyesno('Launch Build', 'Lancement du calcul ?'):
-            os.system('powercfg -h off')
-            print(os.system('powercfg -h off'))
+            # os.system('powercfg -h off')
+            # print(os.system('powercfg -h off'))
 
             swarmsetup(self.value_swarm.get())
 
@@ -242,8 +242,8 @@ class UIBuildMap(tk.Tk):
                 buildmap(level_build)
                 logsave(level_build)
 
-            os.system('powercfg -h on')
-            print(os.system('powercfg -h on'))
+            # os.system('powercfg -h on')
+            # print(os.system('powercfg -h on'))
 
         levels_rendering = []
         swarmsetup(False)

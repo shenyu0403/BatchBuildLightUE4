@@ -15,17 +15,17 @@ def buildmap(level_used):
     lvl_end = level[1]
     ue4_editor = paths_dict['UE4 Editor']
     ue4_project = paths_dict['UE4 Project']
-    level = '-map=' + lvl_name + '.umap'
+    level = lvl_name + '.umap'
     if lvl_name == 'CharacterCreator':
-        level = '-map=' + lvl_end + '.umap'
+        level = lvl_end + '.umap'
     subprocess.run([ue4_editor,
                     ue4_project,
                     '-run=resavepackages',
                     '-buildlighting',
-                    '-allowcommandletrendering',
-                    level,
-                    # '-mapstorebuildlightmaps=GYM01.umap',
-                    # '-AutomatedMapBuild',
+                    '-MapsOnly',
+                    '-ProjectOnly ',
+                    '-AllowCommandletRendering',
+                    '-Map=' + level
                     ])
 
 def swarmsetup(bool):
