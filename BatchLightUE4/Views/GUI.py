@@ -144,26 +144,27 @@ class UIBuildMap(tk.Tk):
 
         # ------------------------------------------------
         # Log options
-        LogOpenFolder = tk.Button(self,
-                               text=u'Open log folder',
-                               command=self.OpenLogFolder)
+        frame_log = tk.LabelFrame(self,
+                                    text="Log Options",
+                                    padx=5,
+                                    pady=5)
+        frame_log.grid(columnspan=2)
+        self.icon_log = tk.PhotoImage(file='BatchLightUE4/Ressources/log.gif')
+        LogOpenFolder = tk.Button(frame_log,
+                                  image=self.icon_log,
+                                  text=u'Open log folder',
+                                  compound=tk.LEFT,
+                                  command=self.LogOpenFolder)
         LogOpenFolder.grid(column=0, row=5, sticky='EW', padx=5, pady=5)
 
-        icon = tk.PhotoImage(file='BatchLightUE4/Ressources/trash.gif')
-        LogTrash = tk.Button(self,
-                             compound=tk.TOP,
-                             image=icon,
+        self.icon_trash = tk.PhotoImage(
+            file='BatchLightUE4/Ressources/trash.gif')
+        LogTrash = tk.Button(frame_log,
+                             image=self.icon_trash,
+                             text='Clean Log',
+                             compound=tk.LEFT,
                              command=self.LogCleanFolder)
-        LogTrash.image = icon
-        LogTrash.grid(column=1, row=5)
-
-        if os.path.isfile("BatchLightUE4/Ressources/trash.gif"):
-            print("Icon find")
-            print(icon)
-
-        else:
-            print("Shit")
-
+        LogTrash.grid(column=1, row=5, sticky='EW', padx=5, pady=5)
 
         # ------------------------------------------------
         # Event and Command
@@ -195,7 +196,7 @@ class UIBuildMap(tk.Tk):
             json.dump(paths_dict, f, indent=4)
         # print(textfield, id)
 
-    def OpenLogFolder(self):
+    def LogOpenFolder(self):
         path_log = sys.path[0] + '\\Logs\\'
         print(path_log)
         os.system("explorer " + path_log)
