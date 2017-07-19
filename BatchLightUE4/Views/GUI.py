@@ -149,15 +149,20 @@ class UIBuildMap(tk.Tk):
                                command=self.OpenLogFolder)
         LogOpenFolder.grid(column=0, row=5, sticky='EW', padx=5, pady=5)
 
-        icon = tk.PhotoImage(file="BatchLightUE4/Ressources/trash.png")
+        icon = tk.PhotoImage(file='BatchLightUE4/Ressources/trash.gif')
         LogTrash = tk.Button(self,
                              compound=tk.TOP,
                              image=icon,
-                             # text='Trash',
-                             # width=14,
-                             # height=16,
-                             )
+                             command=self.LogCleanFolder)
+        LogTrash.image = icon
         LogTrash.grid(column=1, row=5)
+
+        if os.path.isfile("BatchLightUE4/Ressources/trash.gif"):
+            print("Icon find")
+            print(icon)
+
+        else:
+            print("Shit")
 
 
         # ------------------------------------------------
@@ -197,6 +202,11 @@ class UIBuildMap(tk.Tk):
 
         text = "Log Folder"
         self.labelVariable.set(text)
+
+    def LogCleanFolder(self):
+        text = "Delete Log Folder"
+        self.labelVariable.set(text)
+        print("Delete log")
 
     # --------------------  --------------------
     # This function call perforce and swarm to check out all file and build
