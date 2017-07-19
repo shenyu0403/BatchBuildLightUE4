@@ -238,9 +238,9 @@ class UIBuildMap(tk.Tk):
                 lvl_name = level[0]
                 print("Build Level >> ", lvl_name)
 
-                perforcecheckout(level_build)
-                buildmap(level_build)
-                logsave(level_build)
+                # perforcecheckout(level_build)
+                # buildmap(level_build)
+                # logsave(level_build)
 
             # os.system('powercfg -h on')
             # print(os.system('powercfg -h on'))

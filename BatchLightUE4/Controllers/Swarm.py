@@ -29,8 +29,6 @@ def buildmap(level_used):
                     ])
 
 def swarmsetup(bool):
-    path_json = os.path.abspath(
-        "BatchLightUE4/Models/setup.json")
     path_exe = os.path.dirname(paths_dict['UE4 Editor'])
     os.path.dirname(path_exe)
     path_exe = os.path.dirname(path_exe)
@@ -43,48 +41,53 @@ def swarmsetup(bool):
     # Change the Swarm Setup to include all machine selected, need to kill
     # it and relaunch the programm
     if os.path.isfile(path_swarm_setup):
-        setup = path_swarm_setup
-        setup = ET.parse(setup)
+        setup = ET.parse(path_swarm_setup)
         root = setup.getroot()
         slave_name = str("Agent*, ")
 
         ligne = "AllowedRemoteAgentNames"
         for value in root.iterfind(ligne):
+            # Check the setting, i need to read the config file ; i need to
+            # relaunch the setup when i want use a new setting
             if bool is True:
                 for obj in slave.values():
                     slave_name = slave_name + str(obj[1]) + ", "
 
+                if value.text == 'Agent*':
+                    value.text = slave_name
+                    setup.write(path_swarm_setup)
+                    launchswarm(path_exe)
+
             elif bool is False:
-                    slave_name = "Agent*"
+                slave_name = "Agent*"
 
-            new_value = slave_name
-            value.text = new_value
-
-        setup.write(path_swarm_setup)
-
-        kill_it = "SwarmAgent.exe"
-
-        # Kill the programm to relaunch with a new setup
-        for proc in psutil.process_iter():
-            # check whether the process name matches
-            if proc.name() == kill_it:
-                proc.kill()
-
-
-        # Relaunch the programm
-        soft = os.path.abspath(path_exe)
-        soft = soft + "/" + kill_it
-        subprocess.Popen(soft, stdout=subprocess.PIPE)
+                if value.text != 'Agent*':
+                    value.text = slave_name
+                    setup.write(path_swarm_setup)
+                    launchswarm(path_exe)
 
     else:
         print("No Setup, generate data")
-    # if os.path.isfile(path_json):
-    #     with open(path_json) as f:
-    #         paths_dict = json.load(f)
 
-    # node xml
-    #  - SettableOptions
-    #  -- EnableStandaloneMode > False
-    #  -- AllowedRemoteAgentNames > AGENT*
-    #  -- AllowedRemoteAgentGroup > Default
-    #  -- CoordinatorRemotingHost > BUILDER
+
+def launchswarm(path_exe):
+    kill_it = "SwarmAgent.exe"
+    # Kill the programm to relaunch with a new setup
+    for proc in psutil.process_iter():
+        # check whether the process name matches
+        if proc.name() == kill_it:
+            proc.kill()
+
+    # Relaunch the programm
+    soft = os.path.abspath(path_exe)
+    soft = soft + "/" + kill_it
+    subprocess.Popen(soft, stdout=subprocess.PIPE)
+
+
+def cleancacheswarm():
+    path_exe = os.path.dirname(paths_dict['UE4 Editor'])
+    os.path.dirname(path_exe)
+    path_exe = os.path.dirname(path_exe)
+    path_exe = path_exe + '/DotNET/SwarmCache'
+
+    print("Clean Swarm cache !")
