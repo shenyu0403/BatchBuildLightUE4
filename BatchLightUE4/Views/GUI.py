@@ -196,9 +196,10 @@ class UIBuildMap(tk.Tk):
             json.dump(paths_dict, f, indent=4)
         # print(textfield, id)
 
+    # ------------------------------------------------
+    # All log option, open folder and delete file
     def LogOpenFolder(self):
         path_log = sys.path[0] + '\\Logs\\'
-        print(path_log)
         os.system("explorer " + path_log)
 
         text = "Log Folder"
@@ -207,7 +208,16 @@ class UIBuildMap(tk.Tk):
     def LogCleanFolder(self):
         text = "Delete Log Folder"
         self.labelVariable.set(text)
-        print("Delete log")
+
+        path_exe = os.path.dirname(paths_dict['UE4 Editor'])
+        os.path.dirname(path_exe)
+        path_exe = os.path.dirname(path_exe)
+        path_exe = os.path.abspath(path_exe + '/DotNET/SwarmCache/')
+
+        os.remove(path_exe)
+
+        print("Delete log, path exe :")
+        print(path_exe)
 
     # --------------------  --------------------
     # This function call perforce and swarm to check out all file and build
@@ -249,9 +259,9 @@ class UIBuildMap(tk.Tk):
                 lvl_name = level[0]
                 print("Build Level >> ", lvl_name)
 
-                # perforcecheckout(level_build)
-                # buildmap(level_build)
-                # logsave(level_build)
+                perforcecheckout(level_build)
+                buildmap(level_build)
+                logsave(level_build)
 
             # os.system('powercfg -h on')
             # print(os.system('powercfg -h on'))
