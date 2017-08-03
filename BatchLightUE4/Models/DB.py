@@ -30,6 +30,8 @@ slave = {
     1: ('Aurel', 'DESKTOP-O6QPOKM'),
     2: ('Quentin', 'MUTTON03'),
     3: ('Marine', 'WHITESHEEP02'),
+    4: ('Patrick', 'DESKTOP-8N0EUH1'),
+    5: ('Greg', 'MUTTON09'),
 }
 revisions = []
 
