@@ -10,6 +10,7 @@ This tool use Python 3.6 and work with any package :
  - python-perforce
  - tkinter
  - psutil
+ - ifaddr
 
 # How to use
 For the first used, don't forget to  fill all path field (on the bottom window).

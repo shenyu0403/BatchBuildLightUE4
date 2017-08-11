@@ -5,9 +5,10 @@ import tkinter.messagebox as msg
 import os, sys, json, perforce
 
 from ..Models.DB import levels_dict, paths_dict
+from ..Controllers.Logs import logsave
+from ..Controllers.Network import SaveNetworkName
 from ..Controllers.Perfoce import perforcecheckout
 from ..Controllers.Swarm import buildmap, swarmsetup
-from ..Controllers.Logs import logsave
 
 # --------
 # UI
@@ -25,6 +26,19 @@ class UIBuildMap(tk.Tk):
 
     def initialize(self):
         self.grid()
+        # ------------------------------------------------
+        # Topbar Menu
+        self.menubar = tk.Menu(self)
+        self.config(menu=self.menubar)
+        self.filemenu = tk.Menu(self.menubar)
+        self.filemenu.add_command(label="New", command=self.popup())
+        self.filemenu.add_command(label="Open", command=self.popup())
+        self.menubar.add_cascade(label="File", menu=self.filemenu)
+
+
+        # ------------------------------------------------
+        # BatchBuild Programm
+
         path_icon = os.path.abspath(
             "BatchLightUE4/Ressources/BlackSheep.ico")
         if os.path.isfile(path_icon) is not False:
@@ -167,7 +181,24 @@ class UIBuildMap(tk.Tk):
         LogTrash.grid(column=1, row=5, sticky='EW', padx=5, pady=5)
 
         # ------------------------------------------------
-        # Event and Command
+        # Network Setup
+        frame_network = tk.LabelFrame(self,
+                                    text="Network Setup",
+                                    padx=5,
+                                    pady=5)
+        frame_network.grid()
+        runSaveNetwork = tk.Button(frame_network,
+                                  text=u'Save network Name',
+                                  command=self.runNetwork)
+        runSaveNetwork.grid()
+
+    # ------------------------------------------------
+    # Topbar Menu
+    def popup(self):
+        print('test')
+
+    # ------------------------------------------------
+    # Event and Command
     def SelectAll(self):
         for cle in self.buttons.keys():
             self.buttons[cle].select()
@@ -218,6 +249,14 @@ class UIBuildMap(tk.Tk):
 
         print("Delete log, path exe :")
         print(path_exe)
+
+    # ------------------------------------------------
+    # Network Event
+    def runNetwork(self):
+        print('Hello World')
+
+        SaveNetworkName()
+
 
     # --------------------  --------------------
     # This function call perforce and swarm to check out all file and build
