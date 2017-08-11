@@ -31,8 +31,10 @@ class UIBuildMap(tk.Tk):
         self.menubar = tk.Menu(self)
         self.config(menu=self.menubar)
         self.filemenu = tk.Menu(self.menubar)
+        self.filemenu.add_command(label="Setup Path", onClick=self.popup())
         self.filemenu.add_command(label="Setup Network", command=self.popup())
-        self.filemenu.add_command(label="Exit", command=self.popup())
+        self.filemenu.add_separator()
+        self.filemenu.add_command(label="Exit", command=self.exit())
         self.menubar.add_cascade(label="File", menu=self.filemenu)
 
 
@@ -183,9 +185,7 @@ class UIBuildMap(tk.Tk):
         # ------------------------------------------------
         # Network Setup
         frame_network = tk.LabelFrame(self,
-                                    text="Network Setup",
-                                    padx=5,
-                                    pady=5)
+                                    text="Network Setup", padx=5, pady=5)
         frame_network.grid()
         runSaveNetwork = tk.Button(frame_network,
                                   text=u'Save network Name',
@@ -251,11 +251,16 @@ class UIBuildMap(tk.Tk):
         print(path_exe)
 
     # ------------------------------------------------
-    # Network Event
+    # Menu command
     def runNetwork(self):
         print('Hello World')
 
         SaveNetworkName()
+
+    def exit(self):
+        print('Tchuss')
+
+        # exit(self)
 
 
     # --------------------  --------------------
