@@ -31,8 +31,8 @@ class UIBuildMap(tk.Tk):
         self.menubar = tk.Menu(self)
         self.config(menu=self.menubar)
         self.filemenu = tk.Menu(self.menubar)
-        self.filemenu.add_command(label="New", command=self.popup())
-        self.filemenu.add_command(label="Open", command=self.popup())
+        self.filemenu.add_command(label="Setup Network", command=self.popup())
+        self.filemenu.add_command(label="Exit", command=self.popup())
         self.menubar.add_cascade(label="File", menu=self.filemenu)
 
 
