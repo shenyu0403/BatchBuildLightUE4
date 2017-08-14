@@ -1,7 +1,7 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QApplication
 
-from BatchLightUE4.Views.StatusBar import Example
+from BatchLightUE4.Views.MainWindows import MainWindows
 # from BatchLightUE4.Views.GUI import UIBuildMap
 
 app_info = 'Build Light Batch'
@@ -9,12 +9,9 @@ app_info = 'Build Light Batch'
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
-    # w = QWidget()
-    # w.resize(450, 150)
-    # w.move(300, 300)
-    # w.setWindowTitle(app_info)
-    # w.show()
-
-    w = Example()
+    w = MainWindows()
+    w.setGeometry(300, 300, 300, 200)
+    w.setWindowTitle(app_info)
+    w.show()
 
     sys.exit(app.exec_())

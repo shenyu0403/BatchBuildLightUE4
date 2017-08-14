@@ -1,14 +1,51 @@
 import sys
 
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QMainWindow, QAction
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
+class MainWindows(QMainWindow):
 
-    w = QWidget()
-    w.resize(450, 150)
-    w.move(300, 300)
-    w.setWindowTitle('Batch Light UE4')
-    w.show()
+    def __init__(self):
+        super().__init__()
 
-    sys.exit(app.exec_())
+        self.initUI()
+
+    def initUI(self):
+
+        print('Hello World')
+
+        # All Bar Menu Top
+        # File
+        # -- Clear
+        # -- Exit
+        # Setup
+        # -- Path
+        # -- Network
+        # Log
+        # - Clean Log
+
+        menubar = self.menuBar()
+
+        fileMenu = menubar.addMenu('File')
+        clearAct = QAction('New', self)
+        exitAct = QAction('Exit', self)
+        fileMenu.addAction(clearAct)
+        fileMenu.addAction(exitAct)
+
+        fileSetup = menubar.addMenu('Setup')
+        pathAct = QAction('Configure Path', self)
+        networkAct = QAction('Network', self)
+        fileSetup.addAction(pathAct)
+        fileSetup.addAction(networkAct)
+
+        fileLog = menubar.addMenu('Log')
+        cleanlogAct = QAction('Clean Log', self)
+        fileLog.addAction(cleanlogAct)
+
+        # Corps Tools
+        # Listing all levels by project
+        # Add a many tools, Select All, Unselect...
+        # show the perforce user checkout
+
+        # Footer / Status Bar
+
+    # Event
