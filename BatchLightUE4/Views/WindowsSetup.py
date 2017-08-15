@@ -1,5 +1,5 @@
 import sys
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets
 
 
 class Popup(QtWidgets.QWidget):
@@ -11,8 +11,6 @@ class Popup(QtWidgets.QWidget):
         self.setWindowTitle('Setup yours Paths')
 
 
-
-
 class PathPopup(Popup):
     def __init__(self):
         super().__init__()
@@ -21,7 +19,7 @@ class PathPopup(Popup):
 
     def WindowsPath(self):
         self.UnrealPathLabel = QtWidgets.QLabel('Unreal Engine')
-        self.UnrealPathField = QtWidgets.QLineEdit()
+        self.UnrealPathField = QtWidgets.QLineEdit('Choose the UE4 Editor.exe')
         self.UnrealPathOpen = QtWidgets.QPushButton('Open')
         self.UnrealPathOpen.clicked.connect(self.choosePath)
 
@@ -49,13 +47,11 @@ class PathPopup(Popup):
         path = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file',
                                                      '/home')
 
-        self.txt_string = 'Ola'
-        self.name_path = path
         print('Choose path : ', path[0])
 
         self.UnrealPathField.setText(path[0])
 
-        return self.txt_string
+        return
 
 
 
