@@ -1,30 +1,29 @@
 # BatchBuildLightUE4
-[Python] [Tkinter] [UE4] [GameArt]
+[Python] [PyQt5] [UE4] [GameArt] [GameDev]
 
 ## Summary
 Python tools [GUI] to automatize your *build light* process on UE4 project. This tools are in dev, it's functional but only for my project, a huge refactoring are needed to work for all project.
 
-# Dependance
+# Dependence
 This tool use Python 3.6 and work with any package :
- - Json
+ - PyQt5
  - python-perforce
- - tkinter
  - psutil
  - ifaddr
 
 # How to use
 For the first used, don't forget to  fill all path field (on the bottom window).
-If your path are allright, select your level and click on build.
+If your path are alright, select your level and click on build.
 
  You can select the checkbox "All" to force your Swarm Agent to use more machine.
 
  !! Don't forget to disable your hibernate option from Windows !!
 
-![alt text](Ressources/ScreenBatchBuildLight.jpg)
+![Screen Capture](Ressources/ScreenBatchBuildLight.jpg)
 
 ## Batch File
 ### Launch
-This .bat launch the programm.
+This .bat launch the program.
 
 ### Update
 Use this .bat to download the latest git version.
