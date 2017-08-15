@@ -1,5 +1,7 @@
-from PyQt5.QtWidgets import QAction, qApp
+import os
+
 from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QAction, qApp
 from PyQt5.QtGui import QIcon
 
 from BatchLightUE4.Views.WindowsSetup import PathPopup
@@ -14,7 +16,12 @@ class MainWindows(QtWidgets.QMainWindow):
         self.initUI()
 
     def initUI(self):
-
+        path_json = os.path.abspath("BatchLightUE4/Models/setup.json")
+        info_text = 'No level(s), setup yours paths.'
+        if os.path.isfile(path_json):
+            print(path_json)
+            print('Json Exist !')
+            info_text = 'All level(s)'
         # All Bar Menu Top
         # File | Setup | Log | About
 
@@ -61,7 +68,7 @@ class MainWindows(QtWidgets.QMainWindow):
         # Listing all levels by project
         # Add a many tools, Select All, Unselect...
 
-        lvl_label = QtWidgets.QLabel('All Levels !',self).move(20, 20)
+        lvl_label = QtWidgets.QLabel(info_text, self).move(20, 20)
         lvl_tool = QtWidgets.QLabel('Select Tool', self).move(20, 40)
         lvl_build = QtWidgets.QLabel('Build Level(s)', self).move(20, 60)
 
