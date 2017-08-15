@@ -1,7 +1,7 @@
 import os
 
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QAction, qApp
+from PyQt5.QtWidgets import QAction, qApp, QLabel, QPushButton
 from PyQt5.QtGui import QIcon
 
 from BatchLightUE4.Views.WindowsSetup import PathPopup
@@ -19,8 +19,6 @@ class MainWindows(QtWidgets.QMainWindow):
         path_json = os.path.abspath("BatchLightUE4/Models/setup.json")
         info_text = 'No level(s), setup yours paths.'
         if os.path.isfile(path_json):
-            print(path_json)
-            print('Json Exist !')
             info_text = 'All level(s)'
         # All Bar Menu Top
         # File | Setup | Log | About
@@ -66,16 +64,16 @@ class MainWindows(QtWidgets.QMainWindow):
 
         # Corps Tools
         # Listing all levels by project
-        # Add a many tools, Select All, Unselect...
+        # Add a many tools, Select All, Unselected...
 
-        lvl_label = QtWidgets.QLabel(info_text, self).move(20, 20)
-        lvl_tool = QtWidgets.QLabel('Select Tool', self).move(20, 40)
-        lvl_build = QtWidgets.QLabel('Build Level(s)', self).move(20, 60)
+        lvl_label = QLabel(info_text, self).move(20, 20)
+        lvl_tool = QLabel('Select Tool', self).move(20, 40)
+        lvl_build = QLabel('Build Level(s)', self).move(20, 60)
 
-        btn_ok = QtWidgets.QPushButton('Ok', self).move(40, 90)
-        btn_Cancel = QtWidgets.QPushButton('Cancel', self).move(40, 120)
+        btn_ok = QPushButton('Builds', self).move(20, 90)
+        btn_Cancel = QPushButton('Clear', self).move(120, 90)
 
-        tip = QtWidgets.QLabel('Don''t forget to update your '
+        tip = QLabel('Don''t forget to update your '
                                      'repository', self)
         tip.move(20, 160)
 
