@@ -8,7 +8,9 @@ class Popup(QtWidgets.QWidget):
     def __init__(self):
         QtWidgets.QWidget.__init__(self)
 
-        self.setWindowTitle('Setup yours Path')
+        self.setWindowTitle('Setup yours Paths')
+
+
 
 
 class PathPopup(Popup):
@@ -18,42 +20,44 @@ class PathPopup(Popup):
         self.WindowsPath()
 
     def WindowsPath(self):
-        UnrealPathLabel = QtWidgets.QLabel('Unreal Engine')
-        UnrealPathField = QtWidgets.QLineEdit()
-        UnrealPathOpen = QtWidgets.QPushButton('Open')
+        self.UnrealPathLabel = QtWidgets.QLabel('Unreal Engine')
+        self.UnrealPathField = QtWidgets.QLineEdit()
+        self.UnrealPathOpen = QtWidgets.QPushButton('Open')
+        self.UnrealPathOpen.clicked.connect(self.choosePath)
 
-
-        UnrealProjectLabel = QtWidgets.QLabel('Unreal Project')
-        UnrealProjectField = QtWidgets.QLineEdit()
-        UnrealProjectOpen = QtWidgets.QPushButton('Open Uproject')
+        self.UnrealProjectLabel = QtWidgets.QLabel('Unreal Project')
+        self.UnrealProjectField = QtWidgets.QLineEdit()
+        self.UnrealProjectOpen = QtWidgets.QPushButton('Open Uproject')
 
         grid = QtWidgets.QGridLayout()
         grid.setSpacing(5)
 
-        grid.addWidget(UnrealPathLabel, 1, 0)
-        grid.addWidget(UnrealPathField, 1, 1)
-        grid.addWidget(UnrealPathOpen, 1, 2)
+        grid.addWidget(self.UnrealPathLabel, 1, 0)
+        grid.addWidget(self.UnrealPathField, 1, 1)
+        grid.addWidget(self.UnrealPathOpen, 1, 2)
 
-        grid.addWidget(UnrealProjectLabel, 2, 0)
-        grid.addWidget(UnrealProjectField, 2, 1)
-        grid.addWidget(UnrealProjectOpen, 2, 2)
+        grid.addWidget(self.UnrealProjectLabel, 2, 0)
+        grid.addWidget(self.UnrealProjectField, 2, 1)
+        grid.addWidget(self.UnrealProjectOpen, 2, 2)
 
         self.setLayout(grid)
 
         # self.setGeometry(300, 300, 350, 300)
         self.show()
 
-    def showDialog(self):
+    def choosePath(self):
+        path = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file',
+                                                     '/home')
 
-        fname = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file',
-                                                      '/home')
+        self.txt_string = 'Ola'
+        self.name_path = path
+        print('Choose path : ', path[0])
 
-        if fname[0]:
-            f = open(fname[0], 'r')
+        self.UnrealPathField.setText(path[0])
 
-            with f:
-                data = f.read()
-                self.textEdit.setText(data)
+        return self.txt_string
+
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
