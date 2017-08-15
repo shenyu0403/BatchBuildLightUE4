@@ -37,6 +37,9 @@ class MainWindows(QtWidgets.QMainWindow):
         networkAct = QAction('Network', self)
         networkAct.setStatusTip('Setup all machine used with your network')
         fileSetup.addAction(networkAct)
+        controlAct = QAction('Control Version', self)
+        controlAct.setStatusTip('Activate setup Control Version')
+        fileSetup.addAction(controlAct)
 
         fileLog = menubar.addMenu('Log')
         cleanlogAct = QAction('Clean Log', self)
