@@ -14,14 +14,9 @@ class MainWindows(QtWidgets.QMainWindow):
         self.initUI()
 
     def initUI(self):
-        grid = QtWidgets.QGridLayout(self)
-        self.setLayout(grid)
 
         # All Bar Menu Top
-        # File (Clear | Exit)
-        # Setup (Path | Network)
-        # Log (Clean Log)
-        # Help (About | Show Shortcut)
+        # File | Setup | Log | About
 
         menubar = self.menuBar()
 
@@ -30,24 +25,33 @@ class MainWindows(QtWidgets.QMainWindow):
         fileMenu.addAction(clearAct)
         exitAct = QAction(QIcon('exit.png'), 'Exit', self)
         exitAct.setShortcut('Ctrl+Q')
+        exitAct.setStatusTip('Close this application')
         exitAct.triggered.connect(qApp.quit)
         fileMenu.addAction(exitAct)
 
         fileSetup = menubar.addMenu('Setup')
         pathAct = QAction('Configure Path', self)
+        pathAct.setStatusTip('Setup all paths needed')
         pathAct.triggered.connect(self.menuPath)
         fileSetup.addAction(pathAct)
         networkAct = QAction('Network', self)
+        networkAct.setStatusTip('Setup all machine used with your network')
         fileSetup.addAction(networkAct)
 
         fileLog = menubar.addMenu('Log')
         cleanlogAct = QAction('Clean Log', self)
+        cleanlogAct.setStatusTip('Remove your cache files')
         fileLog.addAction(cleanlogAct)
 
         fileHelp = menubar.addMenu('Help')
         aboutAct = QAction('About', self)
+        aboutAct.setStatusTip('Show more information abouts this program')
         fileHelp.addAction(aboutAct)
+        updateAct = QAction('Update', self)
+        updateAct.setStatusTip('Check the last update')
+        fileHelp.addAction(updateAct)
         shortcutAct = QAction('Show Shortcut', self)
+        shortcutAct.setStatusTip('View and Setup all Shortcut')
         fileHelp.addAction(shortcutAct)
 
         # Corps Tools
@@ -60,6 +64,12 @@ class MainWindows(QtWidgets.QMainWindow):
 
         btn_ok = QtWidgets.QPushButton('Ok', self).move(40, 90)
         btn_Cancel = QtWidgets.QPushButton('Cancel', self).move(40, 120)
+
+        tip = QtWidgets.QLabel('Don''t forget to update your '
+                                     'repository', self)
+        tip.move(20, 160)
+
+        self.statusBar()
 
 
         # show the perforce user checkout
