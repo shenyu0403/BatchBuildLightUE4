@@ -21,12 +21,9 @@ class PathPopup(Popup):
 
     def WindowsPath(self):
         # Define base variable (path empty or not)
-        if paths_dict:
-            EditorPath = paths_dict["UE4 Editor"]
-            ProjectPath = paths_dict["UE4 Project"]
-        else:
-            EditorPath = 'UE4 Editor'
-            ProjectPath = 'uproject File'
+        EditorPath = paths_dict["UE4 Editor"]
+        ProjectPath = paths_dict["UE4 Project"]
+
 
         # Setup Unreal Editor Path
         self.UnrealPathLabel = QtWidgets.QLabel('Unreal Engine')
