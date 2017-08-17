@@ -1,6 +1,6 @@
 import os, json
 
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QAction, qApp, QLabel, QPushButton
 from PyQt5.QtGui import QIcon
 
@@ -60,9 +60,15 @@ def show_levels(self):
     if os.path.isfile(path_json_setup):
         info_text = 'All level(s)'
 
-    lvl_label = QLabel(info_text, self)
-    QtWidgets.QCheckBox('Test', self).move(120, 20)
-    lvl_label.move(20, 20)
+    lbl = QLabel(info_text, self)
+    check = QtWidgets.QCheckBox('Test', self)
+
+    lvl_frm = QtWidgets.QVBoxLayout()
+    lvl_frm.addWidget(lbl)
+    lvl_frm.addStretch()
+    lvl_frm.addWidget(check)
+
+    self.setLayout(lvl_frm)
 
     return
 
@@ -111,22 +117,26 @@ class MainWindows(QtWidgets.QMainWindow):
 
         show_levels(self)
 
-
         lvl_tool = QLabel('Select Tool', self).move(20, 60)
         lvl_build = QLabel('Build Level(s)', self).move(20, 80)
 
-        self.btn_ok = QPushButton('Builds', self)
-        self.btn_ok.clicked.connect(self.buildProcess)
-        self.btn_ok.move(20, 110)
+        self.btn_Ok = QPushButton('Builds', self)
+        self.btn_Ok.clicked.connect(self.buildProcess)
         self.btn_Cancel = QPushButton('Tree Lvls', self)
         self.btn_Cancel.clicked.connect(builds_tree_lvls)
-        self.btn_Cancel.move(120, 110)
+
+        lvl_frm = QtWidgets.QVBoxLayout()
+        lvl_frm.addWidget(self.btn_Ok)
+        lvl_frm.addStretch()
+        lvl_frm.addWidget(self.btn_Cancel)
+
+        self.setLayout(lvl_frm)
 
         tip = QLabel('Don''t forget to update your '
                                      'repository', self)
         tip.move(20, 160)
 
-        self.statusBar()
+        # self.statusBar()
 
         # show the perforce user checkout
 
