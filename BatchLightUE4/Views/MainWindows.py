@@ -1,7 +1,8 @@
 import os, json
 
 from PyQt5 import QtWidgets, QtGui
-from PyQt5.QtWidgets import QAction, qApp, QLabel, QPushButton
+from PyQt5.QtWidgets import QAction, qApp, QLabel, QWidget, QFrame, \
+    QGroupBox, QVBoxLayout, QPushButton
 from PyQt5.QtGui import QIcon
 
 from BatchLightUE4.Views.WindowsSetup import PathPopup
@@ -96,7 +97,7 @@ def builds_tree_lvls():
 
     return debug
 
-class MainWindows(QtWidgets.QMainWindow):
+class MainWindows(QtWidgets.QWidget):
     '''Main Windows, principal view, this windows can be show all level,
     access on many option -path setup, network, log... '''
 
@@ -106,41 +107,37 @@ class MainWindows(QtWidgets.QMainWindow):
         self.initUI()
 
     def initUI(self):
-        # All Bar Menu Top
-        # File | Setup | Log | About
+        print('Launch Main Window')
 
-        show_file_bar(self)
+        main_layout = QVBoxLayout()
 
-        # Corps Tools
-        # Listing all levels by project
-        # Add a many tools, Select All, Unselected...
+        ### Menu Bar
+        frm_menu = QFrame(self)
+        frm_menu.setStyleSheet('background: red')
+        main_layout.addWidget(frm_menu)
 
-        show_levels(self)
+        ### List Level
+        frm_list_lvl = QFrame(self)
+        frm_list_lvl.setStyleSheet('background: green')
+        main_layout.addWidget(frm_list_lvl)
 
-        lvl_tool = QLabel('Select Tool', self).move(20, 60)
-        lvl_build = QLabel('Build Level(s)', self).move(20, 80)
+        ### ----------------------------------------------
+        ### Build
+        frm_btn_build = QFrame(self)
+        frm_btn_build.setStyleSheet('background: blue')
 
-        self.btn_Ok = QPushButton('Builds', self)
-        self.btn_Ok.clicked.connect(self.buildProcess)
-        self.btn_Cancel = QPushButton('Tree Lvls', self)
-        self.btn_Cancel.clicked.connect(builds_tree_lvls)
+        btn_build = QPushButton('Build')
+        btn_cancel = QPushButton('Cancel')
 
-        lvl_frm = QtWidgets.QVBoxLayout()
-        lvl_frm.addWidget(self.btn_Ok)
-        lvl_frm.addStretch()
-        lvl_frm.addWidget(self.btn_Cancel)
+        main_layout.addWidget(frm_btn_build)
 
-        self.setLayout(lvl_frm)
+        ### Status Bar
+        frm_bar = QFrame(self)
+        frm_bar.setStyleSheet('background: orange')
+        main_layout.addWidget(frm_bar)
 
-        tip = QLabel('Don''t forget to update your '
-                                     'repository', self)
-        tip.move(20, 160)
 
-        # self.statusBar()
-
-        # show the perforce user checkout
-
-        # Footer / Status Bar
+        self.setLayout(main_layout)
 
 
     # Event
