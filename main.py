@@ -10,7 +10,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
 
     w = MainWindows()
-    w.setGeometry(400, 300, 400, 800)
+    # w.setGeometry(400, 300, 400, 800)
     w.setWindowTitle(app_info)
     w.show()
 

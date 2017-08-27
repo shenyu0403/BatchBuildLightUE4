@@ -2,7 +2,7 @@ import os, json
 
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QAction, qApp, QLabel, QWidget, QFrame, \
-    QGroupBox, QVBoxLayout, QPushButton
+    QGroupBox, QVBoxLayout, QPushButton, QHBoxLayout
 from PyQt5.QtGui import QIcon
 
 from BatchLightUE4.Views.WindowsSetup import PathPopup
@@ -101,7 +101,7 @@ def builds_tree_lvls():
     return debug
 
 
-class MainWindows(QtWidgets.QWidget):
+class MainWindows(QtWidgets.QMainWindow):
     '''Main Windows, principal view, this windows can be show all level,
     access on many option -path setup, network, log... '''
 
@@ -113,35 +113,51 @@ class MainWindows(QtWidgets.QWidget):
     def initUI(self):
         print('Launch Main Window')
 
-        main_layout = QVBoxLayout()
-
         ### Menu Bar
-        frm_menu = QFrame(self)
-        frm_menu.setStyleSheet('background: red')
-        main_layout.addWidget(frm_menu)
+        show_file_bar(self)
 
-        ### List Level
-        frm_list_lvl = QFrame(self)
-        frm_list_lvl.setStyleSheet('background: green')
-        main_layout.addWidget(frm_list_lvl)
+        ### Central Widget
+            # Definition des differents objects pour le layout Levels,
+            # generate a Toolbar and checkbox list
+        self.centralWidget = QWidget(self)
+        self.setCentralWidget(self.centralWidget)
 
-        ### ----------------------------------------------
-        ### Build
-        frm_btn_build = QFrame(self)
-        frm_btn_build.setStyleSheet('background: blue')
+        self.lvl_btn_select = QPushButton("Select", self.centralWidget)
+        self.lvl_btn_deselect = QPushButton("Deselect", self.centralWidget)
+        self.lvl_btn_edit = QPushButton("Edit", self.centralWidget)
+        self.lvl_label = QLabel("Level(s)", self.centralWidget)
 
-        btn_build = QPushButton('Build')
-        btn_cancel = QPushButton('Cancel')
+        self.btn_tools = QLabel("Tools", self.centralWidget)
+        self.btn_build = QLabel("Launch Build", self.centralWidget)
+        self.btn_log = QLabel("Clear Log", self.centralWidget)
 
-        main_layout.addWidget(frm_btn_build)
+        ## Positionment Central Widget
+            # layout Levels
+        self.lvl_layout_h = QHBoxLayout()
+        self.lvl_layout_h.addWidget(self.lvl_btn_select)
+        self.lvl_layout_h.addWidget(self.lvl_btn_deselect)
+        self.lvl_layout_h.addWidget(self.lvl_btn_edit)
 
-        ### Status Bar
-        frm_bar = QFrame(self)
-        frm_bar.setStyleSheet('background: orange')
-        main_layout.addWidget(frm_bar)
+        self.lvl_layout_v = QVBoxLayout()
+        self.lvl_layout_v.addLayout(self.lvl_layout_h)
+        self.lvl_layout_v.addWidget(self.lvl_label)
 
+            # Layout Tools
+        self.tool_layout = QHBoxLayout()
+        self.tool_layout.addWidget(self.btn_build)
+        self.tool_layout.addWidget(self.btn_log)
 
-        self.setLayout(main_layout)
+        self.tool_layout_v = QVBoxLayout()
+        self.tool_layout_v.addLayout(self.tool_layout)
+        self.tool_layout_v.addWidget(self.btn_tools)
+
+        # Merge all layout
+        self.all_layout = QVBoxLayout(self.centralWidget)
+        self.all_layout.addLayout(self.lvl_layout_v)
+        self.all_layout.addLayout(self.tool_layout_v)
+
+        ### Statut Bar
+        self.statusBar()
 
 
     # Event
@@ -151,9 +167,3 @@ class MainWindows(QtWidgets.QWidget):
 
     def buildProcess(self):
         print('Launch Build')
-
-# if __name__ == '__main__':
-#     app = QtWidgets.QApplication([])
-#     gui = MainWindows()
-#     gui.show()
-#     app.exec_()
