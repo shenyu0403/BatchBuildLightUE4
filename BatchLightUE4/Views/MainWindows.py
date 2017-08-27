@@ -7,6 +7,7 @@ from PyQt5.QtGui import QIcon
 
 from BatchLightUE4.Views.WindowsSetup import PathPopup
 
+
 def show_file_bar(self):
     '''A simple function the generate the File Menu Bar, this attribute has
     a Qt object, the Windows.'''
@@ -51,6 +52,7 @@ def show_file_bar(self):
 
     return
 
+
 def show_levels(self):
     '''This function show all levels if he can it.
     She need a Windows Attribute.'''
@@ -72,6 +74,7 @@ def show_levels(self):
     self.setLayout(lvl_frm)
 
     return
+
 
 def builds_tree_lvls():
     print('!! Builds Levels Tree !!')
@@ -96,6 +99,7 @@ def builds_tree_lvls():
     debug = lvls
 
     return debug
+
 
 class MainWindows(QtWidgets.QWidget):
     '''Main Windows, principal view, this windows can be show all level,
