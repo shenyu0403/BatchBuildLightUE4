@@ -7,6 +7,7 @@ from PyQt5.QtGui import QIcon
 
 from BatchLightUE4.Views.WindowsSetup import PathPopup
 
+#  TODO - Generate a Toolbar levels and Toolbar Build and cache option
 
 def show_file_bar(self):
     '''A simple function the generate the File Menu Bar, this attribute has
