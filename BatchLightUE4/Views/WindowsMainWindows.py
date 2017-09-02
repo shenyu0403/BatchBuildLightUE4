@@ -124,7 +124,6 @@ class Ui_MainWindow(object):
         self.menu_Fichier.addAction(self.actionNouveau_Setup)
         self.menu_Fichier.addAction(self.actionSave_as)
         self.menu_Fichier.addAction(self.menuLoad.menuAction())
-        self.menu_Fichier.addAction(self.actionOuvrir)
         self.menu_Fichier.addSeparator()
         self.menu_Fichier.addAction(self.actionExit)
         self.menuSetup.addAction(self.actionPaths)
@@ -194,5 +193,6 @@ class Ui_MainWindow(object):
         self.actionSave_as.setStatusTip(_translate("MainWindow", "Save your project"))
         self.actionLast_project.setText(_translate("MainWindow", "Last project"))
         self.actionLast_project.setStatusTip(_translate("MainWindow", "Load the last project create"))
+        self.actionLast_project.setShortcut(_translate("MainWindow", "Ctrl+O"))
         self.actionProj_blabla.setText(_translate("MainWindow", "Proj blabla"))
 

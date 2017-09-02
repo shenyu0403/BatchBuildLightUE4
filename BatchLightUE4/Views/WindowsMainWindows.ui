@@ -218,7 +218,6 @@
     <addaction name="actionNouveau_Setup"/>
     <addaction name="actionSave_as"/>
     <addaction name="menuLoad"/>
-    <addaction name="actionOuvrir"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -383,6 +382,9 @@
    </property>
    <property name="statusTip">
     <string>Load the last project create</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
   <action name="actionProj_blabla">

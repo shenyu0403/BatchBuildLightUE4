@@ -12,6 +12,9 @@ class Ui_PathSetup(object):
     def setupUi(self, PathSetup):
         PathSetup.setObjectName("PathSetup")
         PathSetup.resize(467, 155)
+        font = QtGui.QFont()
+        font.setFamily("MS Shell Dlg 2")
+        PathSetup.setFont(font)
         self.gridLayout = QtWidgets.QGridLayout(PathSetup)
         self.gridLayout.setObjectName("gridLayout")
         spacerItem = QtWidgets.QSpacerItem(167, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -20,6 +23,10 @@ class Ui_PathSetup(object):
         self.label.setObjectName("label")
         self.gridLayout.addWidget(self.label, 0, 1, 1, 2)
         self.lineEdit = QtWidgets.QLineEdit(PathSetup)
+        font = QtGui.QFont()
+        font.setItalic(True)
+        font.setUnderline(False)
+        self.lineEdit.setFont(font)
         self.lineEdit.setObjectName("lineEdit")
         self.gridLayout.addWidget(self.lineEdit, 0, 3, 1, 1)
         spacerItem1 = QtWidgets.QSpacerItem(167, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -57,6 +64,8 @@ class Ui_PathSetup(object):
         _translate = QtCore.QCoreApplication.translate
         PathSetup.setWindowTitle(_translate("PathSetup", "Dialog"))
         self.label.setText(_translate("PathSetup", "Unreal Engine Path :"))
+        self.lineEdit.setText(_translate("PathSetup", "Unreal.exe"))
         self.label_2.setText(_translate("PathSetup", "Project File Path :"))
+        self.lineEdit_2.setText(_translate("PathSetup", "pile.uproject"))
         self.label_3.setText(_translate("PathSetup", "Other Fields :"))
 
