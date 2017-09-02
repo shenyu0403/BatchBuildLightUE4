@@ -116,7 +116,6 @@
          </item>
         </layout>
         <zorder></zorder>
-        <zorder></zorder>
        </widget>
       </item>
       <item>
@@ -195,7 +194,6 @@
     </property>
     <addaction name="actionNouveau_Setup"/>
     <addaction name="actionOuvrir"/>
-    <addaction name="actionUpdate"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -230,7 +228,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionNouveau_Setup">
    <property name="text">
-    <string>Nouveau Setup</string>
+    <string>New Setup</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -291,7 +289,7 @@
   </action>
   <action name="actionOuvrir">
    <property name="text">
-    <string>Ouvrir</string>
+    <string>Open Setup</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
