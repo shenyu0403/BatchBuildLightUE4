@@ -11,7 +11,22 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         super(MainWindows, self).__init__(parent)
         self.setupUi(self)
 
+        self.pushLevelsSelect.clicked.connect(lambda: self.selectLevel(True))
+        self.pushLevelsDeselect.clicked.connect(self.selectLevel)
+
+        self.pushToolsBuils.clicked.connect(self.buildLevel)
+
     # Events
+    def selectLevel(self, state):
+        if state:
+            print('Select all Level')
+
+        else:
+            print('Deselect all Level')
+
+    def buildLevel(self):
+        print('Build Level')
+
     def closeEvent(self, event):
         confirmation = "Are your sur to close this application ?"
         answer = QtWidgets.QMessageBox.question(self, "Confirmation",
