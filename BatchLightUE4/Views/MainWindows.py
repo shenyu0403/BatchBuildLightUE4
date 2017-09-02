@@ -28,7 +28,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         print('Build Level')
 
     def closeEvent(self, event):
-        confirmation = "Are your sur to close this application ?"
+        confirmation = "Are your sur you want close this application ?"
         answer = QtWidgets.QMessageBox.question(self, "Confirmation",
                                                 confirmation,
                                                 QtWidgets.QMessageBox.Yes,
