@@ -1,7 +1,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication
 
-from BatchLightUE4.Views.MainWindows import MainWindows
+from BatchLightUE4.Views.SetupViews import MainWindows
 # from BatchLightUE4.Views.GUI import UIBuildMap
 
 app_info = 'Build Light Batch'
