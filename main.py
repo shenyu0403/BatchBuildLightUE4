@@ -11,7 +11,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
 
     w = MainWindows()
-    app.setWindowIcon(QtGui.QIcon('BatchLightUE4/Ressources/blacksheep.ico'))
+    app.setWindowIcon(QtGui.QIcon('BatchLightUE4/Ressources/light-bulb.png'))
     # w.setGeometry(400, 300, 400, 800)
     w.setWindowTitle(app_info)
     w.show()
