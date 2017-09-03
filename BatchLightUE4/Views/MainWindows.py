@@ -11,9 +11,21 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         super(SetupTab, self).__init__()
         self.setupUi(self)
 
+        json_path = os.path.abspath("BatchLightUE4/Models/setup_path.json")
+        if os.path.isfile(json_path):
+            data = json.loads(open(json_path).read())
+            ue4_path = data['UE4 Editor']
+            ue4_project = data['UE4 Project']
+
+        else:
+            ue4_path = ''
+            ue4_project = ''
+
         # Path Panel
         self.pushPathOpenUnreal.clicked.connect(lambda: self.openSave(1))
+        self.lineEditUnreal.setText(ue4_path)
         self.pushPathOpenProject.clicked.connect(lambda: self.openSave(2))
+        self.lineEditProject.setText(ue4_project)
 
         self.buttonBoxPath.button(
             QtWidgets.QDialogButtonBox.Save).clicked.connect(self.tabSave)
@@ -39,8 +51,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             file_description,
             filter=file_select)
 
-        print(filename)
-
         return field(filename)
 
     def tabSave(self):
@@ -56,8 +66,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         with open(json_path, 'w') as f:
             json.dump(path_dict, f, indent=4)
 
-        # self.closeEvent(self)
-
+        SetupTab.close(self)
 
 
 class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
