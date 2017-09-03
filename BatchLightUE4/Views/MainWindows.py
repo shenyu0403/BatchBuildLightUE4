@@ -4,10 +4,10 @@ from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
 from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
 
 
-class SetupDialog(QtWidgets.QTabWidget, Ui_TabWidget):
+class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
     """This object create a new windows"""
     def __init__(self):
-        super(SetupDialog, self).__init__()
+        super(SetupTab, self).__init__()
         self.setupUi(self)
 
 
@@ -19,10 +19,16 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         super(MainWindows, self).__init__(parent)
         self.setupUi(self)
 
+        # Triggered Menu
+        #     File Menu
         self.actionLast_project.triggered.connect(self.openSave)
         self.actionExit.triggered.connect(self.closeEvent)
-        self.actionPaths.triggered.connect(self.editLevels)
-        self.actionNetworks.triggered.connect(self.editNetwork)
+
+        #    Setup and Option Menu
+        self.actionOptions.triggered.connect(self.editLevels)
+        self.actionPaths.triggered.connect(lambda: self.editLevels(1))
+        self.actionNetworks.triggered.connect(lambda: self.editLevels(2))
+        self.actionCSV.triggered.connect(lambda: self.editLevels(3))
 
         self.pushLevelsSelect.clicked.connect(lambda: self.selectLevel(True))
         self.pushLevelsDeselect.clicked.connect(self.selectLevel)
@@ -38,15 +44,10 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             filter="Project (*.blight)")
 
     # Events
-    def editLevels(self):
-        self.dialog = SetupDialog()
+    def editLevels(self, id):
+        print(id)
+        self.dialog = SetupTab()
         self.dialog.show()
-
-    def editNetwork(self):
-        popup = Ui_Form()
-        popup.setupUi(SetupDialog)
-        w = SetupDialog()
-        w.show()
 
     def selectLevel(self, state):
         if state:
