@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>465</width>
-    <height>385</height>
+    <height>221</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -46,7 +46,10 @@
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox">
+            <widget class="QCheckBox" name="checkBoxMachines">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Use all machines</string>
              </property>
@@ -78,6 +81,9 @@
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
           <widget class="QPushButton" name="pushButton">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="toolTip">
             <string>Open a folder</string>
            </property>
@@ -95,6 +101,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="pushToolsCache">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="statusTip">
             <string>Clean the cache folder (not functionnal)</string>
            </property>
@@ -196,16 +205,17 @@
          </item>
          <item>
           <widget class="QFrame" name="frame_level">
-           <property name="styleSheet">
-            <string notr="true">background: red</string>
-           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_2"/>
+           <layout class="QGridLayout" name="gridLayout_3">
+            <item row="0" column="0">
+             <layout class="QVBoxLayout" name="vertLayoutLevel"/>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>

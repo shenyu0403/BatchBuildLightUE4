@@ -81,6 +81,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         super(MainWindows, self).__init__(parent)
         self.setupUi(self)
 
+        self.checkBoxLevels = {}
+
         # Triggered Menu
         #     File Menu
         self.actionLast_project.triggered.connect(self.openSave)
@@ -97,8 +99,14 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.toolLevelsEdit.clicked.connect(lambda: self.editLevels(1))
 
         # CheckBox
-        self.checkBoxLvl = QtWidgets.QVBoxLayout(self.frame_level)
-        # self.checkBoxLvl.addLayout(self.verticalLayout_2)
+        json_tree_lvl = os.path.abspath("BatchLightUE4/Models/lvls_tree.json")
+        if os.path.isfile(json_tree_lvl):
+            data = json.loads(open(json_tree_lvl).read())
+
+            for key, path in data.items():
+                self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
+                self.checkBoxLevels[key].setObjectName(key)
+                self.vertLayoutLevel.addWidget(self.checkBoxLevels[key])
 
         self.pushToolsBuils.clicked.connect(self.buildLevel)
 
@@ -119,7 +127,6 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             'Open a previous project',
             self.file_setup)
 
-
     # Events
     def editLevels(self, id):
         print(id)
@@ -130,9 +137,18 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
     def selectLevel(self, state):
         if state:
             print('Select all Level')
+            boolean = True
 
         else:
             print('Deselect all Level')
+            boolean = False
+
+        json_tree_lvl = os.path.abspath("BatchLightUE4/Models/lvls_tree.json")
+        if os.path.isfile(json_tree_lvl):
+            data = json.loads(open(json_tree_lvl).read())
+
+            for key, path in data.items():
+                self.checkBoxLevels[key].setChecked(boolean)
 
     def buildLevel(self):
         print('Build Level')
