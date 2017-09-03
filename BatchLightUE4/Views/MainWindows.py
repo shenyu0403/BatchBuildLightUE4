@@ -96,6 +96,10 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushLevelsDeselect.clicked.connect(self.selectLevel)
         self.toolLevelsEdit.clicked.connect(lambda: self.editLevels(1))
 
+        # CheckBox
+        self.checkBoxLvl = QtWidgets.QVBoxLayout(self.frame_level)
+        # self.checkBoxLvl.addLayout(self.verticalLayout_2)
+
         self.pushToolsBuils.clicked.connect(self.buildLevel)
 
     # File Menu
