@@ -1,5 +1,6 @@
-from PyQt5 import QtWidgets
+import os, json
 
+from PyQt5 import QtWidgets, QtGui
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
 from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
 
@@ -13,6 +14,9 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         # Path Panel
         self.pushPathOpenUnreal.clicked.connect(lambda: self.openSave(1))
         self.pushPathOpenProject.clicked.connect(lambda: self.openSave(2))
+
+        self.buttonBoxPath.button(
+            QtWidgets.QDialogButtonBox.Save).clicked.connect(self.tabSave)
 
     def openSave(self, state):
         if state == 1:
@@ -35,7 +39,24 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             file_description,
             filter=file_select)
 
+        print(filename)
+
         return field(filename)
+
+    def tabSave(self):
+        editor = self.lineEditUnreal.text()
+        project = self.lineEditProject.text()
+
+        path_dict = {
+            "UE4 Editor": editor,
+            "UE4 Project": project,
+        }
+
+        json_path = os.path.abspath("BatchLightUE4/Models/setup_path.json")
+        with open(json_path, 'w') as f:
+            json.dump(path_dict, f, indent=4)
+
+        # self.closeEvent(self)
 
 
 
