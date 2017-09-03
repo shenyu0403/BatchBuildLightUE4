@@ -10,6 +10,34 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         super(SetupTab, self).__init__()
         self.setupUi(self)
 
+        # Path Panel
+        self.pushPathOpenUnreal.clicked.connect(lambda: self.openSave(1))
+        self.pushPathOpenProject.clicked.connect(lambda: self.openSave(2))
+
+    def openSave(self, state):
+        if state == 1:
+            file_description = 'Open the UE4 Editor'
+            file_select = 'UE4Editor.exe'
+            field = self.lineEditUnreal.setText
+
+        elif state == 2:
+            file_description = 'Open a Unreal Project File'
+            file_select = '*.uproject'
+            field = self.lineEditProject.setText
+
+        else:
+            file_description = 'Open a File'
+            file_select = ''
+            field = None
+
+        (filename, filter) = QtWidgets.QFileDialog.getOpenFileName(
+            self,
+            file_description,
+            filter=file_select)
+
+        return field(filename)
+
+
 
 class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
     """Main Windows, principal view, this windows can be show all level,
@@ -37,11 +65,22 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushToolsBuils.clicked.connect(self.buildLevel)
 
     # File Menu
-    def openSave(self):
+    def openSave(self, state):
+        if state == 1:
+            self.str_debug = 'First Value'
+            self.file_setup = filter="Project (*.blight)"
+        else:
+            self.str_debug = 'Pas de status, basique way'
+            self.file_setup = filter="Project (*.blight)"
+
+
+        print(self.str_debug)
+
         (filename, filter) = QtWidgets.QFileDialog.getOpenFileName(
             self,
             'Open a previous project',
-            filter="Project (*.blight)")
+            self.file_setup)
+
 
     # Events
     def editLevels(self, id):
