@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Frame(object):
     def setupUi(self, Frame):
         Frame.setObjectName("Frame")
-        Frame.resize(317, 259)
+        Frame.resize(357, 316)
         Frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         Frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.gridLayout = QtWidgets.QGridLayout(Frame)
@@ -22,7 +22,7 @@ class Ui_Frame(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.label = QtWidgets.QLabel(Frame)
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap("../Ressources/package.png"))
+        self.label.setPixmap(QtGui.QPixmap("BatchLightUE4/Ressources/package.png"))
         self.label.setScaledContents(False)
         self.label.setObjectName("label")
         self.horizontalLayout.addWidget(self.label)
