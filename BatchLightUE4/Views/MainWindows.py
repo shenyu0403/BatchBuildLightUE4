@@ -48,6 +48,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         print(id)
         self.dialog = SetupTab()
         self.dialog.show()
+        self.dialog.setCurrentIndex(id)
 
     def selectLevel(self, state):
         if state:
