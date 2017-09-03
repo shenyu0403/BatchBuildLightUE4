@@ -4,9 +4,11 @@ from PyQt5 import QtWidgets, QtGui
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
 from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
 
+from BatchLightUE4.Controllers.TreeLevels import builds_tree_lvls
+
 
 class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
-    """This object create a new windows"""
+    """This widget contains all setup tab"""
     def __init__(self):
         super(SetupTab, self).__init__()
         self.setupUi(self)
@@ -27,9 +29,10 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.lineEditUnreal.setText(ue4_path)
         self.pushPathOpenProject.clicked.connect(lambda: self.openSave(2))
         self.lineEditProject.setText(ue4_project)
+        self.pushPathDataLevels.clicked.connect(builds_tree_lvls)
 
-        self.buttonBoxPath.button(
-            QtWidgets.QDialogButtonBox.Save).clicked.connect(self.tabSave)
+        BTN = QtWidgets.QDialogButtonBox
+        self.buttonBoxPath.button(BTN.Save).clicked.connect(self.tabSave)
 
     def openSave(self, state):
         if state == 1:
@@ -91,7 +94,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.pushLevelsSelect.clicked.connect(lambda: self.selectLevel(True))
         self.pushLevelsDeselect.clicked.connect(self.selectLevel)
-        self.toolLevelsEdit.clicked.connect(self.editLevels)
+        self.toolLevelsEdit.clicked.connect(lambda: self.editLevels(1))
 
         self.pushToolsBuils.clicked.connect(self.buildLevel)
 
