@@ -10,6 +10,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
     def __init__(self):
         super(SetupTab, self).__init__()
         self.setupUi(self)
+        self.setWindowTitle('Tab Setup')
 
         json_path = os.path.abspath("BatchLightUE4/Models/setup_path.json")
         if os.path.isfile(json_path):
