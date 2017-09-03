@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>601</width>
-    <height>251</height>
+    <height>290</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -63,14 +63,14 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="2">
+    <item row="1" column="2">
      <spacer name="horizontalSpacer_5">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
       <property name="sizeHint" stdset="0">
        <size>
-        <width>0</width>
+        <width>13</width>
         <height>20</height>
        </size>
       </property>
@@ -203,25 +203,12 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Another Field Path :</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="1">
        <widget class="QLineEdit" name="lineEditProject">
         <property name="placeholderText">
          <string>file.uproject</string>
         </property>
        </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="lineEdit_3"/>
       </item>
       <item row="0" column="2">
        <widget class="QPushButton" name="pushPathOpenUnreal">
@@ -234,6 +221,18 @@
        <widget class="QPushButton" name="pushPathOpenProject">
         <property name="text">
          <string>Open</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QPushButton" name="pushPathDataLevels">
+        <property name="font">
+         <font>
+          <italic>true</italic>
+         </font>
+        </property>
+        <property name="text">
+         <string>Generate Levels Data</string>
         </property>
        </widget>
       </item>
@@ -254,7 +253,7 @@
       <property name="sizeHint" stdset="0">
        <size>
         <width>513</width>
-        <height>0</height>
+        <height>6</height>
        </size>
       </property>
      </spacer>
