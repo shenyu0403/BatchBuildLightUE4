@@ -6,223 +6,204 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>573</width>
-    <height>549</height>
+    <width>552</width>
+    <height>490</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QGroupBox" name="groupBox">
-        <property name="title">
-         <string>Levels</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="0">
-          <layout class="QVBoxLayout" name="levelsLayout">
-           <item>
-            <layout class="QHBoxLayout" name="toolsLevelsLayout">
-             <item>
-              <spacer name="horizontalSpacer_4">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item alignment="Qt::AlignRight|Qt::AlignTop">
-              <widget class="QPushButton" name="pushLevelsSelect">
-               <property name="statusTip">
-                <string>Select all levels</string>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
-               </property>
-               <property name="locale">
-                <locale language="English" country="UnitedKingdom"/>
-               </property>
-               <property name="text">
-                <string>Select all Levels</string>
-               </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>../Ressources/checklist.png</normaloff>../Ressources/checklist.png</iconset>
-               </property>
-               <property name="checkable">
-                <bool>false</bool>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-               <property name="flat">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_5">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QPushButton" name="pushLevelsDeselect">
-               <property name="statusTip">
-                <string>Deselect all levels</string>
-               </property>
-               <property name="text">
-                <string>Deselect all Levels</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_6">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QToolButton" name="toolLevelsEdit">
-               <property name="statusTip">
-                <string>Edit your levels choice</string>
-               </property>
-               <property name="text">
-                <string>...</string>
-               </property>
-               <property name="icon">
-                <iconset>
-                 <normaloff>../Ressources/beaker.png</normaloff>../Ressources/beaker.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_7">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
+       <string>Levels</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="levelsLayout">
+         <item>
+          <layout class="QHBoxLayout" name="toolsLevelsLayout">
+           <item alignment="Qt::AlignRight|Qt::AlignTop">
+            <widget class="QPushButton" name="pushLevelsSelect">
+             <property name="statusTip">
+              <string>Select all levels</string>
+             </property>
+             <property name="layoutDirection">
+              <enum>Qt::LeftToRight</enum>
+             </property>
+             <property name="locale">
+              <locale language="English" country="UnitedKingdom"/>
+             </property>
+             <property name="text">
+              <string>Select all Levels</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../Ressources/checklist.png</normaloff>../Ressources/checklist.png</iconset>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+             <property name="flat">
+              <bool>false</bool>
+             </property>
+            </widget>
            </item>
            <item>
-            <widget class="QListView" name="listLevels">
-             <property name="toolTip">
-              <string extracomment="je ss"/>
+            <widget class="QPushButton" name="pushLevelsDeselect">
+             <property name="statusTip">
+              <string>Deselect all levels</string>
+             </property>
+             <property name="text">
+              <string>Deselect all Levels</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../Ressources/circle-slash.png</normaloff>../Ressources/circle-slash.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolLevelsEdit">
+             <property name="statusTip">
+              <string>Edit your levels choice</string>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../Ressources/beaker.png</normaloff>../Ressources/beaker.png</iconset>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QListView" name="listLevels">
+           <property name="toolTip">
+            <string extracomment="je ss"/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+      <zorder></zorder>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="title">
+         <string>Build Setup</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QPushButton" name="pushToolsBuils">
+             <property name="statusTip">
+              <string>Build all level(s) selected</string>
+             </property>
+             <property name="text">
+              <string>Builds Levels</string>
+             </property>
+             <property name="icon">
+              <iconset>
+               <normaloff>../Ressources/gear.png</normaloff>../Ressources/gear.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>16</width>
+               <height>16</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBox">
+             <property name="text">
+              <string>Use all machines</string>
              </property>
             </widget>
            </item>
           </layout>
          </item>
         </layout>
-        <zorder></zorder>
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="toolsLayout">
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushToolsBuils">
-          <property name="statusTip">
-           <string>Build all level(s) selected</string>
-          </property>
-          <property name="text">
-           <string>Builds Levels</string>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>../Ressources/gear.png</normaloff>../Ressources/gear.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>16</width>
-            <height>16</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushToolsCache">
-          <property name="statusTip">
-           <string>Clean the cache folder (not functionnal)</string>
-          </property>
-          <property name="text">
-           <string>Clean Cache</string>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>../Ressources/trashcan.png</normaloff>../Ressources/trashcan.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>Another options</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="toolTip">
+            <string>Open a folder</string>
+           </property>
+           <property name="statusTip">
+            <string>Open log folder, give more info about the build succees or error</string>
+           </property>
+           <property name="text">
+            <string>Show log folder</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../Ressources/book.png</normaloff>../Ressources/book.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushToolsCache">
+           <property name="statusTip">
+            <string>Clean the cache folder (not functionnal)</string>
+           </property>
+           <property name="text">
+            <string>Clean Cache</string>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../Ressources/trashcan.png</normaloff>../Ressources/trashcan.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </item>
      </layout>
     </item>
@@ -233,7 +214,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>573</width>
+     <width>552</width>
      <height>21</height>
     </rect>
    </property>
@@ -247,6 +228,10 @@
     <widget class="QMenu" name="menuLoad">
      <property name="title">
       <string>Load</string>
+     </property>
+     <property name="icon">
+      <iconset>
+       <normaloff>../Ressources/link-external.png</normaloff>../Ressources/link-external.png</iconset>
      </property>
      <addaction name="actionLast_project"/>
      <addaction name="separator"/>
@@ -300,6 +285,10 @@
    <property name="checked">
     <bool>false</bool>
    </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../Ressources/file.png</normaloff>../Ressources/file.png</iconset>
+   </property>
    <property name="text">
     <string>New Setup</string>
    </property>
@@ -322,6 +311,10 @@
    </property>
   </action>
   <action name="actionExit">
+   <property name="icon">
+    <iconset>
+     <normaloff>../Ressources/sign-out.png</normaloff>../Ressources/sign-out.png</iconset>
+   </property>
    <property name="text">
     <string>Exit</string>
    </property>
@@ -373,6 +366,10 @@
    </property>
   </action>
   <action name="actionAbout">
+   <property name="icon">
+    <iconset>
+     <normaloff>../Ressources/info.png</normaloff>../Ressources/info.png</iconset>
+   </property>
    <property name="text">
     <string>About</string>
    </property>
@@ -408,6 +405,10 @@
    </property>
   </action>
   <action name="actionSave_as">
+   <property name="icon">
+    <iconset>
+     <normaloff>../Ressources/pencil.png</normaloff>../Ressources/pencil.png</iconset>
+   </property>
    <property name="text">
     <string>Save as</string>
    </property>
@@ -432,6 +433,10 @@
    </property>
   </action>
   <action name="actionOptions">
+   <property name="icon">
+    <iconset>
+     <normaloff>../Ressources/tools.png</normaloff>../Ressources/tools.png</iconset>
+   </property>
    <property name="text">
     <string>Options</string>
    </property>
