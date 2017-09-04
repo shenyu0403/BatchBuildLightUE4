@@ -106,7 +106,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             for key, path in data.items():
                 self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
                 self.checkBoxLevels[key].setObjectName(key)
-                self.vertLayoutLevel.addWidget(self.checkBoxLevels[key])
+                self.allLevelsCheck.addWidget(self.checkBoxLevels[key])
+                self.allLevelsCheck.contentsMargins()
 
         self.pushToolsBuils.clicked.connect(self.buildLevel)
 
