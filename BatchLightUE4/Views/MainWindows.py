@@ -24,7 +24,22 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             ue4_path = ''
             ue4_project = ''
 
+        # Options Panel
+        # Index >> 0
+        listLevels = self.listWidgetLevels
+
+        # CheckBox
+        json_tree_lvl = os.path.abspath("BatchLightUE4/Models/lvls_tree.json")
+        if os.path.isfile(json_tree_lvl):
+            data = json.loads(open(json_tree_lvl).read())
+            for key, path in data.items():
+                item = QtWidgets.QListWidgetItem(key)
+                item.checkState()
+                listLevels.addItem(item)
+
+
         # Path Panel
+        # Index >> 1
         self.pushPathOpenUnreal.clicked.connect(lambda: self.openSave(1))
         self.lineEditUnreal.setText(ue4_path)
         self.pushPathOpenProject.clicked.connect(lambda: self.openSave(2))
@@ -96,7 +111,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.pushLevelsSelect.clicked.connect(lambda: self.selectLevel(True))
         self.pushLevelsDeselect.clicked.connect(self.selectLevel)
-        self.toolLevelsEdit.clicked.connect(lambda: self.editLevels(1))
+        self.toolLevelsEdit.clicked.connect(lambda: self.editLevels(0))
 
         # CheckBox
         json_tree_lvl = os.path.abspath("BatchLightUE4/Models/lvls_tree.json")
