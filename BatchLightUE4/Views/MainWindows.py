@@ -56,10 +56,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                     else:
                         print('Nothing... hum its strange')
 
-
-
-
-
         # Path Panel
         # Index >> 1
         self.pushPathOpenUnreal.clicked.connect(lambda: self.openSave(1))
@@ -193,7 +189,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def closeEvent(self, event):
         confirmation = "Are your sur you want close this application ?"
-        answer = QtWidgets.QMessageBox.question(self, "Confirmation",
+        answer = QtWidgets.QMessageBox.question(self,
+                                                "Confirmation",
                                                 confirmation,
                                                 QtWidgets.QMessageBox.Yes,
                                                 QtWidgets.QMessageBox.No)
