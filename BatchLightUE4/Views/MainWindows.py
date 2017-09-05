@@ -1,4 +1,4 @@
-import os, json
+import os, json, re
 
 from PyQt5 import QtWidgets, QtGui
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
@@ -26,16 +26,38 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         # Options Panel
         # Index >> 0
-        listLevels = self.listWidgetLevels
+        listLevels = self.treeViewLevels
+        model = QtGui.QStandardItemModel()
+        model.setHorizontalHeaderLabels(['Master Levels', 'Sublevel'])
+        listLevels.setModel(model)
+        listLevels.setUniformRowHeights(False)
+        it_master = {}
+        child = {}
 
         # CheckBox
         json_tree_lvl = os.path.abspath("BatchLightUE4/Models/lvls_tree.json")
         if os.path.isfile(json_tree_lvl):
             data = json.loads(open(json_tree_lvl).read())
             for key, path in data.items():
-                item = QtWidgets.QListWidgetItem(key)
-                item.checkState()
-                listLevels.addItem(item)
+                if 'Master' in key:
+                    it_master[key] = QtGui.QStandardItem(key)
+                    it_master[key].setCheckable(True)
+                    model.appendRow(it_master[key])
+                    # print('Lvl : ', it_master)
+
+                else:
+                    child[key] = QtGui.QStandardItem(key)
+                    basename = os.path.basename(os.path.dirname(path))
+                    show_path = 'Master_' + basename + '.umap'
+                    if show_path in it_master:
+                        print('Level : ', basename, '| Add inside :',
+                              it_master[show_path])
+                        it_master[show_path].appendRow(child[key])
+                    else:
+                        print('Nothing... hum its strange')
+
+
+
 
 
         # Path Panel

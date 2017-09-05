@@ -85,7 +85,7 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_4">
            <item>
-            <widget class="QListWidget" name="listWidgetLevels"/>
+            <widget class="QTreeView" name="treeViewLevels"/>
            </item>
           </layout>
          </widget>
