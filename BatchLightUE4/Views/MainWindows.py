@@ -26,9 +26,10 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             ue4_project = ''
 
         # Options Panel
-        self.treeGenerate(self.algoTreeView.currentIndex)
+        self.treeGenerate()
+
         index_algo = self.algoTreeView.currentIndexChanged
-        index_algo.connect(lambda: self.treeGenerate(index_algo))
+        index_algo.connect(self.treeGenerate)
 
         # Path Panel
         # Index >> 1
@@ -77,10 +78,10 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         SetupTab.close(self)
 
-    def treeGenerate(self, algo):
+    def treeGenerate(self):
         print('Ok, new tree generate')
-        print('Index used >> ', self.algoTreeView.currentIndex)
         listLevels = self.treeViewLevels
+        index = self.algoTreeView.currentIndex()
         model = QtGui.QStandardItemModel()
         model.setHorizontalHeaderLabels(['Master Levels', 'Sublevel'])
         listLevels.setModel(model)
@@ -92,25 +93,29 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         if os.path.isfile(json_tree_lvl):
             data = json.loads(open(json_tree_lvl).read())
 
-            for key , path in data.items():
-                if 'Master' in key:
-                    it_master[key] = QtGui.QStandardItem(key)
-                    it_master[key].setCheckable(True)
-                    model.appendRow(it_master[key])
-                    # print('Lvl : ', it_master)
+            if index == 0:
+                print('Folder')
 
-                else:
-                    child[key] = QtGui.QStandardItem(key)
-                    basename = os.path.basename(os.path.dirname(path))
-                    show_path = 'Master_' + basename + '.umap'
-                    if show_path in it_master:
-                        # print('Level : ' , basename , '| Add inside :' ,
-                        #       it_master[show_path])
-                        it_master[show_path].appendRow(child[key])
-                    # else:
-                        # print('Nothing... hum its strange')
+            elif index == 1:
+                print('Master')
+                for key, path in data.items():
+                    if 'Master' in key:
+                        it_master[key] = QtGui.QStandardItem(key)
+                        it_master[key].setCheckable(True)
+                        model.appendRow(it_master[key])
+                        # print('Lvl : ', it_master)
 
-        return
+                    else:
+                        child[key] = QtGui.QStandardItem(key)
+                        basename = os.path.basename(os.path.dirname(path))
+                        show_path = 'Master_' + basename + '.umap'
+                        if show_path in it_master:
+                            it_master[show_path].appendRow(child[key])
+                        else:
+                            print('Nothing... hum its strange')
+
+            else:
+                print('Other')
 
 
 class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
