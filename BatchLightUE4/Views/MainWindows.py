@@ -105,7 +105,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                             it_master[folder] = QtGui.QStandardItem(folder)
                             it_master[folder].setCheckable(True)
                             model.appendRow(it_master[folder])
-
+                            it_child[key] = QtGui.QStandardItem(key)
+                            it_master[folder].appendRow(it_child[key])
                         else:
                             print('Creation dun enfant', key)
                             it_child[key] = QtGui.QStandardItem(key)
@@ -114,10 +115,11 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             elif index == 1:
                 for key, path in data.items():
                     if 'Master' in key:
+                        key = key.replace('.umap', '')
+                        key = key.replace('_', ' ')
                         it_master[key] = QtGui.QStandardItem(key)
                         it_master[key].setCheckable(True)
                         model.appendRow(it_master[key])
-                        # print('Lvl : ', it_master)
 
                     else:
                         it_child[key] = QtGui.QStandardItem(key)
