@@ -1,10 +1,11 @@
-import os, json, re
+import json
+import os
 
 from PyQt5 import QtWidgets, QtGui
-from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
-from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
 
 from BatchLightUE4.Controllers.TreeLevels import builds_tree_lvls
+from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
+from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
 
 
 class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
