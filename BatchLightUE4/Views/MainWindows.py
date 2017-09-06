@@ -28,8 +28,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         # Options Panel
         self.treeGenerate()
 
-        index_algo = self.algoTreeView.currentIndexChanged
-        index_algo.connect(self.treeGenerate)
+        ID_algorithm = self.algoTreeView.currentIndexChanged
+        ID_algorithm.connect(self.treeGenerate)
 
         # Path Panel
         # Index >> 1
@@ -87,17 +87,31 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         listLevels.setModel(model)
         listLevels.setUniformRowHeights(False)
         it_master = {}
-        child = {}
+        it_child = {}
 
         json_tree_lvl = os.path.abspath("BatchLightUE4/Models/lvls_tree.json")
         if os.path.isfile(json_tree_lvl):
             data = json.loads(open(json_tree_lvl).read())
 
             if index == 0:
-                print('Folder')
+                for key, path in data.items():
+                    folder = os.path.basename(os.path.dirname(path))
+                    key = key.replace('.umap', '')
+                    if folder in key:
+                        # Create a master
+                        if it_master.get(folder) is None:
+                            print('Ce folder est master >> ', folder)
+                            print(it_master.get(folder))
+                            it_master[folder] = QtGui.QStandardItem(folder)
+                            it_master[folder].setCheckable(True)
+                            model.appendRow(it_master[folder])
+
+                        else:
+                            print('Creation dun enfant', key)
+                            it_child[key] = QtGui.QStandardItem(key)
+                            it_master[folder].appendRow(it_child[key])
 
             elif index == 1:
-                print('Master')
                 for key, path in data.items():
                     if 'Master' in key:
                         it_master[key] = QtGui.QStandardItem(key)
@@ -106,11 +120,11 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                         # print('Lvl : ', it_master)
 
                     else:
-                        child[key] = QtGui.QStandardItem(key)
+                        it_child[key] = QtGui.QStandardItem(key)
                         basename = os.path.basename(os.path.dirname(path))
                         show_path = 'Master_' + basename + '.umap'
                         if show_path in it_master:
-                            it_master[show_path].appendRow(child[key])
+                            it_master[show_path].appendRow(it_child[key])
                         else:
                             print('Nothing... hum its strange')
 
