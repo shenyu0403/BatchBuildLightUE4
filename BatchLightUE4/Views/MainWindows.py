@@ -114,7 +114,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
 
 class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
-    """Main Windows, principal view, this windows can be show all level,
+    """Main Windows, principal view, this windows can show all level,
     access on many option -path setup, network, log... """
 
     def __init__(self, parent=None):
