@@ -26,36 +26,9 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             ue4_project = ''
 
         # Options Panel
-        # Index >> 0
-        listLevels = self.treeViewLevels
-        model = QtGui.QStandardItemModel()
-        model.setHorizontalHeaderLabels(['Master Levels', 'Sublevel'])
-        listLevels.setModel(model)
-        listLevels.setUniformRowHeights(False)
-        it_master = {}
-        child = {}
-
-        # CheckBox
-        json_tree_lvl = os.path.abspath("BatchLightUE4/Models/lvls_tree.json")
-        if os.path.isfile(json_tree_lvl):
-            data = json.loads(open(json_tree_lvl).read())
-            for key, path in data.items():
-                if 'Master' in key:
-                    it_master[key] = QtGui.QStandardItem(key)
-                    it_master[key].setCheckable(True)
-                    model.appendRow(it_master[key])
-                    # print('Lvl : ', it_master)
-
-                else:
-                    child[key] = QtGui.QStandardItem(key)
-                    basename = os.path.basename(os.path.dirname(path))
-                    show_path = 'Master_' + basename + '.umap'
-                    if show_path in it_master:
-                        print('Level : ', basename, '| Add inside :',
-                              it_master[show_path])
-                        it_master[show_path].appendRow(child[key])
-                    else:
-                        print('Nothing... hum its strange')
+        self.treeGenerate(self.algoTreeView.currentIndex)
+        index_algo = self.algoTreeView.currentIndexChanged
+        index_algo.connect(lambda: self.treeGenerate(index_algo))
 
         # Path Panel
         # Index >> 1
@@ -89,8 +62,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             file_description,
             filter=file_select)
 
-        return field(filename)
-
     def tabSave(self):
         editor = self.lineEditUnreal.text()
         project = self.lineEditProject.text()
@@ -105,6 +76,41 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             json.dump(path_dict, f, indent=4)
 
         SetupTab.close(self)
+
+    def treeGenerate(self, algo):
+        print('Ok, new tree generate')
+        print('Index used >> ', self.algoTreeView.currentIndex)
+        listLevels = self.treeViewLevels
+        model = QtGui.QStandardItemModel()
+        model.setHorizontalHeaderLabels(['Master Levels', 'Sublevel'])
+        listLevels.setModel(model)
+        listLevels.setUniformRowHeights(False)
+        it_master = {}
+        child = {}
+
+        json_tree_lvl = os.path.abspath("BatchLightUE4/Models/lvls_tree.json")
+        if os.path.isfile(json_tree_lvl):
+            data = json.loads(open(json_tree_lvl).read())
+
+            for key , path in data.items():
+                if 'Master' in key:
+                    it_master[key] = QtGui.QStandardItem(key)
+                    it_master[key].setCheckable(True)
+                    model.appendRow(it_master[key])
+                    # print('Lvl : ', it_master)
+
+                else:
+                    child[key] = QtGui.QStandardItem(key)
+                    basename = os.path.basename(os.path.dirname(path))
+                    show_path = 'Master_' + basename + '.umap'
+                    if show_path in it_master:
+                        # print('Level : ' , basename , '| Add inside :' ,
+                        #       it_master[show_path])
+                        it_master[show_path].appendRow(child[key])
+                    # else:
+                        # print('Nothing... hum its strange')
+
+        return
 
 
 class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -155,7 +161,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             self.file_setup = filter="Project (*.blight)"
 
 
-        print(self.str_debug)
+        # print(self.str_debug)
 
         (filename, filter) = QtWidgets.QFileDialog.getOpenFileName(
             self,
@@ -164,7 +170,6 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # Events
     def editLevels(self, id):
-        print(id)
         self.dialog = SetupTab()
         self.dialog.show()
         self.dialog.setCurrentIndex(id)
