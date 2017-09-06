@@ -106,7 +106,10 @@
                 <enum>Qt::LeftToRight</enum>
                </property>
                <property name="text">
-                <string>Method Tree Selected</string>
+                <string>Method Tree Selected : </string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
               </widget>
              </item>
