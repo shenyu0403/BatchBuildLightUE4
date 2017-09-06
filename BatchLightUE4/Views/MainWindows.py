@@ -85,7 +85,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         model = QtGui.QStandardItemModel()
         model.setHorizontalHeaderLabels(['Master Levels', 'Sublevel'])
         listLevels.setModel(model)
-        listLevels.setUniformRowHeights(False)
+        listLevels.setColumnWidth(0, 150)
         it_master = {}
         it_child = {}
 
