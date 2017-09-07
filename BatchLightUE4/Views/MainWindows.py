@@ -85,6 +85,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         model = QtGui.QStandardItemModel()
         model.setHorizontalHeaderLabels(['Master Levels', 'Sublevel'])
         listLevels.setModel(model)
+        listLevels.setSortingEnabled(True)
         listLevels.setColumnWidth(0, 150)
         it_master = {}
         it_child = {}
@@ -92,9 +93,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         json_tree_lvl = os.path.abspath("BatchLightUE4/Models/lvls_tree.json")
         if os.path.isfile(json_tree_lvl):
             data = json.loads(open(json_tree_lvl).read())
-
-            if index == 0:
-                for key, path in data.items():
+            for key, path in sorted(data.items()):
+                if index == 0:
                     folder = os.path.basename(os.path.dirname(path))
                     key = key.replace('.umap', '')
                     if folder in key:
@@ -112,8 +112,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                             it_child[key] = QtGui.QStandardItem(key)
                             it_master[folder].appendRow(it_child[key])
 
-            elif index == 1:
-                for key, path in data.items():
+                elif index == 1:
                     if 'Master' in key:
                         key = key.replace('.umap', '')
                         key = key.replace('_', ' ')
@@ -130,6 +129,23 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                         else:
                             print('Nothing... hum its strange')
 
+                elif index == 2:
+                    folder = os.path.basename(os.path.dirname(path))
+                    key = key.replace('.umap', '')
+                    if 'Scenes' or 'Levels' in folder:
+                        print('Folder Ok :) >>', key)
+                        folder = folder.replace('_', ' ')
+
+                        if it_master.get(folder) is None:
+                            it_master[folder] = QtGui.QStandardItem(folder)
+                            it_master[folder].setCheckable(True)
+                            model.appendRow(it_master[folder])
+                            it_child[key] = QtGui.QStandardItem(key)
+                            it_master[folder].appendRow(it_child[key])
+                        else:
+                            print('Creation dun enfant', key)
+                            it_child[key] = QtGui.QStandardItem(key)
+                            it_master[folder].appendRow(it_child[key])
             else:
                 print('Other')
 
@@ -164,7 +180,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         if os.path.isfile(json_tree_lvl):
             data = json.loads(open(json_tree_lvl).read())
 
-            for key, path in data.items():
+            for key, path in sorted(data.items()):
                 self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
                 self.checkBoxLevels[key].setObjectName(key)
                 self.allLevelsCheck.addWidget(self.checkBoxLevels[key])
