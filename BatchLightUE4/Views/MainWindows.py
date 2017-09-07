@@ -84,6 +84,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         index = self.algoTreeView.currentIndex()
         model = QtGui.QStandardItemModel()
         model.setHorizontalHeaderLabels(['Master Levels', 'Sublevel'])
+        model.itemChanged.connect(lambda: self.generateFinalTree(model.item()))
         listLevels.setModel(model)
         listLevels.setSortingEnabled(True)
         listLevels.setColumnWidth(0, 150)
@@ -100,15 +101,12 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                     if folder in key:
                         # Create a master
                         if it_master.get(folder) is None:
-                            print('Ce folder est master >> ', folder)
-                            print(it_master.get(folder))
                             it_master[folder] = QtGui.QStandardItem(folder)
                             it_master[folder].setCheckable(True)
                             model.appendRow(it_master[folder])
                             it_child[key] = QtGui.QStandardItem(key)
                             it_master[folder].appendRow(it_child[key])
                         else:
-                            print('Creation dun enfant', key)
                             it_child[key] = QtGui.QStandardItem(key)
                             it_master[folder].appendRow(it_child[key])
 
@@ -133,7 +131,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                     folder = os.path.basename(os.path.dirname(path))
                     key = key.replace('.umap', '')
                     if 'Scenes' or 'Levels' in folder:
-                        print('Folder Ok :) >>', key)
                         folder = folder.replace('_', ' ')
 
                         if it_master.get(folder) is None:
@@ -143,11 +140,20 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                             it_child[key] = QtGui.QStandardItem(key)
                             it_master[folder].appendRow(it_child[key])
                         else:
-                            print('Creation dun enfant', key)
                             it_child[key] = QtGui.QStandardItem(key)
                             it_master[folder].appendRow(it_child[key])
             else:
                 print('Other')
+
+    def generateFinalTree(self, index):
+        print('Add number >> ', index)
+
+        lvl_final = {}
+        lvl_final[1] = "path normalement"
+
+        json_path = os.path.abspath("BatchLightUE4/Models/lvls_tree_final.json")
+        with open(json_path, 'w') as f:
+            json.dump(lvl_final, f, indent=4)
 
 
 class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
