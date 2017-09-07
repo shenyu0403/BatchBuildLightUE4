@@ -311,7 +311,7 @@ class Ui_TabWidget(object):
         self.label_6.setText(_translate("TabWidget", "Method Tree Selected : "))
         self.algoTreeView.setItemText(0, _translate("TabWidget", "Folders Contains"))
         self.algoTreeView.setItemText(1, _translate("TabWidget", "Master Levels"))
-        self.algoTreeView.setItemText(2, _translate("TabWidget", "Magique"))
+        self.algoTreeView.setItemText(2, _translate("TabWidget", "Path Levels"))
         self.algoTreeView.setItemText(3, _translate("TabWidget", "Full Random"))
         self.label.setText(_translate("TabWidget", "Levels : Name editable project"))
         self.textBrowser.setHtml(_translate("TabWidget", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
