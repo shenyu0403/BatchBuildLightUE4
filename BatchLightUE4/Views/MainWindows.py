@@ -30,6 +30,10 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         ID_algorithm = self.algoTreeView.currentIndexChanged
         ID_algorithm.connect(self.treeGenerate)
 
+        listLevels = self.treeViewLevels
+        model = listLevels.model()
+        model.itemChanged.connect(self.generateFinalTree)
+
         # Path Panel
         # Index >> 1
         self.pushPathOpenUnreal.clicked.connect(lambda: self.openSave(1))
@@ -83,7 +87,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         print(index)
         model = QtGui.QStandardItemModel()
         model.setHorizontalHeaderLabels(['Master Levels', 'Sublevel'])
-        model.itemChanged.connect(self.generateFinalTree)
         listLevels.setModel(model)
         listLevels.setSortingEnabled(True)
         listLevels.setColumnWidth(0, 150)
@@ -94,8 +97,9 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         if os.path.isfile(json_tree_lvl):
             data = json.loads(open(json_tree_lvl).read())
             for key, path in sorted(data.items()):
+                folder = os.path.basename(os.path.dirname(path))
+
                 if index == 0:
-                    folder = os.path.basename(os.path.dirname(path))
                     key = key.replace('.umap', '')
                     if folder in key:
                         # Create a master
@@ -119,15 +123,13 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
                     else:
                         it_child[key] = QtGui.QStandardItem(key)
-                        basename = os.path.basename(os.path.dirname(path))
-                        show_path = 'Master_' + basename + '.umap'
+                        show_path = 'Master_' + folder + '.umap'
                         if show_path in it_master:
                             it_master[show_path].appendRow(it_child[key])
                         else:
                             print('Nothing... hum its strange')
 
                 elif index == 2:
-                    folder = os.path.basename(os.path.dirname(path))
                     key = key.replace('.umap', '')
                     if 'Scenes' or 'Levels' in folder:
                         folder = folder.replace('_', ' ')
@@ -141,15 +143,12 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                         else:
                             it_child[key] = QtGui.QStandardItem(key)
                             it_master[folder].appendRow(it_child[key])
+
             else:
                 print('Other')
 
     def generateFinalTree(self):
-        listLevels = self.treeViewLevels
-        # data = listLevels.item
-        # index = listLevels.setCurrentIndex()
-
-        print('Add number >> ', data)
+        print('Add number >> ')
 
         lvl_final = {}
         lvl_final[0] = "path normalement"
