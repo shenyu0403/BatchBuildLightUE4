@@ -27,7 +27,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         # Options Panel
         self.treeGenerate()
-
         ID_algorithm = self.algoTreeView.currentIndexChanged
         ID_algorithm.connect(self.treeGenerate)
 
@@ -79,12 +78,12 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         SetupTab.close(self)
 
     def treeGenerate(self):
-        print('Ok, new tree generate')
         listLevels = self.treeViewLevels
         index = self.algoTreeView.currentIndex()
+        print(index)
         model = QtGui.QStandardItemModel()
         model.setHorizontalHeaderLabels(['Master Levels', 'Sublevel'])
-        model.itemChanged.connect(lambda: self.generateFinalTree(model.item()))
+        model.itemChanged.connect(self.generateFinalTree)
         listLevels.setModel(model)
         listLevels.setSortingEnabled(True)
         listLevels.setColumnWidth(0, 150)
@@ -145,11 +144,15 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             else:
                 print('Other')
 
-    def generateFinalTree(self, index):
-        print('Add number >> ', index)
+    def generateFinalTree(self):
+        listLevels = self.treeViewLevels
+        # data = listLevels.item
+        # index = listLevels.setCurrentIndex()
+
+        print('Add number >> ', data)
 
         lvl_final = {}
-        lvl_final[1] = "path normalement"
+        lvl_final[0] = "path normalement"
 
         json_path = os.path.abspath("BatchLightUE4/Models/lvls_tree_final.json")
         with open(json_path, 'w') as f:
