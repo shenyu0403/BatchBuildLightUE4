@@ -32,7 +32,9 @@ def perforcecheckout(level_used):
 
     for filename in os.listdir(os.path.normpath(map)):
         filename = depot + filename
-        revisions.append(filename)
+
+        if os.path.isfile(filename):
+            revisions.append(filename)
 
     description = """[ProVolley][GFX][LightmapAuto] Automatic Build Lightmap generate for the level """
     description = description + lvl_name
