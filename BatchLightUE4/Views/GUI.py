@@ -26,17 +26,6 @@ class UIBuildMap(tk.Tk):
 
     def initialize(self):
         self.grid()
-        # ------------------------------------------------
-        # Topbar Menu
-        self.menubar = tk.Menu(self)
-        self.config(menu=self.menubar)
-        self.filemenu = tk.Menu(self.menubar)
-        self.filemenu.add_command(label="Setup Path", onClick=self.popup())
-        self.filemenu.add_command(label="Setup Network", command=self.popup())
-        self.filemenu.add_separator()
-        self.filemenu.add_command(label="Exit", command=self.exit())
-        self.menubar.add_cascade(label="File", menu=self.filemenu)
-
 
         # ------------------------------------------------
         # BatchBuild Programm
@@ -193,15 +182,14 @@ class UIBuildMap(tk.Tk):
         runSaveNetwork.grid()
 
     # ------------------------------------------------
-    # Topbar Menu
-    def popup(self):
-        print('test')
-
-    # ------------------------------------------------
     # Event and Command
     def SelectAll(self):
         for cle in self.buttons.keys():
-            self.buttons[cle].select()
+            dict_state = self.buttons[cle].config('state')
+            if dict_state[4] == 'normal':
+                print(cle)
+                self.buttons[cle].select()
+
         self.labelVariable.set("Select all Levels")
 
     def UnSelectAll(self):
