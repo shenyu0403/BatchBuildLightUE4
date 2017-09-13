@@ -26,6 +26,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             ue4_project = ''
 
         # Options Panel
+        self.listLevels = self.treeViewLevels
+
         self.treeGenerate()
         ID_algorithm = self.algoTreeView.currentIndexChanged
         ID_algorithm.connect(self.treeGenerate)
@@ -82,14 +84,14 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         SetupTab.close(self)
 
     def treeGenerate(self):
-        listLevels = self.treeViewLevels
+
         index = self.algoTreeView.currentIndex()
         print(index)
         model = QtGui.QStandardItemModel()
         model.setHorizontalHeaderLabels(['Master Levels', 'Sublevel'])
-        listLevels.setModel(model)
-        listLevels.setSortingEnabled(True)
-        listLevels.setColumnWidth(0, 150)
+        self.listLevels.setModel(model)
+        self.listLevels.setSortingEnabled(True)
+        self.listLevels.setColumnWidth(0, 150)
         it_master = {}
         it_child = {}
 
@@ -127,7 +129,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                         if show_path in it_master:
                             it_master[show_path].appendRow(it_child[key])
                         else:
-                            print('Nothing... hum its strange')
+                            print('Level exclude >> ', key)
 
                 elif index == 2:
                     key = key.replace('.umap', '')
@@ -143,9 +145,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                         else:
                             it_child[key] = QtGui.QStandardItem(key)
                             it_master[folder].appendRow(it_child[key])
-
-            else:
-                print('Other')
 
     def generateFinalTree(self):
         print('Add number >> ')
