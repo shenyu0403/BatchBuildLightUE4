@@ -6,7 +6,8 @@ from ..Models.DB import levels_dict, paths_dict
 # This files create a copy of your Unreal log file, useful to see easily
 # your rendering errors.
 
-def logsave(level_used):
+
+def log_save(level_used):
     level = levels_dict.get(level_used)
     lvl_name = level[0]
     # lvl_end = level[1]
