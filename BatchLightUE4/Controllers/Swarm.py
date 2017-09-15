@@ -1,15 +1,15 @@
 import os
-import json
 import psutil
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as Element
 
 import subprocess
 from ..Models.DB import levels_dict, paths_dict, slave
 
+
 # -----------------------------
 # Build level
 # -----------------------------
-def buildmap(level_used):
+def build(level_used):
     level = levels_dict.get(level_used)
     lvl_name = level[0]
     lvl_end = level[1]
@@ -28,7 +28,8 @@ def buildmap(level_used):
                     '-Map=' + level
                     ])
 
-def swarmsetup(bool):
+
+def swarm_setup(boolean):
     path_exe = os.path.dirname(paths_dict['UE4 Editor'])
     os.path.dirname(path_exe)
     path_exe = os.path.dirname(path_exe)
@@ -36,58 +37,57 @@ def swarmsetup(bool):
 
     path_swarm_setup = path_exe + "/" + "SwarmAgent.Options.xml"
 
-
     # --------------------  --------------------
     # Change the Swarm Setup to include all machine selected, need to kill
-    # it and relaunch the programm
+    # it and relaunch the program
     if os.path.isfile(path_swarm_setup):
-        setup = ET.parse(path_swarm_setup)
+        setup = Element.parse(path_swarm_setup)
         root = setup.getroot()
         slave_name = str("Agent*, ")
 
-        ligne = "AllowedRemoteAgentNames"
-        for value in root.iterfind(ligne):
+        line = "AllowedRemoteAgentNames"
+        for value in root.iterfind(line):
             # Check the setting, i need to read the config file ; i need to
             # relaunch the setup when i want use a new setting
-            if bool is True:
+            if boolean is True:
                 for obj in slave.values():
                     slave_name = slave_name + str(obj[1]) + ", "
 
                 if value.text == 'Agent*':
                     value.text = slave_name
                     setup.write(path_swarm_setup)
-                    launchswarm(path_exe)
+                    launch_swarm(path_exe)
 
-            elif bool is False:
+            elif boolean is False:
                 slave_name = "Agent*"
 
                 if value.text != 'Agent*':
                     value.text = slave_name
                     setup.write(path_swarm_setup)
-                    launchswarm(path_exe)
+                    launch_swarm(path_exe)
 
     else:
         print("No Setup, generate data")
 
 
-def launchswarm(path_exe):
+def launch_swarm(path_exe):
     kill_it = "SwarmAgent.exe"
-    # Kill the programm to relaunch with a new setup
-    for proc in psutil.process_iter():
+    # Kill the program to relaunch with a new setup
+    for process in psutil.process_iter():
         # check whether the process name matches
-        if proc.name() == kill_it:
-            proc.kill()
+        if process.name() == kill_it:
+            process.kill()
 
-    # Relaunch the programm
+    # Relaunch the program
     soft = os.path.abspath(path_exe)
     soft = soft + "/" + kill_it
     subprocess.Popen(soft, stdout=subprocess.PIPE)
 
 
-def cleancacheswarm():
+def clean_cache_swarm():
     path_exe = os.path.dirname(paths_dict['UE4 Editor'])
     os.path.dirname(path_exe)
     path_exe = os.path.dirname(path_exe)
     path_exe = path_exe + '/DotNET/SwarmCache'
 
-    print("Clean Swarm cache !")
+    return path_exe
