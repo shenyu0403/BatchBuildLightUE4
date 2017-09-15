@@ -34,12 +34,10 @@ def perforce_checkout(level_used):
     for filename in os.listdir(os.path.normpath(map_build)):
         filename = depot + filename
 
-        if os.path.isfile(filename):
-            print("It's a file >> 0", filename)
+        if '.uasset' in filename:
             revisions.append(filename)
-
-        else:
-            print("It's a folder >> ", filename)
+        elif '.umap' in filename:
+            revisions.append(filename)
 
     description = """[ProVolley][GFX][LightmapAuto] Automatic Build Lightmap 
     generate for the level """
