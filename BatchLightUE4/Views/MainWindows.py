@@ -27,14 +27,11 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         # Options Panel
         self.listLevels = self.treeViewLevels
+        self.algoTreeView.currentIndexChanged.connect(self.treeGenerate)
 
-        self.treeGenerate()
-        ID_algorithm = self.algoTreeView.currentIndexChanged
-        ID_algorithm.connect(self.treeGenerate)
-
-        listLevels = self.treeViewLevels
-        model = listLevels.model()
-        model.itemChanged.connect(self.generateFinalTree)
+        # listLevels = self.treeViewLevels
+        # model = listLevels.model()
+        # model.itemChanged.connect(self.generateFinalTree)
 
         # Path Panel
         # Index >> 1
@@ -84,8 +81,11 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         SetupTab.close(self)
 
     def treeGenerate(self):
-
         index = self.algoTreeView.currentIndex()
+
+        if index is None:
+            index = 0
+
         print(index)
         model = QtGui.QStandardItemModel()
         model.setHorizontalHeaderLabels(['Master Levels', 'Sublevel'])
