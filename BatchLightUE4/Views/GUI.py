@@ -7,7 +7,7 @@ import os, sys, json, perforce
 from ..Models.DB import levels_dict, paths_dict
 from ..Controllers.Logs import logsave
 from ..Controllers.Network import SaveNetworkName
-from ..Controllers.Perfoce import perforcecheckout
+from ..Controllers.Perfoce import perforce_checkout
 from ..Controllers.Swarm import buildmap, swarmsetup
 
 # --------
@@ -291,7 +291,7 @@ class UIBuildMap(tk.Tk):
                 lvl_name = level[0]
                 print("Build Level >> ", lvl_name)
 
-                perforcecheckout(level_build)
+                perforce_checkout(level_build)
                 buildmap(level_build)
                 logsave(level_build)
 
