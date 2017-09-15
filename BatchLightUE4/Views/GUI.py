@@ -5,10 +5,10 @@ import tkinter.messagebox as msg
 import os, sys, json, perforce
 
 from ..Models.DB import levels_dict, paths_dict
-from ..Controllers.Logs import logsave
+from ..Controllers.Logs import log_save
 from ..Controllers.Network import SaveNetworkName
 from ..Controllers.Perfoce import perforce_checkout
-from ..Controllers.Swarm import buildmap, swarmsetup
+from ..Controllers.Swarm import build, swarm_setup
 
 # --------
 # UI
@@ -102,11 +102,11 @@ class UIBuildMap(tk.Tk):
 
         tk.Button(self,
                   text=u'Build Light',
-                  command=self.OnButtonClick).grid(sticky='EW',
-                                                   column=0,
-                                                   row=3,
-                                                   padx=5,
-                                                   pady=5,)
+                  command=self.on_button_click).grid(sticky='EW',
+                                                     column=0,
+                                                     row=3,
+                                                     padx=5,
+                                                     pady=5, )
 
         self.value_swarm = tk.BooleanVar(self, '0')
         self.swarmBTN = tk.Checkbutton(self,
@@ -250,11 +250,10 @@ class UIBuildMap(tk.Tk):
 
         # exit(self)
 
-
     # --------------------  --------------------
     # This function call perforce and swarm to check out all file and build
     # all level choiced
-    def OnButtonClick(self):
+    def on_button_click(self):
         # Generate empty Data
         levels_rendering = []
         text = ""
@@ -284,7 +283,7 @@ class UIBuildMap(tk.Tk):
             # os.system('powercfg -h off')
             # print(os.system('powercfg -h off'))
 
-            swarmsetup(self.value_swarm.get())
+            swarm_setup(self.value_swarm.get())
 
             for level_build in levels_rendering:
                 level = levels_dict.get(level_build)
@@ -292,13 +291,13 @@ class UIBuildMap(tk.Tk):
                 print("Build Level >> ", lvl_name)
 
                 perforce_checkout(level_build)
-                buildmap(level_build)
-                logsave(level_build)
+                build(level_build)
+                log_save(level_build)
 
             # os.system('powercfg -h on')
             # print(os.system('powercfg -h on'))
 
         levels_rendering = []
-        swarmsetup(False)
+        swarm_setup(False)
         print("All levels selected are rendering and checkout")
 
