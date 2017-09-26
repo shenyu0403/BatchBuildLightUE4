@@ -299,9 +299,6 @@ class UIBuildMap(tk.Tk):
                 build(level_build)
                 log_save(level_build)
 
-            # os.system('powercfg -h on')
-            # print(os.system('powercfg -h on'))
-
         levels_rendering = []
         swarm_setup(False)
         print("All levels selected are rendering and checkout")
