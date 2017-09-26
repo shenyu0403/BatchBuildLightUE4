@@ -26,13 +26,13 @@ levels_dict = {
     14: ('STA00', 'Ui'),
     15: ('CharacterCreator', 'ChangingRoom'),
 }
-slave = {
-    1: ('Aurel', 'DESKTOP-O6QPOKM'),
-    2: ('Quentin', 'MUTTON03'),
-    3: ('Marine', 'WHITESHEEP02'),
-    4: ('Patrick', 'DESKTOP-8N0EUH1'),
-    5: ('Greg', 'MUTTON09'),
-}
+
+network_json = os.path.abspath(
+    "BatchLightUE4/Models/network.json")
+
+with open(network_json) as f:
+    slave = json.load(f)
+
 revisions = []
 
 path_json = os.path.abspath(
