@@ -51,7 +51,7 @@ def swarm_setup(boolean):
             # relaunch the setup when i want use a new setting
             if boolean is True:
                 for obj in slave.values():
-                    slave_name = slave_name + str(obj[1]) + ", "
+                    slave_name = slave_name + str(obj) + ", "
 
                 if value.text == 'Agent*':
                     value.text = slave_name
