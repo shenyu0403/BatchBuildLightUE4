@@ -22,7 +22,7 @@ main windows. Now, select your level(s) and click built-it.
 
  !! Don't forget to disable your hibernate option from Windows !!
 
-![Screen Capture](Ressources/ScreenBatchBuildLight.jpg)
+![Screen Capture](Resources/ScreenBatchBuildLight.jpg)
 
 ## Batch File
 ### Launch

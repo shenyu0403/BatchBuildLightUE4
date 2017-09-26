@@ -22,7 +22,7 @@ class Ui_Frame(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.label = QtWidgets.QLabel(Frame)
         self.label.setText("")
-        self.label.setPixmap(QtGui.QPixmap("BatchLightUE4/Ressources/package.png"))
+        self.label.setPixmap(QtGui.QPixmap("BatchLightUE4/Resources/package.png"))
         self.label.setScaledContents(False)
         self.label.setObjectName("label")
         self.horizontalLayout.addWidget(self.label)
