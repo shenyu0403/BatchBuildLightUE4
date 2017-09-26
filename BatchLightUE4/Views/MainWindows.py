@@ -33,6 +33,9 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         # model = listLevels.model()
         # model.itemChanged.connect(self.generateFinalTree)
 
+        BTN = QtWidgets.QDialogButtonBox
+        self.buttonBoxOptions.button(BTN.Cancel).clicked.connect(self.close)
+
         # Path Panel
         # Index >> 1
         self.pushPathOpenUnreal.clicked.connect(lambda: self.openSave(1))
