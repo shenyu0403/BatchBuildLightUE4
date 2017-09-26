@@ -33,9 +33,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         # model = listLevels.model()
         # model.itemChanged.connect(self.generateFinalTree)
 
-        BTN = QtWidgets.QDialogButtonBox
-        self.buttonBoxOptions.button(BTN.Cancel).clicked.connect(self.close)
-
         # Path Panel
         # Index >> 1
         self.pushPathOpenUnreal.clicked.connect(lambda: self.openSave(1))
@@ -44,8 +41,18 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.lineEditProject.setText(ue4_project)
         self.pushPathDataLevels.clicked.connect(builds_tree_lvls)
 
+        # Ribbon Default, Save and Cancel
         BTN = QtWidgets.QDialogButtonBox
+            # Restore Default
+
+            # Save
         self.buttonBoxPath.button(BTN.Save).clicked.connect(self.tabSave)
+
+            # Close Event
+        self.buttonBoxOptions.button(BTN.Cancel).clicked.connect(self.close)
+        self.buttonBoxPath.button(BTN.Cancel).clicked.connect(self.close)
+        self.buttonBoxNetwork.button(BTN.Cancel).clicked.connect(self.close)
+        self.buttonBoxCSV.button(BTN.Cancel).clicked.connect(self.close)
 
     def openSave(self, state):
         if state == 1:
