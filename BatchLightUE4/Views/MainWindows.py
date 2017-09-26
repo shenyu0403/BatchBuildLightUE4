@@ -27,7 +27,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         # Options Panel
         self.listLevels = self.treeViewLevels
-        self.algoTreeView.currentIndexChanged.connect(self.treeGenerate)
+        self.algoTreeView.currentIndexChanged.connect(self.tree_generate)
 
         # listLevels = self.treeViewLevels
         # model = listLevels.model()
@@ -42,17 +42,17 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.pushPathDataLevels.clicked.connect(builds_tree_lvls)
 
         # Ribbon Default, Save and Cancel
-        BTN = QtWidgets.QDialogButtonBox
-            # Restore Default
+        btn = QtWidgets.QDialogButtonBox
+        #   Restore Default
 
-            # Save
-        self.buttonBoxPath.button(BTN.Save).clicked.connect(self.tabSave)
+        #   Save
+        self.buttonBoxPath.button(btn.Save).clicked.connect(self.tabSave)
 
-            # Close Event
-        self.buttonBoxOptions.button(BTN.Cancel).clicked.connect(self.close)
-        self.buttonBoxPath.button(BTN.Cancel).clicked.connect(self.close)
-        self.buttonBoxNetwork.button(BTN.Cancel).clicked.connect(self.close)
-        self.buttonBoxCSV.button(BTN.Cancel).clicked.connect(self.close)
+        #   Close Event
+        self.buttonBoxOptions.button(btn.Cancel).clicked.connect(self.close)
+        self.buttonBoxPath.button(btn.Cancel).clicked.connect(self.close)
+        self.buttonBoxNetwork.button(btn.Cancel).clicked.connect(self.close)
+        self.buttonBoxCSV.button(btn.Cancel).clicked.connect(self.close)
 
     def openSave(self, state):
         if state == 1:
@@ -90,7 +90,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         SetupTab.close(self)
 
-    def treeGenerate(self):
+    def tree_generate(self):
         index = self.algoTreeView.currentIndex()
 
         if index is None:
@@ -156,7 +156,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                             it_child[key] = QtGui.QStandardItem(key)
                             it_master[folder].appendRow(it_child[key])
 
-    def generateFinalTree(self):
+    @staticmethod
+    def generate_final_tree(self):
         print('Add number >> ')
 
         lvl_final = {}
