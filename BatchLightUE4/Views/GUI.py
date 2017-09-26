@@ -2,13 +2,17 @@ import tkinter as tk
 import tkinter.filedialog as tkfile
 import tkinter.messagebox as msg
 
-import os, sys, json, perforce
+import os
+import sys
+import json
+import perforce
 
 from ..Models.DB import levels_dict, paths_dict
 from ..Controllers.Logs import log_save
 from ..Controllers.Network import SaveNetworkName
 from ..Controllers.Perfoce import perforce_checkout
 from ..Controllers.Swarm import build, swarm_setup
+
 
 # --------
 # UI
@@ -61,16 +65,16 @@ class UIBuildMap(tk.Tk):
             # ---------- Check if the level can be Checkout or not
             lvl_name = level[0]
             lvl_end = level[1]
-            filename = lvl_root + lvl_name + '_' + lvl_end + '/' + lvl_name \
-                       + '.umap'
+            filename = lvl_root + lvl_name
+            filename = filename + '_' + lvl_end + '/' + lvl_name + '.umap'
             if lvl_name == 'CharacterCreator':
                 filename = lvl_root + lvl_name + '/' + lvl_end + '.umap'
             filename = perforce.Revision(p4, filename)
 
+            self.check_state = tk.NORMAL
+
             if filename.openedBy == str(1):
-                self.checkstate = tk.DISABLED
-            else:
-                self.checkstate = tk.NORMAL
+                self.check_state = tk.DISABLED
 
             # ---------- Generate a checkbox Widget
             self.value_checkbox[cle] = tk.BooleanVar(self, '0')
@@ -78,7 +82,7 @@ class UIBuildMap(tk.Tk):
                                                text=level,
                                                variable=self.value_checkbox[cle],
                                                anchor='w',
-                                               state=self.checkstate)
+                                               state=self.check_state)
             self.buttons[cle].grid(columnspan=2, sticky='EW')
 
             if level[0] == 'GYM02':
@@ -96,7 +100,7 @@ class UIBuildMap(tk.Tk):
                     columnspan=2, sticky='EW')
 
         # ------------------------------------------------
-        # Launch Programm
+        # Launch Program
         self.grid_columnconfigure(0, weight=1)
         self.resizable(True, False)
 
@@ -125,27 +129,27 @@ class UIBuildMap(tk.Tk):
 
         text = paths_dict["UE4 Editor"]
         self.UE4Path_text = tk.StringVar(self, value=text)
-        UE4Path = tk.Entry(frame_setup,
-                           textvariable=self.UE4Path_text)
-        UE4Path.grid(column=0, row=1, sticky='EW', padx=5, pady=5)
-        UE4Btn = tk.Button(frame_setup,
-                           text=u'UE4Editor.exe',
-                           command=lambda: self.OpenFilExe(
+        ue_4_path = tk.Entry(frame_setup,
+                             textvariable=self.UE4Path_text)
+        ue_4_path.grid(column=0, row=1, sticky='EW', padx=5, pady=5)
+        ue_4_btn = tk.Button(frame_setup,
+                             text=u'UE4Editor.exe',
+                             command=lambda: self.OpenFilExe(
                                self.UE4Path_text,
                                1))
-        UE4Btn.grid(column=1, row=1, sticky='EW', padx=5, pady=5)
+        ue_4_btn.grid(column=1, row=1, sticky='EW', padx=5, pady=5)
 
         text = paths_dict["UE4 Project"]
         self.UE4Project_text = tk.StringVar(self, value=text)
-        ProjectPath = tk.Entry(frame_setup,
-                               textvariable=self.UE4Project_text,)
-        ProjectPath.grid(column=0, row=2, sticky='EW', padx=5, pady=5)
-        ProjectBtn = tk.Button(frame_setup,
-                               text=u'Uproject',
-                               command=lambda: self.OpenFilExe(
+        project_path = tk.Entry(frame_setup,
+                                textvariable=self.UE4Project_text,)
+        project_path.grid(column=0, row=2, sticky='EW', padx=5, pady=5)
+        project_btn = tk.Button(frame_setup,
+                                text=u'Uproject',
+                                command=lambda: self.OpenFilExe(
                                    self.UE4Project_text,
                                    2))
-        ProjectBtn.grid(column=1, row=2, sticky='EW', padx=5, pady=5)
+        project_btn.grid(column=1, row=2, sticky='EW', padx=5, pady=5)
 
         # ------------------------------------------------
         # Log options
