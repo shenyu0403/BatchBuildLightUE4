@@ -22,17 +22,20 @@ class UIBuildMap(tk.Tk):
         tk.Tk.__init__(self, parent)
         self.parent = parent
         self.env_names = levels_dict
+        self.labelVariable = tk.StringVar()
         self.buttons = {}
         self.value_checkbox = [0]
         for i in levels_dict.keys():
             self.value_checkbox.append(i)
+
+        self.value_swarm = tk.BooleanVar(self, '0')
         self.initialize()
 
     def initialize(self):
         self.grid()
 
         # ------------------------------------------------
-        # BatchBuild Programm
+        # BatchBuild Program
 
         path_icon = os.path.abspath(
             "BatchLightUE4/Ressources/BlackSheep.ico")
@@ -51,7 +54,6 @@ class UIBuildMap(tk.Tk):
                                   pady=5)
         frame_lvl.grid(columnspan=2)
 
-        self.labelVariable = tk.StringVar()
         label = tk.Label(self, textvariable=self.labelVariable, anchor='w')
         label.grid(sticky='EW')
 
@@ -112,7 +114,6 @@ class UIBuildMap(tk.Tk):
                                                      padx=5,
                                                      pady=5, )
 
-        self.value_swarm = tk.BooleanVar(self, '0')
         self.swarmBTN = tk.Checkbutton(self,
                                        text="All",
                                        variable=self.value_swarm,
@@ -168,22 +169,22 @@ class UIBuildMap(tk.Tk):
 
         self.icon_trash = tk.PhotoImage(
             file='BatchLightUE4/Ressources/trash.gif')
-        LogTrash = tk.Button(frame_log,
+        log_trash = tk.Button(frame_log,
                              image=self.icon_trash,
                              text='Clean Log',
                              compound=tk.LEFT,
                              command=self.LogCleanFolder)
-        LogTrash.grid(column=1, row=5, sticky='EW', padx=5, pady=5)
+        log_trash.grid(column=1, row=5, sticky='EW', padx=5, pady=5)
 
         # ------------------------------------------------
         # Network Setup
         frame_network = tk.LabelFrame(self,
                                     text="Network Setup", padx=5, pady=5)
         frame_network.grid()
-        runSaveNetwork = tk.Button(frame_network,
+        run_save_network = tk.Button(frame_network,
                                   text=u'Save network Name',
                                   command=self.runNetwork)
-        runSaveNetwork.grid()
+        run_save_network.grid()
 
     # ------------------------------------------------
     # Event and Command
@@ -256,7 +257,7 @@ class UIBuildMap(tk.Tk):
 
     # --------------------  --------------------
     # This function call perforce and swarm to check out all file and build
-    # all level choiced
+    # all level choice
     def on_button_click(self):
         # Generate empty Data
         levels_rendering = []
