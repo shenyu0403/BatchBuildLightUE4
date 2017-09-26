@@ -35,9 +35,9 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         # Path Panel
         # Index >> 1
-        self.pushPathOpenUnreal.clicked.connect(lambda: self.openSave(1))
+        self.pushPathOpenUnreal.clicked.connect(lambda: self.open_save(1))
         self.lineEditUnreal.setText(ue4_path)
-        self.pushPathOpenProject.clicked.connect(lambda: self.openSave(2))
+        self.pushPathOpenProject.clicked.connect(lambda: self.open_save(2))
         self.lineEditProject.setText(ue4_project)
         self.pushPathDataLevels.clicked.connect(builds_tree_lvls)
 
@@ -46,7 +46,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         #   Restore Default
 
         #   Save
-        self.buttonBoxPath.button(btn.Save).clicked.connect(self.tabSave)
+        self.buttonBoxPath.button(btn.Save).clicked.connect(self.tab_save)
 
         #   Close Event
         self.buttonBoxOptions.button(btn.Cancel).clicked.connect(self.close)
@@ -54,7 +54,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.buttonBoxNetwork.button(btn.Cancel).clicked.connect(self.close)
         self.buttonBoxCSV.button(btn.Cancel).clicked.connect(self.close)
 
-    def openSave(self, state):
+    def open_save(self, state):
         if state == 1:
             file_description = 'Open the UE4 Editor'
             file_select = 'UE4Editor.exe'
@@ -75,7 +75,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             file_description,
             filter=file_select)
 
-    def tabSave(self):
+    def tab_save(self):
         editor = self.lineEditUnreal.text()
         project = self.lineEditProject.text()
 
@@ -157,7 +157,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                             it_master[folder].appendRow(it_child[key])
 
     @staticmethod
-    def generate_final_tree(self):
+    def generate_final_tree():
         print('Add number >> ')
 
         lvl_final = {}
@@ -180,7 +180,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Triggered Menu
         #     File Menu
-        self.actionLast_project.triggered.connect(self.openSave)
+        self.actionLast_project.triggered.connect(self.open_save)
         self.actionExit.triggered.connect(self.closeEvent)
 
         #    Setup and Option Menu
@@ -207,7 +207,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushToolsBuils.clicked.connect(self.buildLevel)
 
     # File Menu
-    def openSave(self, state):
+    def open_save(self, state):
         if state == 1:
             self.str_debug = 'First Value'
             self.file_setup = filter="Project (*.blight)"
