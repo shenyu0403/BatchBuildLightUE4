@@ -1,39 +1,41 @@
-base_sql = 'projects.db'
-
-# All Data Base
-project_id = 1
-path = {
-    'Unreal Editor': 'path',
-    'Project File': 'path'
-}
-
-all_levels = {
-    'Levels 01': ('path', True, True),
-}
-
-project = nametuple('Project ID', ('Path ID', 'Levels'))
-
-
 from PyQt5 import QtCore
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
 from collections import namedtuple, OrderedDict
 import os
 
-class ModeleTableProject(QtCore.QAbstractTableModel):
+
+# # All Data Base
+# project_id = 1
+# path = {
+#     'Unreal Editor': 'path',
+#     'Project File': 'path'
+# }
+#
+# all_levels = {
+#     'Levels 01': ('path', True, True),
+# }
+#
+# project = namedtuple('Project ID', ('Path ID', 'Levels'))
+
+
+class TableProgram(QtCore.QAbstractTableModel):
+    base_sql = 'projects.db'
+
     def __init__(self):
-        super(ModeleTableProject, self).__init__()
-        BD_Exist = os.path.exists(base_sql)
+        super(TableProgram, self).__init__()
+        bd_exist = os.path.exists(self.base_sql)
 
         bd = QSqlDatabase.addDatabase('QSQLITE')
-        bd.setDatabaseName(base_sql)
+        bd.setDatabaseName(self.base_sql)
         bd.open()
 
-        if not BD_Exist:
-            self.createDB()
+        if not bd_exist:
+            self.create_data()
 
-        self.readDB()
+        self.read_data()
 
-    def createDB(self):
+    @staticmethod
+    def create_data():
             QSqlQuery(''' CREATE TABLE  projects (
                             project_id  INTEGER PRIMARY KEY
                             paths_id    INTEGER
@@ -52,21 +54,17 @@ class ModeleTableProject(QtCore.QAbstractTableModel):
                             path        TEXT)
             ''')
 
-    def readDB(self):
-        query = QSqlQuery(''' SELECT levels_id, name
-                            FROM levels
-                            ORDER BY levels_id ''')
-        self.idByLevels = OrderedDict()
-        while query.next():
-            self.idByLevels[query.value(1)] = query.value(0)
+            msg_def = 'Create a news base data'
 
-        query = QSqlQuery(''' SELECT project_id, paths_id, levels_id
-                            FROM projects ''')
+            return msg_def
 
-        self.project = []
-        while query.next():
-            livre = Livre(*(query.value(i) for i in range(8)))
-            self.project.append(livre)
+    def read_data(self):
+        msg_func = 'Read Data from the base data'
 
-    def genre(self):
-        return self.idByLevels.keys()
+        return msg_func
+
+    @staticmethod
+    def add_data():
+        msg_func = 'Add Data inside the BD'
+
+        return msg_func

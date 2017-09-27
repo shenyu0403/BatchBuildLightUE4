@@ -6,6 +6,7 @@ from PyQt5 import QtWidgets, QtGui
 from BatchLightUE4.Controllers.TreeLevels import builds_tree_lvls
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
 from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
+from BatchLightUE4.Models.projects import TableProgram
 
 
 class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
@@ -87,6 +88,11 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         json_path = os.path.abspath("BatchLightUE4/Models/setup_path.json")
         with open(json_path, 'w') as f:
             json.dump(path_dict, f, indent=4)
+
+        data_base = TableProgram
+        data_base.setTable(project)
+        print('Data save')
+        print(data_base)
 
         SetupTab.close(self)
 
