@@ -10,7 +10,7 @@ import perforce
 from ..Models.DB import levels_dict, paths_dict
 from ..Controllers.Logs import log_save
 from ..Controllers.Network import SaveNetworkName
-from ..Controllers.Perfoce import perforce_checkout
+from ..Controllers.Perfoce import perforce_checkout, perforce_submit
 from ..Controllers.Swarm import build, swarm_setup
 
 
@@ -31,6 +31,7 @@ class UIBuildMap(tk.Tk):
             self.value_check.append(i)
 
         self.value_swarm = tk.BooleanVar(self, '0')
+        self.value_submit = tk.BooleanVar(self, '0')
 
         # Define Icon
         self.icon_log = 'BatchLightUE4/Resources/log.gif'
@@ -124,6 +125,12 @@ class UIBuildMap(tk.Tk):
                                    variable=self.value_swarm,
                                    anchor='w',)
         swarm_btn.grid(column=1, row=3, sticky='EW')
+
+        submit_btn = tk.Checkbutton(self,
+                                   text="Submit",
+                                   variable=self.value_submit,
+                                   anchor='w',)
+        submit_btn.grid(column=1, row=4, sticky='EW')
 
         # ------------------------------------------------
         # Setup path
@@ -288,7 +295,7 @@ class UIBuildMap(tk.Tk):
         #   - Check if the Swarm need to be relaunch with a special setup
         #   - Checkout the level we want build
         #   - Now we can build the level
-        #   - New Loop and retarst to the Checkout loop.
+        #   - New Loop and restart to the Checkout loop.
         if msg.askyesno('Launch Build', 'Built your level(s) ?'):
             # os.system('powercfg -h off')
             # print(os.system('powercfg -h off'))
@@ -300,8 +307,13 @@ class UIBuildMap(tk.Tk):
                 lvl_name = level[0]
                 print("Build Level >> ", lvl_name)
 
-                perforce_checkout(level_build)
+                cl = perforce_checkout(level_build)
                 build(level_build)
+
+                print(self.value_submit.get())
+                if self.value_submit is True:
+                    perforce_submit(cl)
+
                 log_save(level_build)
 
         levels_rendering.clear()
