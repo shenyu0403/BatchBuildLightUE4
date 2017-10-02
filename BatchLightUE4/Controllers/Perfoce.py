@@ -50,8 +50,12 @@ def perforce_checkout(level_used):
 
     revisions.clear()
 
+    return cl
 
-def perforce_submit():
-    msg = 'Level(s) submit.'
 
-    return msg
+def perforce_submit(cl):
+    p4 = perforce.connect()
+
+    cl.submit()
+
+    return cl
