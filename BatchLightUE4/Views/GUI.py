@@ -26,6 +26,7 @@ class UIBuildMap(tk.Tk):
         self.buttons = {}
         self.value_check = [0]
         self.check_state = tk.NORMAL
+
         for i in levels_dict.keys():
             self.value_check.append(i)
 
@@ -166,7 +167,7 @@ class UIBuildMap(tk.Tk):
                                     image=self.icon_log,
                                     text=u'Open log folder',
                                     compound=tk.LEFT,
-                                    command=self.LogOpenFolder)
+                                    command=self.log_open_folder)
         log_open_folder.grid(column=0, row=5, sticky='EW', padx=5, pady=5)
 
         self.icon_trash = tk.PhotoImage(file=self.icon_trash)
@@ -174,7 +175,7 @@ class UIBuildMap(tk.Tk):
                               image=self.icon_trash,
                               text='Clean Log',
                               compound=tk.LEFT,
-                              command=self.LogCleanFolder)
+                              command=self.log_clean_folder)
         log_trash.grid(column=1, row=5, sticky='EW', padx=5, pady=5)
 
         # ------------------------------------------------
@@ -184,7 +185,7 @@ class UIBuildMap(tk.Tk):
         frame_network.grid()
         run_save_network = tk.Button(frame_network,
                                      text=u'Save network Name',
-                                     command=self.runNetwork)
+                                     command=self.run_network)
         run_save_network.grid()
 
     # ------------------------------------------------
@@ -224,14 +225,14 @@ class UIBuildMap(tk.Tk):
 
     # ------------------------------------------------
     # All log option, open folder and delete file
-    def LogOpenFolder(self):
+    def log_open_folder(self):
         path_log = sys.path[0] + '\\Logs\\'
         os.system("explorer " + path_log)
 
         text = "Log Folder"
         self.labelVariable.set(text)
 
-    def LogCleanFolder(self):
+    def log_clean_folder(self):
         text = "Delete Log Folder"
         self.labelVariable.set(text)
 
@@ -247,13 +248,15 @@ class UIBuildMap(tk.Tk):
 
     # ------------------------------------------------
     # Menu command
-    def runNetwork(self):
+    @staticmethod
+    def run_network():
         print('Hello World')
 
         SaveNetworkName()
 
-    def exit(self):
-        print('Tchuss')
+    @staticmethod
+    def exit():
+        print('Bye')
 
         # exit(self)
 
@@ -280,7 +283,7 @@ class UIBuildMap(tk.Tk):
         # --------------------  --------------------
         # Windows to launch the calculation process, simple loop to launch
         # all process, one after one :
-        #   - Fisrt step disable -temporarily- the hibernate mode with a
+        #   - First step disable -temporarily- the hibernate mode with a
         # simple windows command.
         #   - Check if the Swarm need to be relaunch with a special setup
         #   - Checkout the level we want build
@@ -301,7 +304,6 @@ class UIBuildMap(tk.Tk):
                 build(level_build)
                 log_save(level_build)
 
-        levels_rendering = []
+        levels_rendering.clear()
         swarm_setup(False)
         print("All levels selected are rendering and checkout")
-
