@@ -49,3 +49,9 @@ def perforce_checkout(level_used):
         cl.append(revisions[i])
 
     revisions.clear()
+
+
+def perforce_submit():
+    msg = 'Level(s) submit.'
+
+    return msg

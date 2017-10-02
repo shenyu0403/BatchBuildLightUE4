@@ -30,6 +30,11 @@ class UIBuildMap(tk.Tk):
             self.value_check.append(i)
 
         self.value_swarm = tk.BooleanVar(self, '0')
+
+        # Define Icon
+        self.icon_log = 'BatchLightUE4/Resources/log.gif'
+        self.icon_trash = 'BatchLightUE4/Resources/trash.gif'
+
         self.initialize()
 
     def initialize(self):
@@ -43,11 +48,11 @@ class UIBuildMap(tk.Tk):
         if os.path.isfile(path_icon) is not False:
             self.iconbitmap(path_icon)
 
-        tk.Button(self, text=u'Select All', command=self.select_all).grid(
+        tk.Button(self, text=u'Selected All', command=self.select_all).grid(
             column=0, row=0, padx=5, pady=5, sticky='EW')
-        tk.Button(self, text=u'Unselect All',
-                  command=self.UnSelectAll).grid(column=1, row=0, padx=5,
-                                                 pady=5, sticky='EW')
+        tk.Button(self, text=u'Unselected All',
+                  command=self.unselected_all).grid(column=1, row=0, padx=5,
+                                                    pady=5, sticky='EW')
 
         frame_lvl = tk.LabelFrame(self,
                                   text="All Levels",
@@ -134,7 +139,7 @@ class UIBuildMap(tk.Tk):
         ue_4_path.grid(column=0, row=1, sticky='EW', padx=5, pady=5)
         ue_4_btn = tk.Button(frame_setup,
                              text=u'UE4Editor.exe',
-                             command=lambda: self.OpenFilExe(ue4_path_text, 1))
+                             command=lambda: self.open_file(ue4_path_text, 1))
         ue_4_btn.grid(column=1, row=1, sticky='EW', padx=5, pady=5)
 
         text = paths_dict["UE4 Project"]
@@ -144,7 +149,7 @@ class UIBuildMap(tk.Tk):
         project_path.grid(column=0, row=2, sticky='EW', padx=5, pady=5)
         project_btn = tk.Button(frame_setup,
                                 text=u'Uproject',
-                                command=lambda: self.OpenFilExe(
+                                command=lambda: self.open_file(
                                    ue4_project_text,
                                    2))
         project_btn.grid(column=1, row=2, sticky='EW', padx=5, pady=5)
@@ -156,18 +161,17 @@ class UIBuildMap(tk.Tk):
                                   padx=5,
                                   pady=5)
         frame_log.grid(columnspan=2)
-        icon_log = tk.PhotoImage(file='BatchLightUE4/Resources/log.gif')
+        self.icon_log = tk.PhotoImage(file='BatchLightUE4/Resources/log.gif')
         log_open_folder = tk.Button(frame_log,
-                                    image=icon_log,
+                                    image=self.icon_log,
                                     text=u'Open log folder',
                                     compound=tk.LEFT,
                                     command=self.LogOpenFolder)
         log_open_folder.grid(column=0, row=5, sticky='EW', padx=5, pady=5)
 
-        icon_trash = tk.PhotoImage(
-            file='BatchLightUE4/Resources/trash.gif')
+        self.icon_trash = tk.PhotoImage(file=self.icon_trash)
         log_trash = tk.Button(frame_log,
-                              image=icon_trash,
+                              image=self.icon_trash,
                               text='Clean Log',
                               compound=tk.LEFT,
                               command=self.LogCleanFolder)
@@ -194,20 +198,21 @@ class UIBuildMap(tk.Tk):
 
         self.labelVariable.set("Select all Levels")
 
-    def UnSelectAll(self):
+    def unselected_all(self):
         for cle in self.buttons.keys():
             self.buttons[cle].deselect()
         self.labelVariable.set("Clear list selection")
 
-    def OpenFilExe(self, variable, id):
+    @staticmethod
+    def open_file(variable, id_dict):
         # textfield = variable.get()
         textfield = tkfile.askopenfilename()
 
-        if id == 1:
+        if id_dict == 1:
             paths_dict["UE4 Editor"] = textfield
-        elif id == 2:
+        elif id_dict == 2:
             paths_dict["UE4 Project"] = textfield
-        elif id == 3:
+        elif id_dict == 3:
             paths_dict["Swarm"] = textfield
 
         variable.set(textfield)
