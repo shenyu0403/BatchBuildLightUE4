@@ -24,9 +24,10 @@ class UIBuildMap(tk.Tk):
         self.env_names = levels_dict
         self.labelVariable = tk.StringVar()
         self.buttons = {}
-        self.value_checkbox = [0]
+        self.value_check = [0]
+        self.check_state = tk.NORMAL
         for i in levels_dict.keys():
-            self.value_checkbox.append(i)
+            self.value_check.append(i)
 
         self.value_swarm = tk.BooleanVar(self, '0')
         self.initialize()
@@ -38,11 +39,11 @@ class UIBuildMap(tk.Tk):
         # BatchBuild Program
 
         path_icon = os.path.abspath(
-            "BatchLightUE4/Ressources/BlackSheep.ico")
+            "BatchLightUE4/Resources/BlackSheep.ico")
         if os.path.isfile(path_icon) is not False:
             self.iconbitmap(path_icon)
 
-        tk.Button(self, text=u'Select All', command=self.SelectAll).grid(
+        tk.Button(self, text=u'Select All', command=self.select_all).grid(
             column=0, row=0, padx=5, pady=5, sticky='EW')
         tk.Button(self, text=u'Unselect All',
                   command=self.UnSelectAll).grid(column=1, row=0, padx=5,
@@ -73,16 +74,14 @@ class UIBuildMap(tk.Tk):
                 filename = lvl_root + lvl_name + '/' + lvl_end + '.umap'
             filename = perforce.Revision(p4, filename)
 
-            self.check_state = tk.NORMAL
-
             if filename.openedBy == str(1):
                 self.check_state = tk.DISABLED
 
             # ---------- Generate a checkbox Widget
-            self.value_checkbox[cle] = tk.BooleanVar(self, '0')
+            self.value_check[cle] = tk.BooleanVar(self, '0')
             self.buttons[cle] = tk.Checkbutton(frame_lvl,
                                                text=level,
-                                               variable=self.value_checkbox[cle],
+                                               variable=self.value_check[cle],
                                                anchor='w',
                                                state=self.check_state)
             self.buttons[cle].grid(columnspan=2, sticky='EW')
@@ -114,11 +113,11 @@ class UIBuildMap(tk.Tk):
                                                      padx=5,
                                                      pady=5, )
 
-        self.swarmBTN = tk.Checkbutton(self,
-                                       text="All",
-                                       variable=self.value_swarm,
-                                       anchor='w',)
-        self.swarmBTN.grid(column=1,row=3, sticky='EW')
+        swarm_btn = tk.Checkbutton(self,
+                                   text="All",
+                                   variable=self.value_swarm,
+                                   anchor='w',)
+        swarm_btn.grid(column=1, row=3, sticky='EW')
 
         # ------------------------------------------------
         # Setup path
@@ -129,66 +128,64 @@ class UIBuildMap(tk.Tk):
         frame_setup.grid(columnspan=2)
 
         text = paths_dict["UE4 Editor"]
-        self.UE4Path_text = tk.StringVar(self, value=text)
+        ue4_path_text = tk.StringVar(self, value=text)
         ue_4_path = tk.Entry(frame_setup,
-                             textvariable=self.UE4Path_text)
+                             textvariable=ue4_path_text)
         ue_4_path.grid(column=0, row=1, sticky='EW', padx=5, pady=5)
         ue_4_btn = tk.Button(frame_setup,
                              text=u'UE4Editor.exe',
-                             command=lambda: self.OpenFilExe(
-                               self.UE4Path_text,
-                               1))
+                             command=lambda: self.OpenFilExe(ue4_path_text, 1))
         ue_4_btn.grid(column=1, row=1, sticky='EW', padx=5, pady=5)
 
         text = paths_dict["UE4 Project"]
-        self.UE4Project_text = tk.StringVar(self, value=text)
+        ue4_project_text = tk.StringVar(self, value=text)
         project_path = tk.Entry(frame_setup,
-                                textvariable=self.UE4Project_text,)
+                                textvariable=ue4_project_text,)
         project_path.grid(column=0, row=2, sticky='EW', padx=5, pady=5)
         project_btn = tk.Button(frame_setup,
                                 text=u'Uproject',
                                 command=lambda: self.OpenFilExe(
-                                   self.UE4Project_text,
+                                   ue4_project_text,
                                    2))
         project_btn.grid(column=1, row=2, sticky='EW', padx=5, pady=5)
 
         # ------------------------------------------------
         # Log options
         frame_log = tk.LabelFrame(self,
-                                    text="Log Options",
-                                    padx=5,
-                                    pady=5)
+                                  text="Log Options",
+                                  padx=5,
+                                  pady=5)
         frame_log.grid(columnspan=2)
-        self.icon_log = tk.PhotoImage(file='BatchLightUE4/Ressources/log.gif')
-        LogOpenFolder = tk.Button(frame_log,
-                                  image=self.icon_log,
-                                  text=u'Open log folder',
-                                  compound=tk.LEFT,
-                                  command=self.LogOpenFolder)
-        LogOpenFolder.grid(column=0, row=5, sticky='EW', padx=5, pady=5)
+        icon_log = tk.PhotoImage(file='BatchLightUE4/Resources/log.gif')
+        log_open_folder = tk.Button(frame_log,
+                                    image=icon_log,
+                                    text=u'Open log folder',
+                                    compound=tk.LEFT,
+                                    command=self.LogOpenFolder)
+        log_open_folder.grid(column=0, row=5, sticky='EW', padx=5, pady=5)
 
-        self.icon_trash = tk.PhotoImage(
-            file='BatchLightUE4/Ressources/trash.gif')
+        icon_trash = tk.PhotoImage(
+            file='BatchLightUE4/Resources/trash.gif')
         log_trash = tk.Button(frame_log,
-                             image=self.icon_trash,
-                             text='Clean Log',
-                             compound=tk.LEFT,
-                             command=self.LogCleanFolder)
+                              image=icon_trash,
+                              text='Clean Log',
+                              compound=tk.LEFT,
+                              command=self.LogCleanFolder)
         log_trash.grid(column=1, row=5, sticky='EW', padx=5, pady=5)
 
         # ------------------------------------------------
         # Network Setup
         frame_network = tk.LabelFrame(self,
-                                    text="Network Setup", padx=5, pady=5)
+                                      text="Network Setup", padx=5, pady=5)
         frame_network.grid()
         run_save_network = tk.Button(frame_network,
-                                  text=u'Save network Name',
-                                  command=self.runNetwork)
+                                     text=u'Save network Name',
+                                     command=self.runNetwork)
         run_save_network.grid()
 
     # ------------------------------------------------
     # Event and Command
-    def SelectAll(self):
+    def select_all(self):
         for cle in self.buttons.keys():
             dict_state = self.buttons[cle].config('state')
             if dict_state[4] == 'normal':
@@ -264,7 +261,7 @@ class UIBuildMap(tk.Tk):
         text = ""
 
         for key, value in self.buttons.items():
-            check = self.value_checkbox[key].get()
+            check = self.value_check[key].get()
             if check is True:
                 levels_rendering.append(key)
                 nbr = len(levels_rendering)
