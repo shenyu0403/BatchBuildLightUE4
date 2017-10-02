@@ -289,7 +289,7 @@ class UIBuildMap(tk.Tk):
         #   - Checkout the level we want build
         #   - Now we can build the level
         #   - New Loop and retarst to the Checkout loop.
-        if msg.askyesno('Launch Build', 'Lancement du calcul ?'):
+        if msg.askyesno('Launch Build', 'Built your level(s) ?'):
             # os.system('powercfg -h off')
             # print(os.system('powercfg -h off'))
 
