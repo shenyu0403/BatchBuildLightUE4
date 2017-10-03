@@ -49,3 +49,13 @@ def perforce_checkout(level_used):
         cl.append(revisions[i])
 
     revisions.clear()
+
+    return cl
+
+
+def perforce_submit(cl):
+    p4 = perforce.connect()
+
+    cl.submit()
+
+    return cl
