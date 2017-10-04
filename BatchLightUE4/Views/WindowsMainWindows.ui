@@ -82,12 +82,12 @@
             </spacer>
            </item>
            <item>
-            <widget class="QToolButton" name="toolLevelsEdit">
+            <widget class="QPushButton" name="toolLevelsEdit">
              <property name="statusTip">
               <string>Edit your levels choice</string>
              </property>
              <property name="text">
-              <string>...</string>
+              <string>Edit Settings</string>
              </property>
              <property name="icon">
               <iconset>
