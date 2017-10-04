@@ -54,8 +54,7 @@ def perforce_checkout(level_used):
 
 
 def perforce_submit(cl):
-    p4 = perforce.connect()
+    # p4 = perforce.connect()
 
+    # changelist = perforce.models.Changelist(cl)
     cl.submit()
-
-    return cl
