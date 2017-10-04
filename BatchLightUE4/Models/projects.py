@@ -1,70 +1,55 @@
 from PyQt5 import QtCore
 from PyQt5.QtSql import QSqlDatabase, QSqlQuery
-from collections import namedtuple, OrderedDict
+
 import os
+import sqlite3
 
 
-# # All Data Base
-# project_id = 1
-# path = {
-#     'Unreal Editor': 'path',
-#     'Project File': 'path'
-# }
-#
-# all_levels = {
-#     'Levels 01': ('path', True, True),
-# }
-#
-# project = namedtuple('Project ID', ('Path ID', 'Levels'))
-
-
-class TableProgram(QtCore.QAbstractTableModel):
-    base_sql = 'projects.db'
+class TableProgram(object):
+    """Objects to work with the SQLite"""
 
     def __init__(self):
         super(TableProgram, self).__init__()
-        bd_exist = os.path.exists(self.base_sql)
+        self.base_sql = 'projects.db'
+        self.bd_exist = os.path.exists(self.base_sql)
 
-        bd = QSqlDatabase.addDatabase('QSQLITE')
-        bd.setDatabaseName(self.base_sql)
-        bd.open()
+        self.bd = sqlite3.connect(self.base_sql)
+        self.bd.cursor()
 
-        if not bd_exist:
+        if not self.bd_exist:
             self.create_data()
 
-        self.read_data()
+    def create_data(self):
+        self.bd.execute('''CREATE TABLE  projects(
+                id          INTEGER PRIMARY KEY,
+                project_id  INT,
+                paths_id    INT)''')
+
+        self.bd.execute('''CREATE TABLE  paths(
+                path_id     INTEGER PRIMARY KEY,
+                editor      TEXT,
+                project     TEXT)''')
+        self.bd.execute('''CREATE TABLE levels(
+                levels_id   INTEGER PRIMARY KEY,
+                name        TEXT,
+                path        TEXT)''')
+        self.bd.commit()
+        self.bd.close()
+
+        msg_def = 'Create a news base data'
+        print(msg_def)
 
     @staticmethod
-    def create_data():
-            QSqlQuery(''' CREATE TABLE  projects (
-                            project_id  INTEGER PRIMARY KEY
-                            paths_id    INTEGER
-                            levels_id   INTEGER)
-                            ''')
-
-            QSqlQuery(''' CREATE TABLE paths (
-                            path_id     INTERGER PRIMARY KEY
-                            editor      TEXT
-                            project     TEXT)
-                            ''')
-
-            QSqlQuery(''' CREATE TABLE levels (
-                            levels_id   INTEGER PRIMARY KEY
-                            name        TEXT
-                            path        TEXT)
-            ''')
-
-            msg_def = 'Create a news base data'
-
-            return msg_def
-
-    def read_data(self):
+    def read_data(table):
         msg_func = 'Read Data from the base data'
+        print(msg_func)
 
-        return msg_func
+    def write_data(self):
+        self.bd.execute('''INSERT INTO paths VALUES (2, 'editor', 
+        'project')''')
 
-    @staticmethod
-    def add_data():
-        msg_func = 'Add Data inside the BD'
+        self.bd.commit()
 
-        return msg_func
+        msg_func = 'Write a news Data inside a table'
+        print(msg_func)
+

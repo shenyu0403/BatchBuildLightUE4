@@ -80,19 +80,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         editor = self.lineEditUnreal.text()
         project = self.lineEditProject.text()
 
-        path_dict = {
-            "UE4 Editor": editor,
-            "UE4 Project": project,
-        }
-
-        json_path = os.path.abspath("BatchLightUE4/Models/setup_path.json")
-        with open(json_path, 'w') as f:
-            json.dump(path_dict, f, indent=4)
-
-        data_base = TableProgram
-        data_base.setTable(project)
-        print('Data save')
-        print(data_base)
+        table = 'paths'
+        TableProgram()
 
         SetupTab.close(self)
 
@@ -169,7 +158,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         lvl_final = {}
         lvl_final[0] = "path normalement"
 
-        json_path = os.path.abspath("BatchLightUE4/Models/lvls_tree_final.json")
+        json_path = os.path.abspath(
+            "BatchLightUE4/Models/lvls_tree_final.json")
         with open(json_path, 'w') as f:
             json.dump(lvl_final, f, indent=4)
 
@@ -190,14 +180,14 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.actionExit.triggered.connect(self.closeEvent)
 
         #    Setup and Option Menu
-        self.actionOptions.triggered.connect(self.editLevels)
-        self.actionPaths.triggered.connect(lambda: self.editLevels(1))
-        self.actionNetworks.triggered.connect(lambda: self.editLevels(2))
-        self.actionCSV.triggered.connect(lambda: self.editLevels(3))
+        self.actionOptions.triggered.connect(self.edit_levels)
+        self.actionPaths.triggered.connect(lambda: self.edit_levels(1))
+        self.actionNetworks.triggered.connect(lambda: self.edit_levels(2))
+        self.actionCSV.triggered.connect(lambda: self.edit_levels(3))
 
-        self.pushLevelsSelect.clicked.connect(lambda: self.selectLevel(True))
-        self.pushLevelsDeselect.clicked.connect(self.selectLevel)
-        self.toolLevelsEdit.clicked.connect(lambda: self.editLevels(0))
+        self.pushLevelsSelect.clicked.connect(lambda: self.select_level(True))
+        self.pushLevelsDeselect.clicked.connect(self.select_level)
+        self.toolLevelsEdit.clicked.connect(lambda: self.edit_levels(0))
 
         # CheckBox
         json_tree_lvl = os.path.abspath("BatchLightUE4/Models/lvls_tree.json")
@@ -210,7 +200,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.allLevelsCheck.addWidget(self.checkBoxLevels[key])
                 self.allLevelsCheck.contentsMargins()
 
-        self.pushToolsBuils.clicked.connect(self.buildLevel)
+        self.pushToolsBuils.clicked.connect(self.build_level)
 
     # File Menu
     def open_save(self, state):
@@ -230,12 +220,12 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             self.file_setup)
 
     # Events
-    def editLevels(self, id):
+    def edit_levels(self, id):
         self.dialog = SetupTab()
         self.dialog.show()
         self.dialog.setCurrentIndex(id)
 
-    def selectLevel(self, state):
+    def select_level(self, state):
         if state:
             print('Select all Level')
             boolean = True
@@ -251,8 +241,10 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             for key, path in data.items():
                 self.checkBoxLevels[key].setChecked(boolean)
 
-    def buildLevel(self):
-        print('Build Level')
+    def build_level(self):
+        print('Build your level(s).')
+
+        TableProgram().write_data()
 
     def closeEvent(self, event):
         confirmation = "Are your sur you want close this application ?"
