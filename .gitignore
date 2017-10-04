@@ -105,4 +105,7 @@ substancebridge_updater/
 # PyCharm folder and file
 /.idea/
 *.json
+*.db
+
 /BatchLightUE4/Controllers/Logs/
+/Logs/
