@@ -127,9 +127,9 @@ class UIBuildMap(tk.Tk):
         swarm_btn.grid(column=1, row=3, sticky='EW')
 
         submit_btn = tk.Checkbutton(self,
-                                   text="Submit",
-                                   variable=self.value_submit,
-                                   anchor='w',)
+                                    text="Submit",
+                                    variable=self.value_submit,
+                                    anchor='w',)
         submit_btn.grid(column=1, row=4, sticky='EW')
 
         # ------------------------------------------------
@@ -311,7 +311,8 @@ class UIBuildMap(tk.Tk):
                 build(level_build)
 
                 print(self.value_submit.get())
-                if self.value_submit is True:
+                if self.value_submit.get() is True:
+                    print('Submit this changelist')
                     perforce_submit(cl)
 
                 log_save(level_build)
