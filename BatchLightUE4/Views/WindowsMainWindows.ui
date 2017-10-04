@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>477</width>
-    <height>525</height>
+    <width>519</width>
+    <height>489</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -116,8 +116,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>415</width>
-                 <height>310</height>
+                 <width>457</width>
+                 <height>274</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -203,6 +203,16 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QCheckBox" name="checkBox">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Submit</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
         </layout>
@@ -276,7 +286,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>477</width>
+     <width>519</width>
      <height>21</height>
     </rect>
    </property>
