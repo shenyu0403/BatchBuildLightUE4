@@ -39,22 +39,31 @@ class TableProgram(object):
         msg_def = 'Create a news base data'
         print(msg_def)
 
-    @staticmethod
-    def read_data(table):
-        msg_func = 'Read Data from the base data'
-        print(msg_func)
-
     def write_data_path(self, editor, project):
         count_paths = self.bd.execute('''SELECT count(path_id) FROM paths''')
         count_paths = count_paths.fetchone()[0]
 
-        self.bd.execute('''UPDATE paths 
+        if count_paths == 0:
+            self.bd.execute('''INSERT INTO paths
+                            VALUES(?, ?, ?)''',
+                            (count_paths, editor, project))
+
+        else:
+            self.bd.execute('''UPDATE paths 
                             SET editor = ?, project = ? 
                             WHERE path_id = ?''',
-                        (editor, project, count_paths))
+                            (editor, project, count_paths))
 
         self.bd.commit()
 
-        msg_func = 'Write a news Data inside a table'
+        msg_func = 'Write a news Data Path'
         print(msg_func)
 
+    def write_data_levels(self):
+        msg_func = 'Write a news Data Levels'
+        print(msg_func)
+
+    @staticmethod
+    def read_data():
+        msg_func = 'Read Data from the base data'
+        print(msg_func)
