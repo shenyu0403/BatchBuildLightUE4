@@ -36,7 +36,7 @@ class TableProgram(object):
                 name        TEXT,
                 path        TEXT)''')
         self.bd.commit()
-        self.bd.close()
+        # self.bd.close()
 
         msg_def = 'Create a news base data'
         print(msg_def)
@@ -64,6 +64,7 @@ class TableProgram(object):
 
     def write_data_path(self, editor, project):
         id_project = 0
+        self.bd.cursor()
         count_paths = self.bd.execute('''SELECT count(path_id) FROM paths''')
         count_paths = count_paths.fetchone()[0]
 
