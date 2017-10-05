@@ -62,6 +62,19 @@ class TableProgram(object):
 
         return data
 
+    def select_levels(self, id_project):
+        """Select a Data path from a project used.
+        :id_project : The project working"""
+        request = self.bd.cursor()
+        request.execute('''SELECT * 
+                        FROM levels 
+                        WHERE project_id = ?''',
+                        (id_project, ))
+
+        data = request.fetchall()
+
+        return data
+
     def write_data_path(self, editor, project):
         id_project = 0
         self.bd.cursor()

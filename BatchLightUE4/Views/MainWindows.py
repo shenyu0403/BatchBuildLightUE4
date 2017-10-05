@@ -76,7 +76,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         elif state == 2:
             self.lineEditProject.setText(filename)
 
-
     def tab_save(self):
         editor = self.lineEditUnreal.text()
         project = self.lineEditProject.text()
@@ -191,15 +190,18 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.toolLevelsEdit.clicked.connect(lambda: self.edit_levels(0))
 
         # CheckBox
-        json_tree_lvl = os.path.abspath("BatchLightUE4/Models/lvls_tree.json")
-        if os.path.isfile(json_tree_lvl):
-            data = json.loads(open(json_tree_lvl).read())
-
-            for key, path in sorted(data.items()):
+        db_file = os.path.abspath("projects.db")
+        if os.path.isfile(db_file):
+            data = TableProgram().select_levels(0)
+            i = 1
+            while i < len(data):
+                key = data[i][2]
                 self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
                 self.checkBoxLevels[key].setObjectName(key)
                 self.allLevelsCheck.addWidget(self.checkBoxLevels[key])
                 self.allLevelsCheck.contentsMargins()
+
+                i = i + 1
 
         self.pushToolsBuils.clicked.connect(self.build_level)
 
