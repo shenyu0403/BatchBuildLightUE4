@@ -3,7 +3,6 @@ import os
 
 from PyQt5 import QtWidgets, QtGui
 
-from BatchLightUE4.Controllers.TreeLevels import builds_tree_lvls
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
 from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
 from BatchLightUE4.Models.projects import TableProgram
@@ -40,7 +39,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.lineEditUnreal.setText(ue4_path)
         self.pushPathOpenProject.clicked.connect(lambda: self.open_save(2))
         self.lineEditProject.setText(ue4_project)
-        self.pushPathDataLevels.clicked.connect(builds_tree_lvls)
 
         # Ribbon Default, Save and Cancel
         btn = QtWidgets.QDialogButtonBox
