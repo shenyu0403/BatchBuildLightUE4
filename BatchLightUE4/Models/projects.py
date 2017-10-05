@@ -44,9 +44,14 @@ class TableProgram(object):
         msg_func = 'Read Data from the base data'
         print(msg_func)
 
-    def write_data(self):
-        self.bd.execute('''INSERT INTO paths VALUES (2, 'editor', 
-        'project')''')
+    def write_data_path(self, editor, project):
+        count_paths = self.bd.execute('''SELECT count(path_id) FROM paths''')
+        count_paths = count_paths.fetchone()[0]
+
+        self.bd.execute('''UPDATE paths 
+                            SET editor = ?, project = ? 
+                            WHERE path_id = ?''',
+                        (editor, project, count_paths))
 
         self.bd.commit()
 

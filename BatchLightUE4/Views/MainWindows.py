@@ -81,7 +81,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         project = self.lineEditProject.text()
 
         table = 'paths'
-        TableProgram()
+        TableProgram().write_data_path(editor, project)
 
         SetupTab.close(self)
 
@@ -243,8 +243,6 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def build_level(self):
         print('Build your level(s).')
-
-        TableProgram().write_data()
 
     def closeEvent(self, event):
         confirmation = "Are your sur you want close this application ?"
