@@ -16,11 +16,11 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.setupUi(self)
         self.setWindowTitle('Tab Setup')
 
-        json_path = os.path.abspath("BatchLightUE4/Models/setup_path.json")
-        if os.path.isfile(json_path):
-            data = json.loads(open(json_path).read())
-            ue4_path = data['UE4 Editor']
-            ue4_project = data['UE4 Project']
+        db_file = os.path.abspath("projects.db")
+        if os.path.isfile(db_file):
+            data = TableProgram().select_path(0)
+            ue4_path = data[0][1]
+            ue4_project = data[0][2]
 
         else:
             ue4_path = ''
@@ -56,25 +56,28 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.buttonBoxCSV.button(btn.Cancel).clicked.connect(self.close)
 
     def open_save(self, state):
+        file_description = ''
+        file_select = ''
+
         if state == 1:
             file_description = 'Open the UE4 Editor'
             file_select = 'UE4Editor.exe'
-            field = self.lineEditUnreal.setText
 
         elif state == 2:
             file_description = 'Open a Unreal Project File'
             file_select = '*.uproject'
-            field = self.lineEditProject.setText
-
-        else:
-            file_description = 'Open a File'
-            file_select = ''
-            field = None
 
         (filename, filter) = QtWidgets.QFileDialog.getOpenFileName(
             self,
             file_description,
             filter=file_select)
+
+        if state == 1:
+            self.lineEditUnreal.setText(filename)
+
+        elif state == 2:
+            self.lineEditProject.setText(filename)
+
 
     def tab_save(self):
         editor = self.lineEditUnreal.text()
