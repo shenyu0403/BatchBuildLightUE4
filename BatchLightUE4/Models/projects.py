@@ -107,7 +107,6 @@ class TableProgram(object):
         for root, dirs, files in os.walk(path_project):
             for file in files:
                 if file.endswith('.umap'):
-                    print(os.path.join(root, file))
                     levels[file] = os.path.join(root, file)
 
                     cur = self.bd.cursor()

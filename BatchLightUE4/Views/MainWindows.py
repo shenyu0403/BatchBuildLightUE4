@@ -83,6 +83,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         TableProgram().write_data_path(editor, project)
         TableProgram().write_data_levels()
 
+        self.checkBoxLevels.update()
+
         SetupTab.close(self)
 
     def tree_generate(self):
