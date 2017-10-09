@@ -83,7 +83,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         TableProgram().write_data_path(editor, project)
         TableProgram().write_data_levels()
 
-        self.checkBoxLevels.update()
+        # MainWindows.self.checkBoxLevels.update()
 
         SetupTab.close(self)
 

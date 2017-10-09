@@ -22,8 +22,7 @@ class TableProgram(object):
     def create_all_tables(self):
         self.bd.execute('''CREATE TABLE  projects(
                 id          INTEGER PRIMARY KEY,
-                paths_id    INT,
-                levels_id   INT)''')
+                name        TEXT)''')
 
         self.bd.execute('''CREATE TABLE  paths(
                 path_id     INTEGER PRIMARY KEY,
