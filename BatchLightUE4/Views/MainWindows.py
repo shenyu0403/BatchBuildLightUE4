@@ -22,12 +22,12 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             ue4_project = data[0][2]
 
         else:
-            ue4_path = ''
-            ue4_project = ''
+            ue4_path = ue4_project = ''
 
         # Options Panel
         self.listLevels = self.treeViewLevels
-        self.algoTreeView.currentIndexChanged.connect(self.tree_generate)
+        self.tree_generate()
+        # self.algoTreeView.currentIndexChanged.connect(self.tree_generate)
 
         # listLevels = self.treeViewLevels
         # model = listLevels.model()
@@ -77,6 +77,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             self.lineEditProject.setText(filename)
 
     def tab_save(self):
+        # TODO Add an update with the master windows to show all selected
+        # levels
         editor = self.lineEditUnreal.text()
         project = self.lineEditProject.text()
 
@@ -88,12 +90,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         SetupTab.close(self)
 
     def tree_generate(self):
-        index = self.algoTreeView.currentIndex()
-
-        if index is None:
-            index = 0
-
-        print(index)
         model = QtGui.QStandardItemModel()
         model.setHorizontalHeaderLabels(['Master Levels', 'Sublevel'])
         self.listLevels.setModel(model)
@@ -102,56 +98,82 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         it_master = {}
         it_child = {}
 
-        json_tree_lvl = os.path.abspath("BatchLightUE4/Models/lvls_tree.json")
-        if os.path.isfile(json_tree_lvl):
-            data = json.loads(open(json_tree_lvl).read())
-            for key, path in sorted(data.items()):
-                folder = os.path.basename(os.path.dirname(path))
+        request = TableProgram().select_levels()
 
-                if index == 0:
-                    key = key.replace('.umap', '')
-                    if folder in key:
-                        # Create a master
-                        if it_master.get(folder) is None:
-                            it_master[folder] = QtGui.QStandardItem(folder)
-                            it_master[folder].setCheckable(True)
-                            model.appendRow(it_master[folder])
-                            it_child[key] = QtGui.QStandardItem(key)
-                            it_master[folder].appendRow(it_child[key])
-                        else:
-                            it_child[key] = QtGui.QStandardItem(key)
-                            it_master[folder].appendRow(it_child[key])
+        for level in request:
+            level_name = level[1]
+            level_path = level[2]
+            level_folder = os.path.basename(level[2])
+            # print(level_name, level_folder)
 
-                elif index == 1:
-                    if 'Master' in key:
-                        key = key.replace('.umap', '')
-                        key = key.replace('_', ' ')
-                        it_master[key] = QtGui.QStandardItem(key)
-                        it_master[key].setCheckable(True)
-                        model.appendRow(it_master[key])
+            level_name = level_name.replace('.umap', '')
+            if level_name in level_folder:
+                print('Folder Name > ', level_folder)
 
-                    else:
-                        it_child[key] = QtGui.QStandardItem(key)
-                        show_path = 'Master_' + folder + '.umap'
-                        if show_path in it_master:
-                            it_master[show_path].appendRow(it_child[key])
-                        else:
-                            print('Level exclude >> ', key)
+            else:
+                print('Non')
 
-                elif index == 2:
-                    key = key.replace('.umap', '')
-                    if 'Scenes' or 'Levels' in folder:
-                        folder = folder.replace('_', ' ')
+            # Si le nom du lvl est equal a son folder basename c'est ok
+            # if it_master.get(folder) is None:
+            #     it_master[folder] = QtGui.QStandardItem(folder)
+            #     it_master[folder].setCheckable(True)
+            #     model.appendRow(it_master[folder])
+            #     it_child[key] = QtGui.QStandardItem(key)
+            #     it_master[folder].appendRow(it_child[key])
+            # else:
+            #     it_child[key] = QtGui.QStandardItem(key)
+            #     it_master[folder].appendRow(it_child[key])
 
-                        if it_master.get(folder) is None:
-                            it_master[folder] = QtGui.QStandardItem(folder)
-                            it_master[folder].setCheckable(True)
-                            model.appendRow(it_master[folder])
-                            it_child[key] = QtGui.QStandardItem(key)
-                            it_master[folder].appendRow(it_child[key])
-                        else:
-                            it_child[key] = QtGui.QStandardItem(key)
-                            it_master[folder].appendRow(it_child[key])
+                # json_tree_lvl = os.path.abspath("BatchLightUE4/Models/lvls_tree.json")
+                # if os.path.isfile(json_tree_lvl):
+                #     data = json.loads(open(json_tree_lvl).read())
+                #     for key, path in sorted(data.items()):
+                #         folder = os.path.basename(os.path.dirname(path))
+                #
+                #         if index == 0:
+                #             key = key.replace('.umap', '')
+                #             if folder in key:
+                #                 # Create a master
+                #                 if it_master.get(folder) is None:
+                #                     it_master[folder] = QtGui.QStandardItem(folder)
+                #                     it_master[folder].setCheckable(True)
+                #                     model.appendRow(it_master[folder])
+                #                     it_child[key] = QtGui.QStandardItem(key)
+                #                     it_master[folder].appendRow(it_child[key])
+                #                 else:
+                #                     it_child[key] = QtGui.QStandardItem(key)
+                #                     it_master[folder].appendRow(it_child[key])
+                #
+                #         elif index == 1:
+                #             if 'Master' in key:
+                #                 key = key.replace('.umap', '')
+                #                 key = key.replace('_', ' ')
+                #                 it_master[key] = QtGui.QStandardItem(key)
+                #                 it_master[key].setCheckable(True)
+                #                 model.appendRow(it_master[key])
+                #
+                #             else:
+                #                 it_child[key] = QtGui.QStandardItem(key)
+                #                 show_path = 'Master_' + folder + '.umap'
+                #                 if show_path in it_master:
+                #                     it_master[show_path].appendRow(it_child[key])
+                #                 else:
+                #                     print('Level exclude >> ', key)
+                #
+                #         elif index == 2:
+                #             key = key.replace('.umap', '')
+                #             if 'Scenes' or 'Levels' in folder:
+                #                 folder = folder.replace('_', ' ')
+                #
+                #                 if it_master.get(folder) is None:
+                #                     it_master[folder] = QtGui.QStandardItem(folder)
+                #                     it_master[folder].setCheckable(True)
+                #                     model.appendRow(it_master[folder])
+                #                     it_child[key] = QtGui.QStandardItem(key)
+                #                     it_master[folder].appendRow(it_child[key])
+                #                 else:
+                #                     it_child[key] = QtGui.QStandardItem(key)
+                #                     it_master[folder].appendRow(it_child[key])
 
     @staticmethod
     def generate_final_tree():
@@ -194,10 +216,10 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         # CheckBox
         db_file = os.path.abspath("projects.db")
         if os.path.isfile(db_file):
-            data = TableProgram().select_levels(0)
+            data = TableProgram().select_levels()
             i = 1
             while i < len(data):
-                key = data[i][2]
+                key = data[i][1]
                 self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
                 self.checkBoxLevels[key].setObjectName(key)
                 self.allLevelsCheck.addWidget(self.checkBoxLevels[key])
