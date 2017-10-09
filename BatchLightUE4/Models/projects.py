@@ -1,6 +1,3 @@
-from PyQt5 import QtCore
-from PyQt5.QtSql import QSqlDatabase, QSqlQuery
-
 import os
 import sqlite3
 
@@ -27,13 +24,14 @@ class TableProgram(object):
         self.bd.execute('''CREATE TABLE  paths(
                 path_id     INTEGER PRIMARY KEY,
                 editor      TEXT,
-                project     TEXT)''')
+                project     TEXT,
+                scene       TEXT)''')
 
         self.bd.execute('''CREATE TABLE levels(
-                level_id   INTEGER PRIMARY KEY,
-                project_id   INTEGER,
+                level_id    INTEGER PRIMARY KEY,
                 name        TEXT,
-                path        TEXT)''')
+                path        TEXT,
+                state       INTEGER)''')
         self.bd.commit()
         # self.bd.close()
 
@@ -61,14 +59,12 @@ class TableProgram(object):
 
         return data
 
-    def select_levels(self, id_project):
+    def select_levels(self):
         """Select a Data path from a project used.
         :id_project : The project working"""
         request = self.bd.cursor()
         request.execute('''SELECT * 
-                        FROM levels 
-                        WHERE project_id = ?''',
-                        (id_project, ))
+                        FROM levels''')
 
         data = request.fetchall()
 
@@ -110,9 +106,9 @@ class TableProgram(object):
 
                     cur = self.bd.cursor()
                     cur.execute('''
-                    INSERT INTO levels(project_id, name, path) 
+                    INSERT INTO levels(name, path, state) 
                     VALUES (?, ?, ?)''',
-                                (id_project, file, root))
+                                (file, root, 0))
 
         # INSERT INTO COMPANY VALUES(7, 'James', 24, 'Houston', 10000.00)
         self.bd.commit()
