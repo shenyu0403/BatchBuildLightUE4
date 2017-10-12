@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.filedialog as tkfile
 import tkinter.messagebox as msg
+import tkinter.tix
 
 import os
 import sys
@@ -80,9 +81,13 @@ class UIBuildMap(tk.Tk):
             if lvl_name == 'CharacterCreator':
                 filename = lvl_root + lvl_name + '/' + lvl_end + '.umap'
             filename = perforce.Revision(p4, filename)
+            other_use = filename._p4dict
 
             if filename.openedBy == str(1):
                 self.check_state = tk.DISABLED
+
+            else:
+                self.check_state = tk.NORMAL
 
             # ---------- Generate a checkbox Widget
             self.value_check[cle] = tk.BooleanVar(self, '0')
@@ -92,6 +97,13 @@ class UIBuildMap(tk.Tk):
                                                anchor='w',
                                                state=self.check_state)
             self.buttons[cle].grid(columnspan=2, sticky='EW')
+
+            state_level = other_use.get('otherOpen')
+            print(state_level)
+            # if state_level is not None:
+            #     bubble_msg = other_use.get('otherOpen0')
+            #     bubble = tk.tix.Balloon
+            #     bubble.bind_widget(widget=self.buttons[cle], msg='test')
 
             if level[0] == 'GYM02':
                 tk.Label(frame_lvl, text='---- Stadium', anchor='w').grid(
@@ -120,11 +132,14 @@ class UIBuildMap(tk.Tk):
                                                      padx=5,
                                                      pady=5, )
 
-        swarm_btn = tk.Checkbutton(self,
+        self.swarm_btn = tk.Checkbutton(self,
                                    text="All",
                                    variable=self.value_swarm,
                                    anchor='w',)
-        swarm_btn.grid(column=1, row=3, sticky='EW')
+        self.swarm_btn.grid(column=1, row=3, sticky='EW')
+
+        # self.bubble = tk.tix.Balloon()
+        # self.bubble.bind_widget(self.swarm_btn, msg='test')
 
         submit_btn = tk.Checkbutton(self,
                                     text="Submit",
