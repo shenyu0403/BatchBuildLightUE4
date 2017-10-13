@@ -1,7 +1,6 @@
 import tkinter as tk
 import tkinter.filedialog as tkfile
 import tkinter.messagebox as msg
-import tkinter.tix
 
 import os
 import sys
@@ -99,7 +98,6 @@ class UIBuildMap(tk.Tk):
             self.buttons[cle].grid(columnspan=2, sticky='EW')
 
             state_level = other_use.get('otherOpen')
-            print(state_level)
             # if state_level is not None:
             #     bubble_msg = other_use.get('otherOpen0')
             #     bubble = tk.tix.Balloon
@@ -132,14 +130,11 @@ class UIBuildMap(tk.Tk):
                                                      padx=5,
                                                      pady=5, )
 
-        self.swarm_btn = tk.Checkbutton(self,
+        swarm_btn = tk.Checkbutton(self,
                                    text="All",
                                    variable=self.value_swarm,
                                    anchor='w',)
-        self.swarm_btn.grid(column=1, row=3, sticky='EW')
-
-        # self.bubble = tk.tix.Balloon()
-        # self.bubble.bind_widget(self.swarm_btn, msg='test')
+        swarm_btn.grid(column=1, row=3, sticky='EW')
 
         submit_btn = tk.Checkbutton(self,
                                     text="Submit",
