@@ -24,6 +24,7 @@ class UIBuildMap(tk.Tk):
         self.env_names = levels_dict
         self.labelVariable = tk.StringVar()
         self.buttons = {}
+        self.tooltips = {}
         self.value_check = [0]
         self.check_state = tk.NORMAL
 
@@ -82,6 +83,18 @@ class UIBuildMap(tk.Tk):
             filename = perforce.Revision(p4, filename)
             other_use = filename._p4dict
 
+            state_level = other_use.get('otherOpen')
+            msg_lvl = 'Level Checkout by : '
+            i = 1
+            if state_level is not None:
+                bubble_msg = other_use.get('otherOpen0')
+                msg_lvl = msg_lvl + bubble_msg
+                self.tooltips[i] = tk.Label(frame_lvl,
+                                            text=msg_lvl,
+                                            anchor='w',
+                                            state=tk.DISABLED)
+                self.tooltips[i].grid(columnspan=2, sticky='EW')
+
             if filename.openedBy == str(1):
                 self.check_state = tk.DISABLED
 
@@ -96,12 +109,6 @@ class UIBuildMap(tk.Tk):
                                                anchor='w',
                                                state=self.check_state)
             self.buttons[cle].grid(columnspan=2, sticky='EW')
-
-            state_level = other_use.get('otherOpen')
-            # if state_level is not None:
-            #     bubble_msg = other_use.get('otherOpen0')
-            #     bubble = tk.tix.Balloon
-            #     bubble.bind_widget(widget=self.buttons[cle], msg='test')
 
             if level[0] == 'GYM02':
                 tk.Label(frame_lvl, text='---- Stadium', anchor='w').grid(
