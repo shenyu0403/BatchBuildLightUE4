@@ -114,14 +114,14 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLineEdit" name="lineEdit_3">
+        <widget class="QLineEdit" name="lineEditUnreal">
          <property name="placeholderText">
           <string>UE4Editor.exe</string>
          </property>
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="pushPathOpenUnreal">
          <property name="text">
           <string>Open File</string>
          </property>
@@ -138,14 +138,14 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLineEdit" name="lineEdit_4">
+        <widget class="QLineEdit" name="lineEditProject">
          <property name="placeholderText">
           <string>Name.uproject</string>
          </property>
         </widget>
        </item>
        <item row="1" column="2">
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="pushPathOpenProject">
          <property name="text">
           <string>Open File</string>
          </property>
@@ -162,7 +162,7 @@
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QLineEdit" name="lineEdit_5"/>
+        <widget class="QLineEdit" name="lineEditSubfolder"/>
        </item>
       </layout>
      </widget>
@@ -183,7 +183,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QTreeView" name="treeView"/>
+          <widget class="QTreeView" name="treeViewLevels"/>
          </item>
         </layout>
        </item>
@@ -202,7 +202,7 @@
      </widget>
     </item>
     <item row="5" column="0">
-     <widget class="QDialogButtonBox" name="buttonBox">
+     <widget class="QDialogButtonBox" name="buttonBoxProjects">
       <property name="standardButtons">
        <set>QDialogButtonBox::Cancel|QDialogButtonBox::RestoreDefaults|QDialogButtonBox::Save</set>
       </property>

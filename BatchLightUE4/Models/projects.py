@@ -70,22 +70,23 @@ class TableProgram(object):
 
         return data
 
-    def write_data_path(self, editor, project):
+    def write_data_path(self, editor, project, scene):
         id_project = 0
         self.bd.cursor()
         count_paths = self.bd.execute('''SELECT count(path_id) FROM paths''')
         count_paths = count_paths.fetchone()[0]
 
         if count_paths == 0:
-            self.bd.execute('''INSERT INTO paths
-                            VALUES(?, ?, ?)''',
-                            (count_paths, editor, project))
+            self.bd.execute('''INSERT INTO paths SET editor = ?, project = ?,
+             scene = ? 
+                            VALUES(?, ?, ?, ?)''',
+                            (count_paths, editor, project, scene))
 
         else:
             self.bd.execute('''UPDATE paths 
-                            SET editor = ?, project = ? 
+                            SET editor = ?, project = ?, scene = ? 
                             WHERE path_id = ?''',
-                            (editor, project, count_paths))
+                            (editor, project, scene, id_project))
 
         self.bd.commit()
 

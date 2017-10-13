@@ -20,13 +20,15 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             data = TableProgram().select_path(0)
             ue4_path = data[0][1]
             ue4_project = data[0][2]
+            scene = data[0][3]
 
         else:
-            ue4_path = ue4_project = ''
+            ue4_path = ue4_project = scene = ''
 
         # Options Panel
         self.listLevels = self.treeViewLevels
         self.tree_generate()
+
         # self.algoTreeView.currentIndexChanged.connect(self.tree_generate)
 
         # listLevels = self.treeViewLevels
@@ -39,17 +41,17 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.lineEditUnreal.setText(ue4_path)
         self.pushPathOpenProject.clicked.connect(lambda: self.open_save(2))
         self.lineEditProject.setText(ue4_project)
+        self.lineEditSubfolder.setText(scene)
 
         # Ribbon Default, Save and Cancel
         btn = QtWidgets.QDialogButtonBox
         #   Restore Default
 
         #   Save
-        self.buttonBoxPath.button(btn.Save).clicked.connect(self.tab_save)
+        self.buttonBoxProjects.button(btn.Save).clicked.connect(self.tab_save)
 
         #   Close Event
-        self.buttonBoxOptions.button(btn.Cancel).clicked.connect(self.close)
-        self.buttonBoxPath.button(btn.Cancel).clicked.connect(self.close)
+        self.buttonBoxProjects.button(btn.Cancel).clicked.connect(self.close)
         self.buttonBoxNetwork.button(btn.Cancel).clicked.connect(self.close)
         self.buttonBoxCSV.button(btn.Cancel).clicked.connect(self.close)
 
@@ -81,9 +83,10 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         # levels
         editor = self.lineEditUnreal.text()
         project = self.lineEditProject.text()
+        scene = self.lineEditSubfolder.text()
 
-        TableProgram().write_data_path(editor, project)
-        TableProgram().write_data_levels()
+        TableProgram().write_data_path(editor, project, scene)
+        # TableProgram().write_data_levels()
 
         # MainWindows.self.checkBoxLevels.update()
 
