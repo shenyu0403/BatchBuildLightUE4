@@ -17,10 +17,15 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         db_file = os.path.abspath("projects.db")
         if os.path.isfile(db_file):
-            data = TableProgram().select_path(0)
-            ue4_path = data[0][1]
-            ue4_project = data[0][2]
-            scene = data[0][3]
+            data = TableProgram().select_path(1)
+
+            if data.__len__() == 0:
+                ue4_path = ue4_project = scene = ''
+
+            else:
+                ue4_path = data[0][1]
+                ue4_project = data[0][2]
+                scene = data[0][3]
 
         else:
             ue4_path = ue4_project = scene = ''

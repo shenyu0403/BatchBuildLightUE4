@@ -11,12 +11,12 @@ class TableProgram(object):
         self.bd_exist = os.path.exists(self.base_sql)
 
         self.bd = sqlite3.connect(self.base_sql)
-        self.bd.cursor()
 
         if not self.bd_exist:
             self.create_all_tables()
 
     def create_all_tables(self):
+        self.bd.cursor()
         self.bd.execute('''CREATE TABLE  projects(
                 id          INTEGER PRIMARY KEY,
                 name        TEXT)''')
@@ -39,9 +39,9 @@ class TableProgram(object):
         print(msg_def)
 
     def select_project(self):
+        self.bd.cursor()
         self.bd.execute('''SELECT id, project_id, paths_id
                         FROM projects''')
-        self.bd.cursor()
 
         msg_func = 'Select a Projects'
         print(msg_func)
@@ -50,8 +50,7 @@ class TableProgram(object):
         """Select a Data path from a project used.
         :id_project : The project working"""
         request = self.bd.cursor()
-        request.execute('''SELECT * 
-                        FROM paths 
+        request.execute('''SELECT * FROM paths 
                         WHERE path_id = ?''',
                         (id_project, ))
 
@@ -63,24 +62,21 @@ class TableProgram(object):
         """Select a Data path from a project used.
         :id_project : The project working"""
         request = self.bd.cursor()
-        request.execute('''SELECT * 
-                        FROM levels''')
+        request.execute('''SELECT * FROM levels''')
 
         data = request.fetchall()
 
         return data
 
     def write_data_path(self, editor, project, scene):
-        id_project = 0
+        id_project = 1
         self.bd.cursor()
         count_paths = self.bd.execute('''SELECT count(path_id) FROM paths''')
         count_paths = count_paths.fetchone()[0]
 
         if count_paths == 0:
-            self.bd.execute('''INSERT INTO paths SET editor = ?, project = ?,
-             scene = ? 
-                            VALUES(?, ?, ?, ?)''',
-                            (count_paths, editor, project, scene))
+            self.bd.execute('''INSERT INTO paths VALUES(?, ?, ?, ?)''',
+                            (id_project, editor, project, scene))
 
         else:
             self.bd.execute('''UPDATE paths 
