@@ -1,7 +1,7 @@
 import json
 import os
 
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets, QtGui, QtCore
 
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
 from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
@@ -95,93 +95,23 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         # MainWindows.self.checkBoxLevels.update()
 
-        SetupTab.close(self)
+        # SetupTab.close(self)
 
     def tree_generate(self):
-        model = QtGui.QStandardItemModel()
-        model.setHorizontalHeaderLabels(['Master Levels', 'Sublevel'])
-        self.listLevels.setModel(model)
-        self.listLevels.setSortingEnabled(True)
-        self.listLevels.setColumnWidth(0, 150)
-        it_master = {}
-        it_child = {}
+        self.folder_model = QtWidgets.QFileSystemModel()
+        data = TableProgram().select_path(1)
+        paths_levels = os.path.dirname(data[0][2])
+        paths_levels = os.path.join(paths_levels, 'content', data[0][3])
+        print(paths_levels)
+        # self.folder_model.setFilter(QtCore.QDir.Files)
+        self.folder_model.setRootPath(paths_levels)
 
-        request = TableProgram().select_levels()
+        self.listLevels.setModel(self.folder_model)
+        self.listLevels.setRootIndex(self.folder_model.index(paths_levels))
+        self.listLevels.hideColumn(1)
+        self.listLevels.hideColumn(2)
+        self.listLevels.hideColumn(3)
 
-        for level in request:
-            level_name = level[1]
-            level_path = level[2]
-            level_folder = os.path.basename(level[2])
-            # print(level_name, level_folder)
-
-            level_name = level_name.replace('.umap', '')
-            if level_name in level_folder:
-                print('Folder Name > ', level_folder)
-
-            else:
-                print('Non')
-
-            # Si le nom du lvl est equal a son folder basename c'est ok
-            # if it_master.get(folder) is None:
-            #     it_master[folder] = QtGui.QStandardItem(folder)
-            #     it_master[folder].setCheckable(True)
-            #     model.appendRow(it_master[folder])
-            #     it_child[key] = QtGui.QStandardItem(key)
-            #     it_master[folder].appendRow(it_child[key])
-            # else:
-            #     it_child[key] = QtGui.QStandardItem(key)
-            #     it_master[folder].appendRow(it_child[key])
-
-                # json_tree_lvl = os.path.abspath("BatchLightUE4/Models/lvls_tree.json")
-                # if os.path.isfile(json_tree_lvl):
-                #     data = json.loads(open(json_tree_lvl).read())
-                #     for key, path in sorted(data.items()):
-                #         folder = os.path.basename(os.path.dirname(path))
-                #
-                #         if index == 0:
-                #             key = key.replace('.umap', '')
-                #             if folder in key:
-                #                 # Create a master
-                #                 if it_master.get(folder) is None:
-                #                     it_master[folder] = QtGui.QStandardItem(folder)
-                #                     it_master[folder].setCheckable(True)
-                #                     model.appendRow(it_master[folder])
-                #                     it_child[key] = QtGui.QStandardItem(key)
-                #                     it_master[folder].appendRow(it_child[key])
-                #                 else:
-                #                     it_child[key] = QtGui.QStandardItem(key)
-                #                     it_master[folder].appendRow(it_child[key])
-                #
-                #         elif index == 1:
-                #             if 'Master' in key:
-                #                 key = key.replace('.umap', '')
-                #                 key = key.replace('_', ' ')
-                #                 it_master[key] = QtGui.QStandardItem(key)
-                #                 it_master[key].setCheckable(True)
-                #                 model.appendRow(it_master[key])
-                #
-                #             else:
-                #                 it_child[key] = QtGui.QStandardItem(key)
-                #                 show_path = 'Master_' + folder + '.umap'
-                #                 if show_path in it_master:
-                #                     it_master[show_path].appendRow(it_child[key])
-                #                 else:
-                #                     print('Level exclude >> ', key)
-                #
-                #         elif index == 2:
-                #             key = key.replace('.umap', '')
-                #             if 'Scenes' or 'Levels' in folder:
-                #                 folder = folder.replace('_', ' ')
-                #
-                #                 if it_master.get(folder) is None:
-                #                     it_master[folder] = QtGui.QStandardItem(folder)
-                #                     it_master[folder].setCheckable(True)
-                #                     model.appendRow(it_master[folder])
-                #                     it_child[key] = QtGui.QStandardItem(key)
-                #                     it_master[folder].appendRow(it_child[key])
-                #                 else:
-                #                     it_child[key] = QtGui.QStandardItem(key)
-                #                     it_master[folder].appendRow(it_child[key])
 
     @staticmethod
     def generate_final_tree():
