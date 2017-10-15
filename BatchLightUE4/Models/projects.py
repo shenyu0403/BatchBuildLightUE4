@@ -105,9 +105,14 @@ class TableProgram(object):
                                     (file, path, 0))
 
                 else:
-                    print('need an update > ', name)
-                    self.bd.execute('''UPDATE levels SET state = 2 WHERE 
-                    name = ?''', (name, ))
+                    if file == name:
+                        print('update state lvl > ', name)
+                        self.bd.execute('''UPDATE levels SET state = 2 WHERE 
+                        name = ?''', (name, ))
+                    else:
+                        print('file', file)
+                        self.bd.execute('''UPDATE levels SET state = 0 WHERE 
+                        name = ?''', (file, ))
 
         self.bd.commit()
 
