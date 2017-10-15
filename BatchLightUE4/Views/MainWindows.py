@@ -45,7 +45,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.levels_list = QtGui.QStandardItemModel()
         self.tree_generate(self.levels_list, self.data_level)
         self.treeViewLevels.setModel(self.levels_list)
-        self.treeViewLevels.clicked.connect(self.test)
+        name = 'name'
+        self.treeViewLevels.clicked.connect(self.update_level)
 
         self.levels_list.setHorizontalHeaderLabels([self.tr('Level Name')])
 
@@ -128,11 +129,15 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         return levels
 
-    def test(self):
-        name = 'level name'
+    def update_level(self, index):
+        # index = self.levels_list.index(index.row(), 0, index.parent())
+        name = self.levels_list.data(index)
+        # state = self.levels_list.data(index)
+        # truc = self.treeViewLevels.setState(self.levels_list.index())
+        print('Level Name >> ', name)
+        # print('State >> ', state)
         state = True
         TableProgram().write_data_levels(name, state)
-
 
 
 class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
