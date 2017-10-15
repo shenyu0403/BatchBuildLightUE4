@@ -132,11 +132,9 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
     def update_level(self, index):
         # index = self.levels_list.index(index.row(), 0, index.parent())
         name = self.levels_list.data(index)
-        # state = self.levels_list.data(index)
-        # truc = self.treeViewLevels.setState(self.levels_list.index())
+        state = self.levels_list.itemFromIndex(index).checkState()
         print('Level Name >> ', name)
-        # print('State >> ', state)
-        state = True
+        print('State >> ', state)
         TableProgram().write_data_levels(name, state)
 
 
