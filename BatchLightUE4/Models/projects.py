@@ -89,29 +89,36 @@ class TableProgram(object):
         msg_func = 'Write a news Data Path'
         print(msg_func)
 
-    def write_data_levels(self):
-        id_project = 0
+    def write_data_levels(self, name, state):
+        id_project = 1
         levels = {}
         path_data = self.select_path(id_project)
-        path_data = path_data[0][2]
-        path_project = os.path.dirname(path_data) + '/Content/'
+        path_project = os.path.dirname(path_data[0][2])
+        path_subfolder = path_data[0][3]
+        path_project = path_project + '/Content/' + path_subfolder
 
-        for root, dirs, files in os.walk(path_project):
-            for file in files:
-                if file.endswith('.umap'):
-                    levels[file] = os.path.join(root, file)
+        # Check if the levels are write
+        # Isn't into the table add a news entry
+        # Else update this entry
+        self.bd.cursor()
+        if state:
+            request = self.bd.execute('''SELECT * FROM levels''')
 
-                    cur = self.bd.cursor()
-                    cur.execute('''
-                    INSERT INTO levels(name, path, state) 
-                    VALUES (?, ?, ?)''',
-                                (file, root, 0))
+            if request:
+                self.bd.execute('''SELECT * FROM levels''')
+                msg_func = 'Write a news Data Levels'
 
-        # INSERT INTO COMPANY VALUES(7, 'James', 24, 'Houston', 10000.00)
+            else:
+                self.bd.execute('''SELECT * FROM levels''')
+                msg_func = 'Update Data Levels'
+
+        else:
+            self.bd.execute('''DELETE FROM levels WHERE name = ?''',
+                            (name, ))
+            msg_func = 'Remove Data Levels'
+
         self.bd.commit()
-        self.bd.close()
 
-        msg_func = 'Write a news Data Levels'
         print(msg_func)
 
     def debug_data(self):
