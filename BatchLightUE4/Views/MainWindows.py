@@ -98,9 +98,10 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         editor = self.lineEditUnreal.text()
         project = self.lineEditProject.text()
         scene = self.lineEditSubfolder.text()
+        data = True
 
         TableProgram().write_data_path(editor, project, scene)
-        # TableProgram().write_data_levels()
+        TableProgram().write_data_levels(data=data)
 
         # MainWindows.self.checkBoxLevels.update()
 

@@ -89,9 +89,8 @@ class TableProgram(object):
         msg_func = 'Write a news Data Path'
         print(msg_func)
 
-    def write_data_levels(self, name, state):
+    def write_data_levels(self, name='String', state=0, data=False):
         id_project = 1
-        levels = {}
         path_data = self.select_path(id_project)
         path_project = os.path.dirname(path_data[0][2])
         path_subfolder = path_data[0][3]
@@ -101,21 +100,33 @@ class TableProgram(object):
         # Isn't into the table add a news entry
         # Else update this entry
         self.bd.cursor()
-        if state:
-            request = self.bd.execute('''SELECT * FROM levels''')
-
-            if request:
-                self.bd.execute('''SELECT * FROM levels''')
-                msg_func = 'Write a news Data Levels'
-
-            else:
-                self.bd.execute('''SELECT * FROM levels''')
-                msg_func = 'Update Data Levels'
+        if data:
+            for root, dirs, files in os.walk(path_project):
+                for file in files:
+                    name = file
+                    path = os.path.join(root, file)
+                    self.bd.execute('''INSERT INTO levels
+                    (name, path, state)
+                    VALUES(?, ?, ?)''',
+                                    (name, path, state))
+            msg_func = 'Write the Data Table'
 
         else:
-            self.bd.execute('''DELETE FROM levels WHERE name = ?''',
-                            (name, ))
-            msg_func = 'Remove Data Levels'
+            if state:
+                request = self.bd.execute('''SELECT * FROM levels''')
+
+                if request:
+                    self.bd.execute('''SELECT * FROM levels''')
+                    msg_func = 'Write a news Data Levels'
+
+                else:
+                    self.bd.execute('''SELECT * FROM levels''')
+                    msg_func = 'Update Data Levels'
+
+            else:
+                self.bd.execute('''DELETE FROM levels WHERE name = ?''',
+                                (name, ))
+                msg_func = 'Remove Data Levels'
 
         self.bd.commit()
 
@@ -132,3 +143,18 @@ class TableProgram(object):
 
         msg_func = 'Read Data from the base data'
         print(msg_func)
+
+    def list_level(self, folder_directory):
+        levels = []
+        for item in os.listdir(folder_directory):
+            absolute_path = os.path.join(folder_directory, item)
+            child = os.path.isdir(absolute_path)
+            if child:
+                sublevel = [(item, self.list_level(absolute_path))]
+                levels.extend(sublevel)
+            else:
+                if '.umap' in item:
+                    sublevel = [(item, [])]
+                    levels.extend(sublevel)
+
+        return levels
