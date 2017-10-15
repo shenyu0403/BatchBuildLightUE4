@@ -129,7 +129,10 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         return levels
 
     def test(self):
-        print('Hello World')
+        name = 'level name'
+        state = True
+        TableProgram().write_data_levels(name, state)
+
 
 
 class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
