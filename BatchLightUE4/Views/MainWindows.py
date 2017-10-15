@@ -151,10 +151,11 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             print('level >> ', item, ' | Child >> ', child)
             if child:
                 sublevel = [(item, self.list_level(absolute_path))]
+                levels.extend(sublevel)
             else:
-                sublevel = [(item, [])]
-
-            levels.extend(sublevel)
+                if '.umap' in item:
+                    sublevel = [(item, [])]
+                    levels.extend(sublevel)
 
         print(levels)
 
