@@ -1,6 +1,7 @@
 import json
 import os
 
+from os import path, walk
 from PyQt5 import QtWidgets, QtGui, QtCore
 
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
@@ -15,38 +16,74 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.setupUi(self)
         self.setWindowTitle('Tab Setup')
 
+        # self.data_level = [
+        #     ('Etienne', [
+        #         ('light', []),
+        #         ('truc', [])
+        #                 ]
+        #      ),
+        #     ('Roger', [
+        #         ('light', []),
+        #         ('truc', [])
+        #     ]
+        #      ),
+        #     ('Checker', []
+        #      )
+        #     ]
+
+        # Generate all data with the Data Base
         db_file = os.path.abspath("projects.db")
         if os.path.isfile(db_file):
-            data = TableProgram().select_path(1)
+            data_paths = TableProgram().select_path(1)
 
-            if data.__len__() == 0:
-                ue4_path = ue4_project = scene = ''
+            if data_paths.__len__() == 0:
+                self.ue4_path = ''
+                self.ue4_project = ''
+                self.scene = ''
+                self.data_level = []
 
             else:
-                ue4_path = data[0][1]
-                ue4_project = data[0][2]
-                scene = data[0][3]
+                self.ue4_path = data_paths[0][1]
+                self.ue4_project = data_paths[0][2]
+                self.dir_project = os.path.dirname(self.ue4_project)
+                self.scene = data_paths[0][3]
+                self.levels_path = path.join(self.dir_project,
+                                             'content', self.scene)
+                self.levels_path = os.path.abspath(self.levels_path)
+                self.data_level = self.list_level(self.levels_path)
+                # self.data_level = [
+                #     ('Etienne', [
+                #         ('light', []),
+                #         ('truc', [])
+                #     ]
+                #      ),
+                #     ('Roger', [
+                #         ('light', []),
+                #         ('truc', [])
+                #     ]
+                #      ),
+                #     ('Checker', []
+                #      )
+                # ]
+                # print(self.data_level)
 
         else:
-            ue4_path = ue4_project = scene = ''
+            self.ue4_path = self.ue4_project = self.scene = ''
+            self.data_level = []
 
         # Options Panel
-        self.listLevels = self.treeViewLevels
-        self.tree_generate()
+        self.levels_list = QtGui.QStandardItemModel()
+        self.tree_generate(self.levels_list, self.data_level)
+        self.treeViewLevels.setModel(self.levels_list)
 
-        # self.algoTreeView.currentIndexChanged.connect(self.tree_generate)
+        self.levels_list.setHorizontalHeaderLabels([self.tr('Level Name')])
 
-        # listLevels = self.treeViewLevels
-        # model = listLevels.model()
-        # model.itemChanged.connect(self.generateFinalTree)
-
-        # Path Panel
-        # Index >> 1
+        # Projects Panel
         self.pushPathOpenUnreal.clicked.connect(lambda: self.open_save(1))
-        self.lineEditUnreal.setText(ue4_path)
+        self.lineEditUnreal.setText(self.ue4_path)
         self.pushPathOpenProject.clicked.connect(lambda: self.open_save(2))
-        self.lineEditProject.setText(ue4_project)
-        self.lineEditSubfolder.setText(scene)
+        self.lineEditProject.setText(self.ue4_project)
+        self.lineEditSubfolder.setText(self.scene)
 
         # Ribbon Default, Save and Cancel
         btn = QtWidgets.QDialogButtonBox
@@ -95,35 +132,33 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         # MainWindows.self.checkBoxLevels.update()
 
-        # SetupTab.close(self)
+        SetupTab.close(self)
 
-    def tree_generate(self):
-        self.folder_model = QtWidgets.QFileSystemModel()
-        data = TableProgram().select_path(1)
-        paths_levels = os.path.dirname(data[0][2])
-        paths_levels = os.path.join(paths_levels, 'content', data[0][3])
-        print(paths_levels)
-        # self.folder_model.setFilter(QtCore.QDir.Files)
-        self.folder_model.setRootPath(paths_levels)
+    def tree_generate(self, parent, elements):
+        for name, path in elements:
+            item = QtGui.QStandardItem(name)
+            item.setCheckable(True)
+            parent.appendRow(item)
+            if path:
+                self.tree_generate(item, path)
 
-        self.listLevels.setModel(self.folder_model)
-        self.listLevels.setRootIndex(self.folder_model.index(paths_levels))
-        self.listLevels.hideColumn(1)
-        self.listLevels.hideColumn(2)
-        self.listLevels.hideColumn(3)
+    def list_level(self, folder_directory):
+        levels = []
+        for item in os.listdir(folder_directory):
+            absolute_path = path.join(folder_directory, item)
+            child = path.isdir(absolute_path)
+            print(absolute_path)
+            print('level >> ', item, ' | Child >> ', child)
+            if child:
+                sublevel = [(item, self.list_level(absolute_path))]
+            else:
+                sublevel = [(item, [])]
 
+            levels.extend(sublevel)
 
-    @staticmethod
-    def generate_final_tree():
-        print('Add number >> ')
+        print(levels)
 
-        lvl_final = {}
-        lvl_final[0] = "path normalement"
-
-        json_path = os.path.abspath(
-            "BatchLightUE4/Models/lvls_tree_final.json")
-        with open(json_path, 'w') as f:
-            json.dump(lvl_final, f, indent=4)
+        return levels
 
 
 class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
