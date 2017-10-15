@@ -98,10 +98,9 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         editor = self.lineEditUnreal.text()
         project = self.lineEditProject.text()
         scene = self.lineEditSubfolder.text()
-        data = True
 
         TableProgram().write_data_path(editor, project, scene)
-        TableProgram().write_data_levels(data=data)
+        TableProgram().write_data_levels()
 
         # MainWindows.self.checkBoxLevels.update()
 
@@ -133,7 +132,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
     def update_level(self, index):
         name = self.levels_list.data(index)
         state = self.levels_list.itemFromIndex(index).checkState()
-        TableProgram().write_data_levels(name, state)
+        TableProgram().write_data_levels(name=name, state=state)
 
 
 class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):

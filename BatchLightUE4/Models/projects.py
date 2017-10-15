@@ -35,16 +35,10 @@ class TableProgram(object):
         self.bd.commit()
         # self.bd.close()
 
-        msg_def = 'Create a news base data'
-        print(msg_def)
-
     def select_project(self):
         self.bd.cursor()
         self.bd.execute('''SELECT id, project_id, paths_id
                         FROM projects''')
-
-        msg_func = 'Select a Projects'
-        print(msg_func)
 
     def select_path(self, id_project):
         """Select a Data path from a project used.
@@ -86,10 +80,7 @@ class TableProgram(object):
 
         self.bd.commit()
 
-        msg_func = 'Write a news Data Path'
-        print(msg_func)
-
-    def write_data_levels(self, name='String', state=0, data=False):
+    def write_data_levels(self, name='', state=False):
         id_project = 1
         path_data = self.select_path(id_project)
         path_project = os.path.dirname(path_data[0][2])
@@ -100,37 +91,26 @@ class TableProgram(object):
         # Isn't into the table add a news entry
         # Else update this entry
         self.bd.cursor()
-        if data:
-            for root, dirs, files in os.walk(path_project):
-                for file in files:
-                    name = file
-                    path = os.path.join(root, file)
+
+        for root, dirs, files in os.walk(path_project):
+            for file in files:
+                path = os.path.join(root, file)
+                request = self.bd.execute('''SELECT * FROM levels 
+                WHERE name = ?''', (file, ))
+                if request.fetchone() is None:
+                    print('bad request, no element')
                     self.bd.execute('''INSERT INTO levels
-                    (name, path, state)
-                    VALUES(?, ?, ?)''',
-                                    (name, path, state))
-            msg_func = 'Write the Data Table'
-
-        else:
-            if state:
-                request = self.bd.execute('''SELECT * FROM levels''')
-
-                if request:
-                    self.bd.execute('''SELECT * FROM levels''')
-                    msg_func = 'Write a news Data Levels'
+                                            (name, path, state)
+                                            VALUES(?, ?, ?)''',
+                                    (file, path, 0))
 
                 else:
-                    self.bd.execute('''SELECT * FROM levels''')
-                    msg_func = 'Update Data Levels'
-
-            else:
-                self.bd.execute('''DELETE FROM levels WHERE name = ?''',
-                                (name, ))
-                msg_func = 'Remove Data Levels'
+                    print('need an update > ', name)
+                    self.bd.execute('''UPDATE levels SET state = 2 WHERE 
+                    name = ?''', (name, ))
 
         self.bd.commit()
 
-        print(msg_func)
 
     def debug_data(self):
         cur = self.bd.cursor()
@@ -144,17 +124,3 @@ class TableProgram(object):
         msg_func = 'Read Data from the base data'
         print(msg_func)
 
-    def list_level(self, folder_directory):
-        levels = []
-        for item in os.listdir(folder_directory):
-            absolute_path = os.path.join(folder_directory, item)
-            child = os.path.isdir(absolute_path)
-            if child:
-                sublevel = [(item, self.list_level(absolute_path))]
-                levels.extend(sublevel)
-            else:
-                if '.umap' in item:
-                    sublevel = [(item, [])]
-                    levels.extend(sublevel)
-
-        return levels
