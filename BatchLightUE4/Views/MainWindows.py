@@ -16,21 +16,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.setupUi(self)
         self.setWindowTitle('Tab Setup')
 
-        # self.data_level = [
-        #     ('Etienne', [
-        #         ('light', []),
-        #         ('truc', [])
-        #                 ]
-        #      ),
-        #     ('Roger', [
-        #         ('light', []),
-        #         ('truc', [])
-        #     ]
-        #      ),
-        #     ('Checker', []
-        #      )
-        #     ]
-
         # Generate all data with the Data Base
         db_file = os.path.abspath("projects.db")
         if os.path.isfile(db_file):
@@ -51,21 +36,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                                              'content', self.scene)
                 self.levels_path = os.path.abspath(self.levels_path)
                 self.data_level = self.list_level(self.levels_path)
-                # self.data_level = [
-                #     ('Etienne', [
-                #         ('light', []),
-                #         ('truc', [])
-                #     ]
-                #      ),
-                #     ('Roger', [
-                #         ('light', []),
-                #         ('truc', [])
-                #     ]
-                #      ),
-                #     ('Checker', []
-                #      )
-                # ]
-                # print(self.data_level)
 
         else:
             self.ue4_path = self.ue4_project = self.scene = ''
@@ -147,8 +117,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         for item in os.listdir(folder_directory):
             absolute_path = path.join(folder_directory, item)
             child = path.isdir(absolute_path)
-            print(absolute_path)
-            print('level >> ', item, ' | Child >> ', child)
             if child:
                 sublevel = [(item, self.list_level(absolute_path))]
                 levels.extend(sublevel)
@@ -156,8 +124,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                 if '.umap' in item:
                     sublevel = [(item, [])]
                     levels.extend(sublevel)
-
-        print(levels)
 
         return levels
 
