@@ -130,9 +130,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         return levels
 
     def update_level(self, index):
-        name = self.levels_list.data(index)
-        state = self.levels_list.itemFromIndex(index).checkState()
-        TableProgram().write_data_levels(name=name, state=state)
+        print(index)
+        TableProgram().write_data_levels(treeview=self, index=index)
 
 
 class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):

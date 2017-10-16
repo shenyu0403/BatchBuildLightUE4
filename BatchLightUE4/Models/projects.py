@@ -84,7 +84,7 @@ class TableProgram(object):
 
         self.bd.commit()
 
-    def write_data_levels(self, name='', state=False):
+    def write_data_levels(self, treeview=None, index=None):
         id_project = 1
         path_data = self.select_path(id_project)
         path_project = os.path.dirname(path_data[0][2])
@@ -107,16 +107,12 @@ class TableProgram(object):
                                             (name, path, state)
                                             VALUES(?, ?, ?)''',
                                     (file, path, 0))
-
-                else:
-                    if file == name:
-                        print('update state lvl > ', name)
-                        self.bd.execute('''UPDATE levels SET state = 2 WHERE 
-                        name = ?''', (name, ))
-                    else:
-                        print('file', file)
-                        self.bd.execute('''UPDATE levels SET state = 0 WHERE 
-                        name = ?''', (file, ))
+                elif index is not None:
+                    name = treeview.levels_list.data(index)
+                    state = treeview.levels_list.itemFromIndex(index).checkState()
+                    print('update state lvl > ', name, ' | State > ', state)
+                    self.bd.execute('''UPDATE levels SET state = ? WHERE 
+                    name = ?''', (state, name, ))
 
         self.bd.commit()
 
