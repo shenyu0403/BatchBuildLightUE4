@@ -3,21 +3,19 @@ import psutil
 import xml.etree.ElementTree as Element
 
 import subprocess
-from ..Models.DB import levels_dict, paths_dict, slave
+from ..Models.projects import TableProgram
 
 
 # -----------------------------
 # Build level
 # -----------------------------
 def build(level_used):
-    level = levels_dict.get(level_used)
-    lvl_name = level[0]
-    lvl_end = level[1]
-    ue4_editor = paths_dict['UE4 Editor']
-    ue4_project = paths_dict['UE4 Project']
-    level = lvl_name + '.umap'
-    if lvl_name == 'CharacterCreator':
-        level = lvl_end + '.umap'
+    """Build all selected levels. Need a list with all level name.
+    - level_used : List contains all level you want calculate."""
+    level = level_used
+    paths = TableProgram().select_path(1)
+    ue4_editor = paths[0][1]
+    ue4_project = paths[0][2]
     subprocess.run([ue4_editor,
                     ue4_project,
                     '-run=resavepackages',
@@ -25,12 +23,14 @@ def build(level_used):
                     '-MapsOnly',
                     '-ProjectOnly ',
                     '-AllowCommandletRendering',
-                    '-Map=' + level
+                    '-Map=' + level_used
                     ])
 
 
 def swarm_setup(boolean):
-    path_exe = os.path.dirname(paths_dict['UE4 Editor'])
+    """Change your setup with all parameter."""
+    path_ue4 = TableProgram().select_path(1)
+    path_exe = os.path.dirname(path_ue4[0][1])
     os.path.dirname(path_exe)
     path_exe = os.path.dirname(path_exe)
     path_exe = path_exe + '/DotNET'
@@ -50,21 +50,7 @@ def swarm_setup(boolean):
             # Check the setting, i need to read the config file ; i need to
             # relaunch the setup when i want use a new setting
             if boolean is True:
-                for obj in slave.values():
-                    slave_name = slave_name + str(obj) + ", "
-
-                if value.text == 'Agent*':
-                    value.text = slave_name
-                    setup.write(path_swarm_setup)
-                    launch_swarm(path_exe)
-
-            elif boolean is False:
-                slave_name = "Agent*"
-
-                if value.text != 'Agent*':
-                    value.text = slave_name
-                    setup.write(path_swarm_setup)
-                    launch_swarm(path_exe)
+                print('Change your option here')
 
     else:
         print("No Setup, generate data")
@@ -85,7 +71,8 @@ def launch_swarm(path_exe):
 
 
 def clean_cache_swarm():
-    path_exe = os.path.dirname(paths_dict['UE4 Editor'])
+    path_ue4 = TableProgram().select_path(1)
+    path_exe = os.path.dirname(path_ue4[1])
     os.path.dirname(path_exe)
     path_exe = os.path.dirname(path_exe)
     path_exe = path_exe + '/DotNET/SwarmCache'

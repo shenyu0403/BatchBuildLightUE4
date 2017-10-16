@@ -10,6 +10,8 @@ from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
 from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
 from BatchLightUE4.Models.projects import TableProgram
 
+from ..Controllers.Swarm import build, swarm_setup
+
 
 class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
     """This widget contains all setup tab"""
@@ -216,19 +218,37 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             boolean = 2
 
         data = self.checkBoxLevels
-
         for key, value in data.items():
             btn = self.checkBoxLevels[key]
             btn.setCheckState(boolean)
 
     def build_level(self):
-        level_rendring = []
+        # TODO Split the rendering process on a another thread ; needed to
+        # keep the control with this Windows.
+        level_rendering = []
         text = ''
 
         for key, value in self.checkBoxLevels.items():
             btn = self.checkBoxLevels[key]
-            btn.checkState()
             if QtWidgets.QAbstractButton.isChecked(btn):
-                print(key)
+                level_rendering.append(key)
+                nbr = len(level_rendering)
+                text = 'Build '
+                text = text + str(nbr) + ' level(s).'
+            elif len(level_rendering) == 0:
+                text = 'No level selected.'
 
-        print('Build your level(s).')
+        reply = QMessageBox.question(self, 'Rendering', 'Launch your '
+                                                        'rendering ?')
+        if reply == QMessageBox.Yes:
+            print('Launch')
+            swarm_setup(False)
+
+            for i in range(len(level_rendering)):
+                build(level_rendering[i])
+                i = i + 1
+
+        else:
+            print('Canceled')
+
+        print(text)
