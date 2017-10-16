@@ -1,8 +1,8 @@
 import json
 import os
 
-from os import path, walk
-from PyQt5 import QtWidgets, QtGui, QtCore
+from os import path
+from PyQt5 import QtWidgets, QtGui
 
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
 from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
@@ -108,9 +108,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
     def tree_generate(self, parent, elements):
         data = TableProgram().select_levels()
-
-        state = 0
-        i = 0
+        state = i = 0
 
         for name, path in elements:
             item = QtGui.QStandardItem(name)
@@ -120,7 +118,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                 for i in range(0, len(data)):
                     if name in data[i]:
                         state = data[i][3]
-                        print(state)
                     i = i + 1
 
             item.setCheckState(state)
