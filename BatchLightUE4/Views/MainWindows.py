@@ -4,6 +4,8 @@ import os
 from os import path
 from PyQt5 import QtWidgets, QtGui
 
+from PyQt5.QtWidgets import QMessageBox
+
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
 from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
 from BatchLightUE4.Models.projects import TableProgram
@@ -158,7 +160,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         # Triggered Menu
         #     File Menu
         self.actionLast_project.triggered.connect(self.open_save)
-        self.actionExit.triggered.connect(self.closeEvent)
+        self.actionExit.triggered.connect(self.close)
 
         #    Setup and Option Menu
         self.actionOptions.triggered.connect(self.edit_levels)
@@ -181,7 +183,6 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.checkBoxLevels[key].setObjectName(key)
                 self.allLevelsCheck.addWidget(self.checkBoxLevels[key])
                 self.allLevelsCheck.contentsMargins()
-
                 i = i + 1
 
         self.pushToolsBuils.clicked.connect(self.build_level)
@@ -210,38 +211,15 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.dialog.setCurrentIndex(id)
 
     def select_level(self, state):
+        boolean = False
         if state:
             boolean = 2
-
-        else:
-            boolean = False
 
         data = self.checkBoxLevels
 
         for key, value in data.items():
             btn = self.checkBoxLevels[key]
             btn.setCheckState(boolean)
-            print(btn)
-
-        self.allLevelsCheck.update()
-
-        print(boolean)
 
     def build_level(self):
         print('Build your level(s).')
-
-        TableProgram().debug_data()
-
-    def closeEvent(self, event):
-        confirmation = "Are your sur you want close this application ?"
-        answer = QtWidgets.QMessageBox.question(self,
-                                                "Confirmation",
-                                                confirmation,
-                                                QtWidgets.QMessageBox.Yes,
-                                                QtWidgets.QMessageBox.No)
-
-        if answer == QtWidgets.QMessageBox.Yes:
-            event.accept()
-
-        else:
-            event.ignore()
