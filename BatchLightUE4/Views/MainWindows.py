@@ -107,12 +107,23 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         SetupTab.close(self)
 
     def tree_generate(self, parent, elements):
+        data = TableProgram().select_levels()
+
+        state = 0
+        i = 0
+
         for name, path in elements:
             item = QtGui.QStandardItem(name)
             item.setCheckable(True)
+            if data is not None:
+                # generate from the data base
+                state = data[i][3]
+            item.setCheckState(state)
             parent.appendRow(item)
             if path:
                 self.tree_generate(item, path)
+
+            i = i + 1
 
     def list_level(self, folder_directory):
         levels = []
