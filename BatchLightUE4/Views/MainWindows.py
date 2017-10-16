@@ -222,4 +222,13 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             btn.setCheckState(boolean)
 
     def build_level(self):
+        level_rendring = []
+        text = ''
+
+        for key, value in self.checkBoxLevels.items():
+            btn = self.checkBoxLevels[key]
+            btn.checkState()
+            if QtWidgets.QAbstractButton.isChecked(btn):
+                print(key)
+
         print('Build your level(s).')
