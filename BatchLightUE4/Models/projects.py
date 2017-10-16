@@ -102,7 +102,6 @@ class TableProgram(object):
                 request = self.bd.execute('''SELECT * FROM levels 
                 WHERE name = ?''', (file, ))
                 if request.fetchone() is None:
-                    print('bad request, no element')
                     self.bd.execute('''INSERT INTO levels
                                             (name, path, state)
                                             VALUES(?, ?, ?)''',
@@ -110,7 +109,6 @@ class TableProgram(object):
                 elif index is not None:
                     name = treeview.levels_list.data(index)
                     state = treeview.levels_list.itemFromIndex(index).checkState()
-                    print('update state lvl > ', name, ' | State > ', state)
                     self.bd.execute('''UPDATE levels SET state = ? WHERE 
                     name = ?''', (state, name, ))
 

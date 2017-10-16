@@ -116,14 +116,17 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             item = QtGui.QStandardItem(name)
             item.setCheckable(True)
             if data is not None:
-                # generate from the data base
-                state = data[i][3]
+                print('Nbr entry > ', len(data), ' | Increment > ', i)
+                for i in range(0, len(data)):
+                    if name in data[i]:
+                        state = data[i][3]
+                        print(state)
+                    i = i + 1
+
             item.setCheckState(state)
             parent.appendRow(item)
             if path:
                 self.tree_generate(item, path)
-
-            i = i + 1
 
     def list_level(self, folder_directory):
         levels = []
