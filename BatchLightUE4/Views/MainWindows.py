@@ -211,19 +211,21 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def select_level(self, state):
         if state:
-            print('Select all Level')
-            boolean = True
+            boolean = 2
 
         else:
-            print('Deselect all Level')
             boolean = False
 
-        json_tree_lvl = os.path.abspath("BatchLightUE4/Models/lvls_tree.json")
-        if os.path.isfile(json_tree_lvl):
-            data = json.loads(open(json_tree_lvl).read())
+        data = self.checkBoxLevels
 
-            for key, path in data.items():
-                self.checkBoxLevels[key].setChecked(boolean)
+        for key, value in data.items():
+            btn = self.checkBoxLevels[key]
+            btn.setCheckState(boolean)
+            print(btn)
+
+        self.allLevelsCheck.update()
+
+        print(boolean)
 
     def build_level(self):
         print('Build your level(s).')
