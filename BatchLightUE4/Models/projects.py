@@ -52,11 +52,15 @@ class TableProgram(object):
 
         return data
 
-    def select_levels(self):
+    def select_levels(self, state=None):
         """Select a Data path from a project used.
         :id_project : The project working"""
         request = self.bd.cursor()
-        request.execute('''SELECT * FROM levels''')
+        if state is None:
+            request.execute('''SELECT * FROM levels''')
+        else:
+            request.execute('''SELECT * FROM levels WHERE state = ?''',
+                            (state, ))
 
         data = request.fetchall()
 
