@@ -163,8 +163,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         # CheckBox
         db_file = os.path.abspath("projects.db")
         if os.path.isfile(db_file):
-            data = TableProgram().select_levels()
-            i = 1
+            data = TableProgram().select_levels(state=2)
+            i = 0
             while i < len(data):
                 key = data[i][1]
                 self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
