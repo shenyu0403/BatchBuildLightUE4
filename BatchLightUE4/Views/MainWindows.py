@@ -238,8 +238,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             elif len(level_rendering) == 0:
                 text = 'No level selected.'
 
-        reply = QMessageBox.question(self, 'Rendering', 'Launch your '
-                                                        'rendering ?')
+        reply = QMessageBox.question(self, 'Rendering', text)
+
         if reply == QMessageBox.Yes:
             print('Launch')
             swarm_setup(False)
