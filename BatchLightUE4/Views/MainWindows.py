@@ -11,6 +11,7 @@ from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
 from BatchLightUE4.Models.projects import TableProgram
 
 from ..Controllers.Swarm import build, swarm_setup
+from ..Controllers.Perfoce import perforce_checkout, perforce_submit
 
 
 class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
@@ -97,8 +98,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             self.lineEditProject.setText(filename)
 
     def tab_save(self):
-        # TODO Add an update with the master windows to show all selected
-        # levels
+        # TODO Update the GUI to show all selected levels
         editor = self.lineEditUnreal.text()
         project = self.lineEditProject.text()
         scene = self.lineEditSubfolder.text()
@@ -223,8 +223,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             btn.setCheckState(boolean)
 
     def build_level(self):
-        # TODO Split the rendering process on a another thread ; needed to
-        # keep the control with this Windows.
+        # TODO Split the rendering process on a another thread.
+        # TODO Add the perfoce base integration
         level_rendering = []
         text = ''
 
@@ -245,6 +245,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             swarm_setup(False)
 
             for i in range(len(level_rendering)):
+                perforce_checkout(level_rendering[i])
                 build(level_rendering[i])
                 i = i + 1
 

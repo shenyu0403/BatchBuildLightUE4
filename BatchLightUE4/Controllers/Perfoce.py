@@ -1,47 +1,51 @@
 import os
+import re
 
 import perforce
-from ..Models.DB import levels_dict, paths_dict
+from ..Models.projects import TableProgram
 
 # -----------------------------
 # Generate all data needs to know environment we want build, the stadium
 # name, suffix name and -by deduction the path
 # -----------------------------
+data_paths = TableProgram().select_path(1)
+data_levels = TableProgram().select_levels()
+# Simple fix to work with Perforce ! Need to be upgrade
+path_perforce = '//ProVolley/'
 lvl_root = '//ProVolley/UnrealProjects/ProVolley/Content/Scenes/'
-lvl_path = os.path.dirname(paths_dict['UE4 Project'])
+lvl_path = os.path.dirname(data_paths[0][2])
 lvl_path = lvl_path + "/Content/Scenes/"
 lvl_path = os.path.abspath(lvl_path)
-
-revisions = []
 
 
 # -----------------------------
 # Connect to Perfoce to check all map (and lvl .uasset)
 # -----------------------------
 def perforce_checkout(level_used):
+    revisions = []
     p4 = perforce.connect()
-    # for i in level_used:
-    levels_dict.get(level_used)
-    level = levels_dict.get(level_used)
-    lvl_name = level[0]
-    lvl_end = level[1]
-    map_build = lvl_path + r"\\" + lvl_name + '_' + lvl_end + '/'
-    depot = lvl_root + lvl_name + '_' + lvl_end + '/'
-    if lvl_name == 'CharacterCreator':
-        map_build = lvl_path + r"\\" + lvl_name + '/'
-        depot = lvl_root + lvl_name + '/'
+    data_levels = TableProgram().select_levels(name=level_used)
+    data_levels = os.path.abspath(data_levels[0][2])
 
-    for filename in os.listdir(os.path.normpath(map_build)):
-        filename = depot + filename
+    regex = r"^.*Perforce"
+    lvl_perforce = re.sub(regex, '', data_levels)
+
+    # map_build = lvl_path + r"\\" + level_used + '/'
+    depot = os.path.dirname(lvl_perforce)
+
+    for filename in os.listdir(os.path.dirname(data_levels)):
+        filename = depot + "\\" + filename
 
         if '.uasset' in filename:
             revisions.append(filename)
         elif '.umap' in filename:
             revisions.append(filename)
 
+    print('test')
     description = """[ProVolley][GFX][LightmapAuto] Automatic Build Lightmap 
     generate for the level """
-    description = description + lvl_name
+    level_used = level_used.replace('.umap', '')
+    description = description + level_used
     cl = p4.findChangelist(description)
     for i in range(len(revisions)):
         file = revisions[i]
@@ -54,7 +58,4 @@ def perforce_checkout(level_used):
 
 
 def perforce_submit(cl):
-    # p4 = perforce.connect()
-
-    # changelist = perforce.models.Changelist(cl)
     cl.submit()
