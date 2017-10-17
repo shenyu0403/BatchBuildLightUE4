@@ -12,7 +12,6 @@ from ..Models.projects import TableProgram
 def build(level_used):
     """Build all selected levels. Need a list with all level name.
     - level_used : List contains all level you want calculate."""
-    level = level_used
     paths = TableProgram().select_path(1)
     ue4_editor = paths[0][1]
     ue4_project = paths[0][2]
