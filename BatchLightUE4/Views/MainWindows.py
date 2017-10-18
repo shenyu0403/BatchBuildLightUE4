@@ -249,7 +249,9 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             for i in range(len(level_rendering)):
                 cl = perforce_checkout(level_rendering[i])
                 build(level_rendering[i])
-                perforce_submit(cl)
+                submit = self.checkBoxSubmit
+                if QtWidgets.QAbstractButton.isChecked(submit):
+                    perforce_submit(cl)
                 i = i + 1
 
             nbr = len(level_rendering)
