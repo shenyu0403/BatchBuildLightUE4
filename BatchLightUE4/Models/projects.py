@@ -1,6 +1,8 @@
 import os
 import sqlite3
 
+from os.path import dirname
+
 
 class TableProgram(object):
     """Objects to work with the SQLite"""
@@ -91,7 +93,7 @@ class TableProgram(object):
     def write_data_levels(self, treeview=None, index=None):
         id_project = 1
         path_data = self.select_path(id_project)
-        path_project = os.path.dirname(path_data[0][2])
+        path_project = dirname(path_data[0][2])
         path_subfolder = path_data[0][3]
         path_project = path_project + '/Content/' + path_subfolder
 
@@ -102,7 +104,7 @@ class TableProgram(object):
 
         for root, dirs, files in os.walk(path_project):
             for file in files:
-                path = os.path.join(root, file)
+                path = root.replace('\\', '/') + '/' + file
                 request = self.bd.execute('''SELECT * FROM levels 
                 WHERE name = ?''', (file, ))
                 if request.fetchone() is None:
@@ -117,7 +119,6 @@ class TableProgram(object):
                     name = ?''', (state, name, ))
 
         self.bd.commit()
-
 
     def debug_data(self):
         cur = self.bd.cursor()
