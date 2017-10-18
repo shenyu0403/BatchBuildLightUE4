@@ -42,10 +42,9 @@ def perforce_checkout(level_used):
             revisions.append(filename)
 
     print('test')
-    description = """[ProVolley][GFX][LightmapAuto] Automatic Build Lightmap 
-    generate for the level """
     level_used = level_used.replace('.umap', '')
-    description = description + level_used
+    description = ("""[ProVolley][GFX][LightmapAuto] Automatic Build """
+                   """Lightmap generate for the level """ + level_used)
     cl = p4.findChangelist(description)
     for i in range(len(revisions)):
         file = revisions[i]
