@@ -228,6 +228,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         level_rendering = []
         text = ''
 
+
+
         for key, value in self.checkBoxLevels.items():
             btn = self.checkBoxLevels[key]
             if QtWidgets.QAbstractButton.isChecked(btn):
@@ -245,9 +247,15 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             swarm_setup(False)
 
             for i in range(len(level_rendering)):
-                perforce_checkout(level_rendering[i])
+                cl = perforce_checkout(level_rendering[i])
                 build(level_rendering[i])
+                perforce_submit(cl)
                 i = i + 1
+
+            nbr = len(level_rendering)
+            msg = 'Rendering Complete, ' + str(nbr) + ' level(s) build.'
+            self.statusbar.showMessage(msg)
+
 
         else:
             print('Canceled')
