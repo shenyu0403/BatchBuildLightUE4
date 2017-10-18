@@ -210,7 +210,7 @@
            <item>
             <widget class="QCheckBox" name="checkBoxMachines">
              <property name="enabled">
-              <bool>false</bool>
+              <bool>true</bool>
              </property>
              <property name="text">
               <string>Use all machines</string>

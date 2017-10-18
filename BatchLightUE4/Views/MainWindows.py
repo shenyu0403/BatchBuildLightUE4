@@ -243,8 +243,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         reply = QMessageBox.question(self, 'Rendering', text)
 
         if reply == QMessageBox.Yes:
-            print('Launch')
-            swarm_setup(False)
+            machines = self.checkBoxMachines
+            swarm_setup(QtWidgets.QAbstractButton.isChecked(machines))
 
             for i in range(len(level_rendering)):
                 cl = perforce_checkout(level_rendering[i])
@@ -258,8 +258,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             msg = 'Rendering Complete, ' + str(nbr) + ' level(s) build.'
             self.statusbar.showMessage(msg)
 
-
         else:
-            print('Canceled')
+            msg = 'Rendering abort.'
+            self.statusbar.showMessage(msg)
 
         print(text)
