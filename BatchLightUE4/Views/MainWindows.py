@@ -1,4 +1,3 @@
-import json
 import os
 
 from os import path
@@ -50,7 +49,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.levels_list = QtGui.QStandardItemModel()
         self.tree_generate(self.levels_list, self.data_level)
         self.treeViewLevels.setModel(self.levels_list)
-        name = 'name'
         self.treeViewLevels.clicked.connect(self.update_level)
 
         self.levels_list.setHorizontalHeaderLabels([self.tr('Level Name')])
@@ -227,8 +225,6 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         # TODO Add the perfoce base integration
         level_rendering = []
         text = ''
-
-
 
         for key, value in self.checkBoxLevels.items():
             btn = self.checkBoxLevels[key]
