@@ -21,10 +21,10 @@ def build(level_used):
                     ue4_project,
                     '-run=resavepackages',
                     '-buildlighting',
-                    '-MapsOnly',
-                    '-ProjectOnly ',
                     '-AllowCommandletRendering',
-                    '-Map=' + level_used
+                    '-MapsOnly',
+                    '-ProjectOnly',
+                    '-map=' + level_used
                     ])
 
 
