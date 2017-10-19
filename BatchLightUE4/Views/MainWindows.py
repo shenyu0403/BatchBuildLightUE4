@@ -12,6 +12,8 @@ from BatchLightUE4.Models.projects import TableProgram
 from ..Controllers.Swarm import build, swarm_setup
 from ..Controllers.Perfoce import perforce_checkout, perforce_submit
 
+# TODO Add a check if an UE version has launch
+
 
 class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
     """This widget contains all setup tab"""
@@ -256,7 +258,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             self.statusbar.showMessage(msg)
 
         else:
-            msg = 'Rendering abort.'
+            msg = 'Rendering abort. | Permanent'
             self.statusbar.showMessage(msg)
 
         print(text)
