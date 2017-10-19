@@ -251,6 +251,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 i = i + 1
 
             nbr = len(level_rendering)
+            swarm_setup(False)
             msg = 'Rendering Complete, ' + str(nbr) + ' level(s) build.'
             self.statusbar.showMessage(msg)
 
