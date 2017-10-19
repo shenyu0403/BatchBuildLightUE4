@@ -21,7 +21,8 @@ class TableProgram(object):
         self.bd.cursor()
         self.bd.execute('''CREATE TABLE  projects(
                 id          INTEGER PRIMARY KEY,
-                name        TEXT)''')
+                name        TEXT,
+                CSV         TEXT)''')
 
         self.bd.execute('''CREATE TABLE  paths(
                 path_id     INTEGER PRIMARY KEY,
