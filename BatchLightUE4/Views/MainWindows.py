@@ -1,4 +1,5 @@
 import os
+import perforce
 
 from os import path
 from PyQt5 import QtWidgets, QtGui
@@ -115,23 +116,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.data.write_data_path(editor, project, scene)
         self.data.write_data_levels()
 
-        main_windows = MainWindows()
-        main_windows.checkBoxLevels.update()
-
-        db_file = os.path.abspath("projects.db")
-        if os.path.isfile(db_file):
-            level = self.data.select_levels(state=2)
-            i = 0
-            while i < len(level):
-                key = level[i][1]
-                main_windows.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
-                main_windows.checkBoxLevels[key].setObjectName(key)
-                main_windows.allLevelsCheck.addWidget(main_windows.checkBoxLevels[key])
-                main_windows.allLevelsCheck.contentsMargins()
-                i = i + 1
-        # MainWindows.checkBoxLevels()
-        # MainWindows.checkBoxLevels.update()
-
         SetupTab.close(self)
 
     def project_tree_generate(self, parent, elements):
@@ -224,8 +208,12 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushLevelsDeselect.clicked.connect(self.select_level)
         self.toolLevelsEdit.clicked.connect(lambda: self.edit_levels(0))
 
-        # CheckBox
+        # Generate all Checkbox Levels.
+        p4 = perforce.connect()
         db_file = os.path.abspath("projects.db")
+        paths = self.data.select_path(1)
+        levels = self.data.select_levels()
+
         if os.path.isfile(db_file):
             level = self.data.select_levels(state=2)
             i = 0
@@ -233,6 +221,19 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 key = level[i][1]
                 self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
                 self.checkBoxLevels[key].setObjectName(key)
+                for level_name in levels:
+                    if level_name[1] == key:
+                        path = level_name[2]
+                        filename = perforce.Revision(p4, path)
+                        other_use = filename._p4dict
+                        open_by = other_use.get('otherOpen')
+
+                        if open_by is not None:
+                            bubble_msg = other_use.get('otherOpen0')
+                            print(bubble_msg)
+                            tooltip = bubble_msg
+                            self.checkBoxLevels[key].setToolTip(tooltip)
+                            self.checkBoxLevels[key].setEnabled(False)
                 self.allLevelsCheck.addWidget(self.checkBoxLevels[key])
                 self.allLevelsCheck.contentsMargins()
                 i = i + 1
@@ -255,20 +256,6 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             self,
             'Open a previous project',
             self.file_setup)
-
-    # Generate levels Checkbox
-    def level_checkbox(self):
-        db_file = os.path.abspath("projects.db")
-        if os.path.isfile(db_file):
-            level = self.data.select_levels(state=2)
-            i = 0
-            while i < len(level):
-                key = level[i][1]
-                self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
-                self.checkBoxLevels[key].setObjectName(key)
-                self.allLevelsCheck.addWidget(self.checkBoxLevels[key])
-                self.allLevelsCheck.contentsMargins()
-                i = i + 1
 
     # Events
     def edit_levels(self, id):
