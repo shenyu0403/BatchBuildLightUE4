@@ -11,7 +11,8 @@ from ..Models.projects import TableProgram
 # Connect to Perfoce to check all map (and lvl .uasset)
 # -----------------------------
 def perforce_checkout(level_used):
-    data_levels = TableProgram().select_levels(name=level_used)
+    data = TableProgram()
+    data_levels = data.select_levels(name=level_used)
     data_levels = data_levels[0][2]
 
     regex = r"^.*Perforce"
