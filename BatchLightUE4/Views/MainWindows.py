@@ -239,6 +239,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 text = 'No level selected.'
 
         reply = QMessageBox.question(self, 'Rendering', text)
+        level_rendering.sort()
 
         if reply == QMessageBox.Yes:
             machines = self.checkBoxMachines
