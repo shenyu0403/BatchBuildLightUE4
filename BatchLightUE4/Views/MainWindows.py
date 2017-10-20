@@ -239,6 +239,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 i = i + 1
 
         self.pushToolsBuils.clicked.connect(self.build_level)
+        self.pushToolsBuils.setToolTip(self.pushToolsBuils.statusTip())
 
     # File Menu
     def open_save(self, state):
