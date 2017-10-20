@@ -41,7 +41,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                 self.levels_path = path.join(self.dir_project,
                                              'content', self.scene)
                 self.levels_path = os.path.abspath(self.levels_path)
-                self.data_level = self.list_level(self.levels_path)
+                self.data_level = self.project_list_level(self.levels_path)
 
         else:
             self.ue4_path = self.ue4_project = self.scene = ''
@@ -49,9 +49,9 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         # Options Panel
         self.levels_list = QtGui.QStandardItemModel()
-        self.tree_generate(self.levels_list, self.data_level)
+        self.project_tree_generate(self.levels_list, self.data_level)
         self.treeViewLevels.setModel(self.levels_list)
-        self.treeViewLevels.clicked.connect(self.update_level)
+        self.treeViewLevels.clicked.connect(self.project_update_level)
 
         self.levels_list.setHorizontalHeaderLabels([self.tr('Level Name')])
 
@@ -61,6 +61,14 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.pushPathOpenProject.clicked.connect(lambda: self.open_save(2))
         self.lineEditProject.setText(self.ue4_project)
         self.lineEditSubfolder.setText(self.scene)
+
+        # Network Panel
+        # TODO Make all network options
+
+        # CSV Panel
+        """All option about the CSV options."""
+
+        self.csv_checkBox_enable.clicked.connect(self.csv_enable)
 
         # Ribbon Default, Save and Cancel
         btn = QtWidgets.QDialogButtonBox
@@ -110,7 +118,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         SetupTab.close(self)
 
-    def tree_generate(self, parent, elements):
+    def project_tree_generate(self, parent, elements):
         data = TableProgram().select_levels()
         state = i = 0
 
@@ -127,15 +135,15 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             item.setCheckState(state)
             parent.appendRow(item)
             if path:
-                self.tree_generate(item, path)
+                self.project_tree_generate(item, path)
 
-    def list_level(self, folder_directory):
+    def project_list_level(self, folder_directory):
         levels = []
         for item in os.listdir(folder_directory):
             absolute_path = path.join(folder_directory, item)
             child = path.isdir(absolute_path)
             if child:
-                sublevel = [(item, self.list_level(absolute_path))]
+                sublevel = [(item, self.project_list_level(absolute_path))]
                 levels.extend(sublevel)
             else:
                 if '.umap' in item:
@@ -144,9 +152,33 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         return levels
 
-    def update_level(self, index):
+    def project_update_level(self, index):
         print(index)
         TableProgram().write_data_levels(treeview=self, index=index)
+
+    def csv_enable(self):
+        csv_enable = self.csv_checkBox_enable
+        if QtWidgets.QAbstractButton.isChecked(csv_enable):
+            self.csv_label_name.setEnabled(True)
+            self.csv_comboBox.setEnabled(True)
+            self.csv_label_file.setEnabled(True)
+            self.csv_lineEdit_file.setEnabled(True)
+            self.csv_pushButton_file.setEnabled(True)
+            # self.csv_label_id.setEnabled(True)
+            # self.csv_lineEdit_id.setEnabled(True)
+            # self.csv_label_password.setEnabled(True)
+            # self.csv_lineEdit_password.setEnabled(True)
+
+        else:
+            self.csv_label_name.setEnabled(False)
+            self.csv_comboBox.setEnabled(False)
+            self.csv_label_file.setEnabled(False)
+            self.csv_lineEdit_file.setEnabled(False)
+            self.csv_pushButton_file.setEnabled(False)
+            # self.csv_label_id.setEnabled(False)
+            # self.csv_lineEdit_id.setEnabled(False)
+            # self.csv_label_password.setEnabled(False)
+            # self.csv_lineEdit_password.setEnabled(False)
 
 
 class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):

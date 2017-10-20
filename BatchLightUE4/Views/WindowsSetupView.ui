@@ -20,7 +20,7 @@
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>1</number>
+   <number>2</number>
   </property>
   <widget class="QWidget" name="Project">
    <attribute name="icon">
@@ -404,21 +404,21 @@
     <item row="2" column="1">
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QLabel" name="label_10">
+       <widget class="QLabel" name="csv_label_enable">
         <property name="text">
          <string>Activate the CSV Module :</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QCheckBox" name="checkBox_2">
+       <widget class="QCheckBox" name="csv_checkBox_enable">
         <property name="text">
          <string>Enable</string>
         </property>
        </widget>
       </item>
       <item row="5" column="0">
-       <widget class="QLabel" name="label_19">
+       <widget class="QLabel" name="csv_label_password">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -431,7 +431,7 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="csv_label_name">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -444,14 +444,14 @@
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QLineEdit" name="lineEdit_2">
+       <widget class="QLineEdit" name="csv_lineEdit_id">
         <property name="enabled">
          <bool>false</bool>
         </property>
        </widget>
       </item>
       <item row="4" column="0">
-       <widget class="QLabel" name="label_14">
+       <widget class="QLabel" name="csv_label_id">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -464,7 +464,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QComboBox" name="comboBox">
+       <widget class="QComboBox" name="csv_comboBox">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -501,7 +501,7 @@
       <item row="2" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_8">
         <item>
-         <widget class="QLineEdit" name="lineEdit_8">
+         <widget class="QLineEdit" name="csv_lineEdit_file">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -511,7 +511,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_6">
+         <widget class="QPushButton" name="csv_pushButton_file">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -523,14 +523,14 @@
        </layout>
       </item>
       <item row="5" column="1">
-       <widget class="QLineEdit" name="lineEdit">
+       <widget class="QLineEdit" name="csv_lineEdit_password">
         <property name="enabled">
          <bool>false</bool>
         </property>
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_13">
+       <widget class="QLabel" name="csv_label_file">
         <property name="enabled">
          <bool>false</bool>
         </property>
