@@ -21,11 +21,12 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         super(SetupTab, self).__init__()
         self.setupUi(self)
         self.setWindowTitle('Tab Setup')
+        self.data = TableProgram()
 
         # Generate all data with the Data Base
         db_file = os.path.abspath("projects.db")
         if os.path.isfile(db_file):
-            data_paths = TableProgram().select_path(1)
+            data_paths = self.data.select_path(1)
 
             if data_paths.__len__() == 0:
                 self.ue4_path = ''
@@ -111,25 +112,40 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         project = self.lineEditProject.text()
         scene = self.lineEditSubfolder.text()
 
-        TableProgram().write_data_path(editor, project, scene)
-        TableProgram().write_data_levels()
+        self.data.write_data_path(editor, project, scene)
+        self.data.write_data_levels()
 
-        # MainWindows.self.checkBoxLevels.update()
+        main_windows = MainWindows()
+        main_windows.checkBoxLevels.update()
+
+        db_file = os.path.abspath("projects.db")
+        if os.path.isfile(db_file):
+            level = self.data.select_levels(state=2)
+            i = 0
+            while i < len(level):
+                key = level[i][1]
+                main_windows.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
+                main_windows.checkBoxLevels[key].setObjectName(key)
+                main_windows.allLevelsCheck.addWidget(main_windows.checkBoxLevels[key])
+                main_windows.allLevelsCheck.contentsMargins()
+                i = i + 1
+        # MainWindows.checkBoxLevels()
+        # MainWindows.checkBoxLevels.update()
 
         SetupTab.close(self)
 
     def project_tree_generate(self, parent, elements):
-        data = TableProgram().select_levels()
+        levels = self.data.select_levels()
         state = i = 0
 
         for name, path in elements:
             item = QtGui.QStandardItem(name)
             item.setCheckable(True)
-            if data is not None:
-                print('Nbr entry > ', len(data), ' | Increment > ', i)
-                for i in range(0, len(data)):
-                    if name in data[i]:
-                        state = data[i][3]
+            if levels is not None:
+                print('Nbr entry > ', len(levels), ' | Increment > ', i)
+                for i in range(0, len(levels)):
+                    if name in levels[i]:
+                        state = levels[i][3]
                     i = i + 1
 
             item.setCheckState(state)
@@ -153,8 +169,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         return levels
 
     def project_update_level(self, index):
-        print(index)
-        TableProgram().write_data_levels(treeview=self, index=index)
+        self.data.write_data_levels(treeview=self, index=index)
 
     def csv_enable(self):
         csv_enable = self.csv_checkBox_enable
@@ -168,6 +183,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             # self.csv_lineEdit_id.setEnabled(True)
             # self.csv_label_password.setEnabled(True)
             # self.csv_lineEdit_password.setEnabled(True)
+
+            # Enable inside the DB.
 
         else:
             self.csv_label_name.setEnabled(False)
@@ -190,6 +207,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         self.checkBoxLevels = {}
+        self.data = TableProgram()
 
         # Triggered Menu
         #     File Menu
@@ -209,10 +227,10 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         # CheckBox
         db_file = os.path.abspath("projects.db")
         if os.path.isfile(db_file):
-            data = TableProgram().select_levels(state=2)
+            level = self.data.select_levels(state=2)
             i = 0
-            while i < len(data):
-                key = data[i][1]
+            while i < len(level):
+                key = level[i][1]
                 self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
                 self.checkBoxLevels[key].setObjectName(key)
                 self.allLevelsCheck.addWidget(self.checkBoxLevels[key])
@@ -237,6 +255,20 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             self,
             'Open a previous project',
             self.file_setup)
+
+    # Generate levels Checkbox
+    def level_checkbox(self):
+        db_file = os.path.abspath("projects.db")
+        if os.path.isfile(db_file):
+            level = self.data.select_levels(state=2)
+            i = 0
+            while i < len(level):
+                key = level[i][1]
+                self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
+                self.checkBoxLevels[key].setObjectName(key)
+                self.allLevelsCheck.addWidget(self.checkBoxLevels[key])
+                self.allLevelsCheck.contentsMargins()
+                i = i + 1
 
     # Events
     def edit_levels(self, id):
