@@ -208,10 +208,12 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushLevelsDeselect.clicked.connect(self.select_level)
         self.toolLevelsEdit.clicked.connect(lambda: self.edit_levels(0))
 
+        # Enable CSV options
+        csv = None
+        if csv is not None:
+            p4 = perforce.connect()
         # Generate all Checkbox Levels.
-        p4 = perforce.connect()
         db_file = os.path.abspath("projects.db")
-        paths = self.data.select_path(1)
         levels = self.data.select_levels()
 
         if os.path.isfile(db_file):
@@ -222,7 +224,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
                 self.checkBoxLevels[key].setObjectName(key)
                 for level_name in levels:
-                    if level_name[1] == key:
+                    if level_name[1] == key and csv is not None:
                         path = level_name[2]
                         filename = perforce.Revision(p4, path)
                         other_use = filename._p4dict

@@ -28,9 +28,16 @@ class TableProgram(object):
                 path_id     INTEGER PRIMARY KEY,
                 editor      TEXT,
                 project     TEXT,
-                scene       TEXT)''')
+                scene       TEXT,
+                csv         TEXT)''')
 
         self.bd.execute('''CREATE TABLE levels(
+                level_id    INTEGER PRIMARY KEY,
+                name        TEXT,
+                path        TEXT,
+                state       INTEGER)''')
+
+        self.bd.execute('''CREATE TABLE csv(
                 level_id    INTEGER PRIMARY KEY,
                 name        TEXT,
                 path        TEXT,
