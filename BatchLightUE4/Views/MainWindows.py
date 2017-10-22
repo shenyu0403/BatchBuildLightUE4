@@ -1,7 +1,8 @@
 import os
 import perforce
+import configparser
 
-from os import path
+from os.path import abspath, dirname, join, isdir
 from PyQt5 import QtWidgets, QtGui
 
 from PyQt5.QtWidgets import QMessageBox
@@ -40,7 +41,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                 self.ue4_project = data_paths[0][2]
                 self.dir_project = os.path.dirname(self.ue4_project)
                 self.scene = data_paths[0][3]
-                self.levels_path = path.join(self.dir_project,
+                self.levels_path = join(self.dir_project,
                                              'content', self.scene)
                 self.levels_path = os.path.abspath(self.levels_path)
                 self.data_level = self.project_list_level(self.levels_path)
@@ -126,7 +127,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             item = QtGui.QStandardItem(name)
             item.setCheckable(True)
             if levels is not None:
-                print('Nbr entry > ', len(levels), ' | Increment > ', i)
                 for i in range(0, len(levels)):
                     if name in levels[i]:
                         state = levels[i][3]
@@ -140,8 +140,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
     def project_list_level(self, folder_directory):
         levels = []
         for item in os.listdir(folder_directory):
-            absolute_path = path.join(folder_directory, item)
-            child = path.isdir(absolute_path)
+            absolute_path = join(folder_directory, item)
+            child = isdir(absolute_path)
             if child:
                 sublevel = [(item, self.project_list_level(absolute_path))]
                 levels.extend(sublevel)
@@ -192,6 +192,20 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.checkBoxLevels = {}
         self.data = TableProgram()
+
+        # Setup settings base
+        config = configparser.ConfigParser()
+        config_name = 'settings.ini'
+        config_path = join(abspath(dirname(__package__)), config_name)
+
+        if os.path.exists(config_path):
+            config.read(config_path)
+        else:
+
+            config.add_section('Last Project')
+            config.add_section('All Projects')
+            with open(config_path, 'w') as configfile:
+                config.write(configfile)
 
         # Triggered Menu
         #     File Menu
@@ -253,8 +267,6 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             self.file_setup = filter="Project (*.blight)"
 
 
-        # print(self.str_debug)
-
         (filename, filter) = QtWidgets.QFileDialog.getOpenFileName(
             self,
             'Open a previous project',
@@ -315,5 +327,3 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             msg = 'Rendering abort.'
             self.statusbar.showMessage(msg)
-
-        print(text)
