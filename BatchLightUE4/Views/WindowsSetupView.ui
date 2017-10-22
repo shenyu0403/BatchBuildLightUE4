@@ -20,7 +20,7 @@
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>2</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="Project">
    <attribute name="icon">
@@ -204,13 +204,17 @@
     <item row="5" column="0">
      <widget class="QDialogButtonBox" name="buttonBoxProjects">
       <property name="standardButtons">
-       <set>QDialogButtonBox::Cancel|QDialogButtonBox::RestoreDefaults|QDialogButtonBox::Save</set>
+       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Open|QDialogButtonBox::RestoreDefaults|QDialogButtonBox::Save</set>
       </property>
      </widget>
     </item>
    </layout>
   </widget>
   <widget class="QWidget" name="Network">
+   <attribute name="icon">
+    <iconset>
+     <normaloff>../Resources/globe.png</normaloff>../Resources/globe.png</iconset>
+   </attribute>
    <attribute name="title">
     <string>Network</string>
    </attribute>
@@ -325,6 +329,10 @@
    </layout>
   </widget>
   <widget class="QWidget" name="CSV">
+   <attribute name="icon">
+    <iconset>
+     <normaloff>../Resources/git-branch.png</normaloff>../Resources/git-branch.png</iconset>
+   </attribute>
    <attribute name="title">
     <string>CSV</string>
    </attribute>
