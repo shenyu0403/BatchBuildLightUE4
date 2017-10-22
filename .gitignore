@@ -110,3 +110,4 @@ substancebridge_updater/
 /BatchLightUE4/Controllers/Logs/
 /Logs/
 *.zip
+*.ini
