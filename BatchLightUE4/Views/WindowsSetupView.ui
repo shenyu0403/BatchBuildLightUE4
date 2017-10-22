@@ -103,15 +103,15 @@
        <string>Paths option</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
+       <item row="0" column="2">
+        <widget class="QPushButton" name="pushPathOpenUnreal">
          <property name="text">
-          <string>Unreal Engine Editor :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          <string>Open File</string>
          </property>
         </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="lineEditSubfolder"/>
        </item>
        <item row="0" column="1">
         <widget class="QLineEdit" name="lineEditUnreal">
@@ -120,15 +120,8 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="QPushButton" name="pushPathOpenUnreal">
-         <property name="text">
-          <string>Open File</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="label_project_file">
          <property name="text">
           <string>Unreal Project File :</string>
          </property>
@@ -144,15 +137,18 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="2">
-        <widget class="QPushButton" name="pushPathOpenProject">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_editor">
          <property name="text">
-          <string>Open File</string>
+          <string>Unreal Engine Editor :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="label_5">
+        <widget class="QLabel" name="label_sub_folder">
          <property name="text">
           <string>Sub folder (optionnal) :</string>
          </property>
@@ -161,8 +157,29 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="lineEditSubfolder"/>
+       <item row="1" column="2">
+        <widget class="QPushButton" name="pushPathOpenProject">
+         <property name="text">
+          <string>Open File</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_project_name">
+         <property name="text">
+          <string>Project Name :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="lineEditProjectName">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
