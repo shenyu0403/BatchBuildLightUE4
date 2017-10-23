@@ -9,10 +9,10 @@ from PyQt5.QtWidgets import QMessageBox
 
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
 from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
-from BatchLightUE4.Models.projects import TableProgram
-
-from ..Controllers.Swarm import build, swarm_setup
-from ..Controllers.Perfoce import perforce_checkout, perforce_submit
+from BatchLightUE4.Models.Database import TableProgram
+from BatchLightUE4.Controllers.Swarm import build, swarm_setup
+from BatchLightUE4.Controllers.Perfoce import \
+    perforce_checkout, perforce_submit
 
 # TODO Add a check if an UE version has launch
 
@@ -223,7 +223,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.toolLevelsEdit.clicked.connect(lambda: self.edit_levels(0))
 
         # Enable CSV options
-        csv = None
+        csv = True
         if csv is not None:
             p4 = perforce.connect()
         # Generate all Checkbox Levels.
@@ -286,7 +286,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         data = self.checkBoxLevels
         for key, value in data.items():
             btn = self.checkBoxLevels[key]
-            btn.setCheckState(boolean)
+            if QtWidgets.QAbstractButton.isEnabled(btn):
+                btn.setCheckState(boolean)
 
     def build_level(self):
         # TODO Split the rendering process on a another thread.
