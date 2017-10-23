@@ -79,6 +79,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         #   Save
         self.buttonBoxProjects.button(btn.Save).clicked.connect(self.tab_save)
+        self.buttonBoxCSV.button(btn.Save).clicked.connect(self.tab_save)
 
         #   Close Event
         self.buttonBoxProjects.button(btn.Cancel).clicked.connect(self.close)
@@ -110,12 +111,29 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
     def tab_save(self):
         # TODO Update the GUI to show all selected levels
-        editor = self.lineEditUnreal.text()
-        project = self.lineEditProject.text()
-        scene = self.lineEditSubfolder.text()
+        tab = self.tabBar()
+        tab = tab.currentIndex()
 
-        self.data.write_data_path(editor, project, scene)
-        self.data.write_data_levels()
+        if tab == 0:
+            editor = self.lineEditUnreal.text()
+            project = self.lineEditProject.text()
+            scene = self.lineEditSubfolder.text()
+
+            self.data.write_data_path(editor, project, scene)
+            self.data.write_data_levels()
+
+        elif tab == 1:
+            print('Save Network')
+
+        elif tab == 2:
+            csv_state = self.csv_checkBox_enable
+            print('Save CSV')
+            print(csv_state)
+            print(QtWidgets.QAbstractButton.isChecked(csv_state))
+            if QtWidgets.QAbstractButton.isChecked(csv_state):
+                print('Write Data')
+
+            self.data.table_csv()
 
         SetupTab.close(self)
 
@@ -259,13 +277,13 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # File Menu
     def open_save(self, state):
+        # TODO Proof of concept, no object has setup
         if state == 1:
             self.str_debug = 'First Value'
             self.file_setup = filter="Project (*.blight)"
         else:
             self.str_debug = 'Pas de status, basique way'
             self.file_setup = filter="Project (*.blight)"
-
 
         (filename, filter) = QtWidgets.QFileDialog.getOpenFileName(
             self,

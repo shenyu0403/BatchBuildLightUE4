@@ -128,6 +128,16 @@ class TableProgram(object):
 
         self.bd.commit()
 
+    def table_csv(self):
+        self.bd.cursor()
+        # Read
+        # Write
+        # Remove
+        self.bd.commit()
+        data = 'Table CSV'
+
+        return data
+
     def debug_data(self):
         cur = self.bd.cursor()
         cur.execute('''SELECT * FROM paths''')
