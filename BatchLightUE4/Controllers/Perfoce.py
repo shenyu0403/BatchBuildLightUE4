@@ -4,7 +4,7 @@ import re
 from os.path import normpath, abspath, dirname
 
 import perforce
-from ..Models.projects import TableProgram
+from ..Models.Database import TableProgram
 
 
 # -----------------------------

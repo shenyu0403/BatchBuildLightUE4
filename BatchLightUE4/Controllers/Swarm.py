@@ -5,7 +5,7 @@ import json
 import subprocess
 
 from os.path import relpath, exists
-from ..Models.projects import TableProgram
+from ..Models.Database import TableProgram
 
 
 # -----------------------------
