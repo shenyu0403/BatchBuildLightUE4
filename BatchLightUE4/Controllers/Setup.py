@@ -7,11 +7,33 @@ class Setup(object):
     config_name = 'settings.ini'
     config_path = join(abspath(dirname(__package__)), config_name)
 
-    if exists(config_path):
-        config.read(config_path)
-    else:
+    def __init__(self):
+        if exists(self.config_path):
+            self.read()
+        else:
+            self.write()
 
-        config.add_section('Last Project')
-        config.add_section('All Projects')
-        with open(config_path, 'w') as configfile:
-            config.write(configfile)
+    def write(self):
+        self.config.add_section('Project Work')
+        self.config.add_section('All Projects')
+        self.config.add_section('Default')
+
+        self.config['Default'] = {
+            'Path': '',
+            'Projects': '',
+            'CSV': False,
+        }
+
+        with open(self.config_path, 'w') as configfile:
+            self.config.write(configfile)
+
+    def read(self):
+        data = self.config.read(self.config_path)
+
+        return data
+
+    def base(self):
+        self.config.read(self.config_path)
+        data = self.config.options('Default')
+
+        return data
