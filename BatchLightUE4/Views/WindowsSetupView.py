@@ -258,7 +258,8 @@ class Ui_TabWidget(object):
         self.gridLayout.addItem(spacerItem5, 3, 1, 1, 1)
         self.gridLayout_5.addLayout(self.gridLayout, 2, 1, 1, 1)
         self.buttonBoxCSV = QtWidgets.QDialogButtonBox(self.CSV)
-        self.buttonBoxCSV.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBoxCSV.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Open|QtWidgets.QDialogButtonBox.RestoreDefaults|QtWidgets.QDialogButtonBox.Save)
+        self.buttonBoxCSV.setCenterButtons(False)
         self.buttonBoxCSV.setObjectName("buttonBoxCSV")
         self.gridLayout_5.addWidget(self.buttonBoxCSV, 3, 0, 1, 2)
         icon2 = QtGui.QIcon()
@@ -266,7 +267,7 @@ class Ui_TabWidget(object):
         TabWidget.addTab(self.CSV, icon2, "")
 
         self.retranslateUi(TabWidget)
-        TabWidget.setCurrentIndex(0)
+        TabWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(TabWidget)
 
     def retranslateUi(self, TabWidget):
