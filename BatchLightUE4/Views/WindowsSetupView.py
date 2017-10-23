@@ -159,7 +159,7 @@ class Ui_TabWidget(object):
         self.gridLayout_4.addWidget(self.label_9, 0, 1, 1, 1)
         self.gridLayout_7.addLayout(self.gridLayout_4, 2, 0, 1, 1)
         self.buttonBoxNetwork = QtWidgets.QDialogButtonBox(self.Network)
-        self.buttonBoxNetwork.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBoxNetwork.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Open|QtWidgets.QDialogButtonBox.RestoreDefaults|QtWidgets.QDialogButtonBox.Save)
         self.buttonBoxNetwork.setObjectName("buttonBoxNetwork")
         self.gridLayout_7.addWidget(self.buttonBoxNetwork, 3, 0, 1, 1)
         icon1 = QtGui.QIcon()
@@ -267,7 +267,7 @@ class Ui_TabWidget(object):
         TabWidget.addTab(self.CSV, icon2, "")
 
         self.retranslateUi(TabWidget)
-        TabWidget.setCurrentIndex(2)
+        TabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(TabWidget)
 
     def retranslateUi(self, TabWidget):
