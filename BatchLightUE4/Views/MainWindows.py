@@ -33,7 +33,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         if self.job:
             print('Load a Data Base')
-
             if os.path.isfile(db_file):
                 self.data = TableProgram()
                 data_paths = self.data.select_path(1)
@@ -48,6 +47,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                 self.data_level = self.project_list_level(self.levels_path)
 
         else:
+            print('No DB, use the Default Settings')
+            news_DB = True
             self.ue4_path = self.data.base('editor')
             self.ue4_project = self.data.base('project')
             self.scene = self.data.base('sub folder')
@@ -67,7 +68,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.lineEditUnreal.setText(self.ue4_path)
         self.pushPathOpenProject.clicked.connect(lambda: self.open_save(2))
         self.lineEditProject.setText(self.ue4_project)
-        name = project_name(os.path.dirname(self.lineEditProject.text()))
+        name = project_name(self.lineEditProject.text())
+        print('Name > ', name)
         self.lineEditProjectName.setText(name)
         self.lineEditSubfolder.setText(self.scene)
 
@@ -115,30 +117,35 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         elif state == 2:
             self.lineEditProject.setText(filename)
 
+        name = project_name(self.lineEditProject.text())
+        # self.lineEditProjectName.update()
+        self.lineEditProjectName.setText(name)
+        self.lineEditProjectName.update()
+        print('Update name field')
+
     def tab_save(self):
         # TODO Update the GUI to show all selected levels
         tab = self.tabBar()
         tab = tab.currentIndex()
 
-        self.data = TableProgram()
-
         if tab == 0:
             editor = self.lineEditUnreal.text()
             project = self.lineEditProject.text()
             scene = self.lineEditSubfolder.text()
+            name = self.lineEditProjectName.text()
+            print(name)
 
+            print('Save a News DB')
+
+            self.data = TableProgram()
             self.data.write_data_path(editor, project, scene)
             self.data.write_data_levels()
-
-            self.lineEditProjectName.update()
 
         elif tab == 1:
             print('Save Network')
 
         elif tab == 2:
             csv_state = self.csv_checkBox_enable
-            print('Save CSV')
-            print(csv_state)
             print(QtWidgets.QAbstractButton.isChecked(csv_state))
             if QtWidgets.QAbstractButton.isChecked(csv_state):
                 print('Write Data')
@@ -148,6 +155,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         SetupTab.close(self)
 
     def project_tree_generate(self, parent, elements):
+        self.data = TableProgram()
         levels = self.data.select_levels()
         state = i = 0
 
