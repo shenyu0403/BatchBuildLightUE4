@@ -1,11 +1,17 @@
-from configparser import ConfigParser
-from os.path import abspath, dirname, join, exists
+import os
 
+from configparser import ConfigParser
+from os.path import dirname, join, exists, expanduser
+
+# TODO The User path are good, but not inside the Document Folder
 
 class Setup(object):
     config = ConfigParser()
     config_name = 'settings.ini'
-    config_path = join(abspath(dirname(__package__)), config_name)
+    config_path = join(expanduser('~'), 'BBLUE4', config_name)
+
+    if not exists(config_path):
+        os.makedirs(dirname(config_path))
 
     def __init__(self):
         if exists(self.config_path):
@@ -43,4 +49,12 @@ class Setup(object):
         self.config.read(self.config_path)
         data = self.config.options('Project Work')
 
-        return data
+    def last_job_add(self):
+        self.config.read(self.config_path)
+        # data_project = self.config.options('Project Work')
+        data_list_project = self.config.options('All Projects')
+
+        self.config.write(self.config_path)
+        msg = 'Latest job update'
+
+        return msg
