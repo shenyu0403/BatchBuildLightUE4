@@ -1,9 +1,10 @@
 import json
-import os
+
+from os.path import exists, isfile
 
 
 def project_name(path_project):
-    if os.path.exists(path_project):
+    if exists(path_project) and isfile(path_project):
         with open(path_project) as file:
             data = json.load(file)
             data = data['Modules'][0]
