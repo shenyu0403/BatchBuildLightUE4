@@ -1,10 +1,10 @@
 import os
 import perforce
 
-from os.path import join, isdir
+from os.path import join, isdir, expanduser
 from PyQt5 import QtWidgets, QtGui
 
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox, QFileDialog
 
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
 from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
@@ -127,19 +127,22 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         # TODO Update the GUI to show all selected levels
         tab = self.tabBar()
         tab = tab.currentIndex()
+        setting = Setup()
 
         if tab == 0:
             editor = self.lineEditUnreal.text()
             project = self.lineEditProject.text()
             scene = self.lineEditSubfolder.text()
             name = self.lineEditProjectName.text()
-            print(name)
 
             print('Save a News DB')
 
+            self.data_base_save(name)
             self.data = TableProgram()
             self.data.write_data_path(editor, project, scene)
             self.data.write_data_levels()
+            setting.last_job()
+            print('Update settings : ', setting.last_job())
 
         elif tab == 1:
             print('Save Network')
@@ -153,6 +156,20 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             self.data.table_csv()
 
         SetupTab.close(self)
+
+    def data_base_save(self, name):
+        directory = join(expanduser('~'), 'BBLUE4')
+        options = QFileDialog.Options()
+        file_name, _ = (
+            QFileDialog.getSaveFileName(QFileDialog(),
+                                        "Save your projects",
+                                        directory=directory,
+                                        filter=name + '.db',
+                                        options=options))
+        file_name = open(file_name, 'w')
+        file_name.close()
+
+        return file_name
 
     def project_tree_generate(self, parent, elements):
         self.data = TableProgram()
