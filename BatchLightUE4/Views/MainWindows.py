@@ -1,8 +1,7 @@
 import os
 import perforce
-import configparser
 
-from os.path import abspath, dirname, join, isdir
+from os.path import join, isdir
 from PyQt5 import QtWidgets, QtGui
 
 from PyQt5.QtWidgets import QMessageBox
@@ -10,9 +9,11 @@ from PyQt5.QtWidgets import QMessageBox
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
 from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
 from BatchLightUE4.Models.Database import TableProgram
-from BatchLightUE4.Controllers.Swarm import build, swarm_setup
 from BatchLightUE4.Controllers.Perfoce import \
     perforce_checkout, perforce_submit
+from BatchLightUE4.Controllers.Project import project_name
+from BatchLightUE4.Controllers.Setup import Setup
+from BatchLightUE4.Controllers.Swarm import build, swarm_setup
 
 # TODO Add a check if an UE version has launch
 
@@ -23,36 +24,39 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         super(SetupTab, self).__init__()
         self.setupUi(self)
         self.setWindowTitle('Tab Setup')
-        self.data = TableProgram()
 
-        # Generate all data with the Data Base
+        self.data = Setup()
+        self.job = self.data.last_job()
+
+        # Generate all data with the Data Base // Temp
         db_file = os.path.abspath("projects.db")
-        if os.path.isfile(db_file):
-            data_paths = self.data.select_path(1)
 
-            if data_paths.__len__() == 0:
-                self.ue4_path = ''
-                self.ue4_project = ''
-                self.scene = ''
-                self.data_level = []
+        if self.job:
+            print('Load a Data Base')
 
-            else:
+            if os.path.isfile(db_file):
+                self.data = TableProgram()
+                data_paths = self.data.select_path(1)
+
                 self.ue4_path = data_paths[0][1]
                 self.ue4_project = data_paths[0][2]
                 self.dir_project = os.path.dirname(self.ue4_project)
                 self.scene = data_paths[0][3]
                 self.levels_path = join(self.dir_project,
-                                             'content', self.scene)
+                                        'content', self.scene)
                 self.levels_path = os.path.abspath(self.levels_path)
                 self.data_level = self.project_list_level(self.levels_path)
 
         else:
-            self.ue4_path = self.ue4_project = self.scene = ''
+            self.ue4_path = self.data.base('editor')
+            self.ue4_project = self.data.base('project')
+            self.scene = self.data.base('sub folder')
             self.data_level = []
 
         # Options Panel
         self.levels_list = QtGui.QStandardItemModel()
-        self.project_tree_generate(self.levels_list, self.data_level)
+        if os.path.isfile(db_file):
+            self.project_tree_generate(self.levels_list, self.data_level)
         self.treeViewLevels.setModel(self.levels_list)
         self.treeViewLevels.clicked.connect(self.project_update_level)
 
@@ -63,17 +67,19 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.lineEditUnreal.setText(self.ue4_path)
         self.pushPathOpenProject.clicked.connect(lambda: self.open_save(2))
         self.lineEditProject.setText(self.ue4_project)
+        name = project_name(os.path.dirname(self.lineEditProject.text()))
+        self.lineEditProjectName.setText(name)
         self.lineEditSubfolder.setText(self.scene)
+
 
         # Network Panel
         # TODO Make all network options
 
         # CSV Panel
         """All option about the CSV options."""
-
         self.csv_checkBox_enable.clicked.connect(self.csv_enable)
 
-        # Ribbon Default, Save and Cancel
+        # Button Box, Save and Cancel
         btn = QtWidgets.QDialogButtonBox
         #   Restore Default
 
@@ -114,6 +120,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         tab = self.tabBar()
         tab = tab.currentIndex()
 
+        self.data = TableProgram()
+
         if tab == 0:
             editor = self.lineEditUnreal.text()
             project = self.lineEditProject.text()
@@ -121,6 +129,8 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
             self.data.write_data_path(editor, project, scene)
             self.data.write_data_levels()
+
+            self.lineEditProjectName.update()
 
         elif tab == 1:
             print('Save Network')
@@ -207,23 +217,10 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindows, self).__init__(parent)
         self.setupUi(self)
-
-        self.checkBoxLevels = {}
-        self.data = TableProgram()
-
         # Setup settings base
-        config = configparser.ConfigParser()
-        config_name = 'settings.ini'
-        config_path = join(abspath(dirname(__package__)), config_name)
 
-        if os.path.exists(config_path):
-            config.read(config_path)
-        else:
-
-            config.add_section('Last Project')
-            config.add_section('All Projects')
-            with open(config_path, 'w') as configfile:
-                config.write(configfile)
+        self.setup = Setup()
+        self.checkBoxLevels = {}
 
         # Triggered Menu
         #     File Menu
@@ -246,9 +243,10 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             p4 = perforce.connect()
         # Generate all Checkbox Levels.
         db_file = os.path.abspath("projects.db")
-        levels = self.data.select_levels()
 
         if os.path.isfile(db_file):
+            self.data = TableProgram()
+            levels = self.data.select_levels()
             level = self.data.select_levels(state=2)
             i = 0
             while i < len(level):

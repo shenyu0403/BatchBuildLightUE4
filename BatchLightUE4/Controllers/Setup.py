@@ -19,8 +19,9 @@ class Setup(object):
         self.config.add_section('Default')
 
         self.config['Default'] = {
-            'Path': '',
-            'Projects': '',
+            'Editor': '',
+            'Project': '',
+            'Sub Folder': '',
             'CSV': False,
         }
 
@@ -32,8 +33,14 @@ class Setup(object):
 
         return data
 
-    def base(self):
+    def base(self, option):
         self.config.read(self.config_path)
-        data = self.config.options('Default')
+        data = self.config.get('Default', option)
+
+        return data
+
+    def last_job(self):
+        self.config.read(self.config_path)
+        data = self.config.options('Project Work')
 
         return data

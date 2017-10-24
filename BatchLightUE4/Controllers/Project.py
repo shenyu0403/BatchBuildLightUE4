@@ -4,12 +4,12 @@ import os
 
 def project_name(path_project):
     if os.path.exists(path_project):
-        with open('data.json') as path_project:
-            data = json.load(path_project)
-
-        print(data)
+        with open(path_project) as file:
+            data = json.load(file)
+            data = data['Modules'][0]
+            name = data['Name']
 
     else:
-        data = ''
+        name = ''
 
-    return data
+    return name

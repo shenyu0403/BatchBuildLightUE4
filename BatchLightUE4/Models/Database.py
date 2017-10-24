@@ -87,8 +87,8 @@ class TableProgram(object):
         count_paths = count_paths.fetchone()[0]
 
         if count_paths == 0:
-            self.bd.execute('''INSERT INTO paths VALUES(?, ?, ?, ?)''',
-                            (id_project, editor, project, scene))
+            self.bd.execute('''INSERT INTO paths VALUES(?, ?, ?, ?, ?)''',
+                            (id_project, editor, project, scene, 'None'))
 
         else:
             self.bd.execute('''UPDATE paths 
