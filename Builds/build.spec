@@ -7,7 +7,7 @@ block_cipher = None
 # print(path)
 
 a = Analysis(['../main.py'],
-             pathex=['E:\\Works\\Git\\Tools\\BatchBuildLightUE4'],
+             pathex=['E:\\WORKS\\Git\\BatchBuildLightUE4'],
              # pathex=[path],
              binaries=[],
              datas=[('../BatchLightUE4/Resources/*.png', 'BatchLightUE4/Resources')],
@@ -23,17 +23,17 @@ pyz = PYZ(a.pure, a.zipped_data,
 exe = EXE(pyz,
           a.scripts,
           exclude_binaries=True,
-          name='Batch Light UE4',
+          name='B-Blue4',
           debug=False,
           strip=False,
           upx=True,
           console=False ,
           # uac_admin=True,
-          icon='E:\\Works\\Git\\Tools\\BatchBuildLightUE4\\Resources\\light-bulb-icon.ico')
+          icon='E:\\WORKS\\Git\\BatchBuildLightUE4\\Resources\\light-bulb-icon.ico')
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,
                a.datas,
                strip=False,
                upx=True,
-               name='Build Light')
+               name='BBlue4')
