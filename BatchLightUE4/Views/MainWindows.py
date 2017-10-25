@@ -26,25 +26,21 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.setWindowTitle('Tab Setup')
 
         self.data = Setup()
-        self.job = self.data.last_job()
-
-        # Generate all data with the Data Base // Temp
-        db_file = os.path.abspath("projects.db")
+        self.job = self.data.last_job_run()
 
         if self.job:
             print('Load a Data Base')
-            if os.path.isfile(db_file):
-                self.data = TableProgram()
-                data_paths = self.data.select_path(1)
+            self.data = TableProgram()
+            data_paths = self.data.select_path(1)
 
-                self.ue4_path = data_paths[0][1]
-                self.ue4_project = data_paths[0][2]
-                self.dir_project = os.path.dirname(self.ue4_project)
-                self.scene = data_paths[0][3]
-                self.levels_path = join(self.dir_project,
-                                        'content', self.scene)
-                self.levels_path = os.path.abspath(self.levels_path)
-                self.data_level = self.project_list_level(self.levels_path)
+            self.ue4_path = data_paths[0][1]
+            self.ue4_project = data_paths[0][2]
+            self.dir_project = os.path.dirname(self.ue4_project)
+            self.scene = data_paths[0][3]
+            self.levels_path = join(self.dir_project,
+                                    'content', self.scene)
+            self.levels_path = os.path.abspath(self.levels_path)
+            self.data_level = self.project_list_level(self.levels_path)
 
         else:
             print('No DB, use the Default Settings')
@@ -56,8 +52,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         # Options Panel
         self.levels_list = QtGui.QStandardItemModel()
-        if os.path.isfile(db_file):
-            self.project_tree_generate(self.levels_list, self.data_level)
+        self.project_tree_generate(self.levels_list, self.data_level)
         self.treeViewLevels.setModel(self.levels_list)
         self.treeViewLevels.clicked.connect(self.project_update_level)
 
@@ -72,7 +67,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         print('Name > ', name)
         self.lineEditProjectName.setText(name)
         self.lineEditSubfolder.setText(self.scene)
-
 
         # Network Panel
         # TODO Make all network options
@@ -121,7 +115,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         # self.lineEditProjectName.update()
         self.lineEditProjectName.setText(name)
         self.lineEditProjectName.update()
-        print('Update name field')
 
     def tab_save(self):
         # TODO Update the GUI to show all selected levels
@@ -133,16 +126,12 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             editor = self.lineEditUnreal.text()
             project = self.lineEditProject.text()
             scene = self.lineEditSubfolder.text()
-            name = self.lineEditProjectName.text()
 
-            print('Save a News DB')
-
-            self.data_base_save(name)
+            if not setting.last_job_run():
+                self.data_base_save()
             self.data = TableProgram()
             self.data.write_data_path(editor, project, scene)
             self.data.write_data_levels()
-            setting.last_job()
-            print('Update settings : ', setting.last_job())
 
         elif tab == 1:
             print('Save Network')
@@ -157,22 +146,17 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         SetupTab.close(self)
 
-    def data_base_save(self, name):
-        directory = join(expanduser('~'), 'BBLUE4')
+    def data_base_save(self):
         options = QFileDialog.Options()
-        database, _ = (
-            QFileDialog.getSaveFileName(QFileDialog(),
-                                        "Save your projects",
-                                        directory=directory,
-                                        filter=name + '*.db',
-                                        options=options))
-        file_name = open(database, 'w')
-        file_name.close()
-
+        directory = join(expanduser('~'), 'BBLUE4')
+        database = QFileDialog.getSaveFileName(self,
+                                               'Save your projects',
+                                               directory=directory,
+                                               filter='*.db',
+                                               options=options)
         edit = Setup()
-        edit.last_job_add(database)
+        edit.last_job_add(database[0])
 
-        return file_name
 
     def project_tree_generate(self, parent, elements):
         self.data = TableProgram()
@@ -247,7 +231,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         # Setup settings base
 
-        self.setup = Setup()
+        self.data = Setup()
+        self.job = self.data.last_job_run()
         self.checkBoxLevels = {}
 
         # Triggered Menu
@@ -270,9 +255,9 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         if csv is not None:
             p4 = perforce.connect()
         # Generate all Checkbox Levels.
-        db_file = os.path.abspath("projects.db")
 
-        if os.path.isfile(db_file):
+        if self.job:
+            print('Data dispo, load a file')
             self.data = TableProgram()
             levels = self.data.select_levels()
             level = self.data.select_levels(state=2)

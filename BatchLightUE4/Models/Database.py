@@ -11,7 +11,8 @@ class TableProgram(object):
 
     def __init__(self):
         super(TableProgram, self).__init__()
-        self.base_sql = 'projects.db'
+        data = Setup()
+        self.base_sql = data.last_job_run()
         self.bd_exist = os.path.exists(self.base_sql)
 
         self.bd = sqlite3.connect(self.base_sql)
@@ -19,12 +20,8 @@ class TableProgram(object):
         if not self.bd_exist:
             self.create_all_tables()
 
-    def data_file(self, basename):
-        """This function write a news database ; by default use the Unreal
-        Project name to work."""
-        self.base_sql = basename
-
     def create_all_tables(self):
+        """Generate all Table inside the Database"""
         self.bd.cursor()
         self.bd.execute('''CREATE TABLE  projects(
                 id          INTEGER PRIMARY KEY,
@@ -45,10 +42,7 @@ class TableProgram(object):
                 state       INTEGER)''')
 
         self.bd.execute('''CREATE TABLE csv(
-                level_id    INTEGER PRIMARY KEY,
-                name        TEXT,
-                path        TEXT,
-                state       INTEGER)''')
+                software    TEXT)''')
         self.bd.commit()
         # self.bd.close()
 

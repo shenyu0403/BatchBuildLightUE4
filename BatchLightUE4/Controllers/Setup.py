@@ -5,6 +5,7 @@ from os.path import dirname, join, exists, expanduser
 
 # TODO The User path are good, but not inside the Document Folder
 
+
 class Setup(object):
     config = ConfigParser()
     config_name = 'settings.ini'
@@ -54,12 +55,7 @@ class Setup(object):
 
     def last_job_add(self, filename):
         self.config.read(self.config_path)
-        data_project = self.config.set('Project Work', 'Run', filename)
-        # data_list_project = self.config.options('All Projects')
+        self.config.set('Project Work', 'Run', filename)
 
         with open(self.config_path, 'w') as configfile:
             self.config.write(configfile)
-
-        msg = 'Latest job update'
-
-        return msg
