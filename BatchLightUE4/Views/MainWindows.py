@@ -160,14 +160,17 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
     def data_base_save(self, name):
         directory = join(expanduser('~'), 'BBLUE4')
         options = QFileDialog.Options()
-        file_name, _ = (
+        database, _ = (
             QFileDialog.getSaveFileName(QFileDialog(),
                                         "Save your projects",
                                         directory=directory,
-                                        filter=name + '.db',
+                                        filter=name + '*.db',
                                         options=options))
-        file_name = open(file_name, 'w')
+        file_name = open(database, 'w')
         file_name.close()
+
+        edit = Setup()
+        edit.last_job_add(database)
 
         return file_name
 

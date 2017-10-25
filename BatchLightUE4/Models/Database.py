@@ -1,7 +1,9 @@
 import os
 import sqlite3
+from PyQt5 import QtWidgets
 
 from os.path import dirname
+from BatchLightUE4.Controllers.Setup import Setup
 
 
 class TableProgram(object):
@@ -16,6 +18,11 @@ class TableProgram(object):
 
         if not self.bd_exist:
             self.create_all_tables()
+
+    def data_file(self, basename):
+        """This function write a news database ; by default use the Unreal
+        Project name to work."""
+        self.base_sql = basename
 
     def create_all_tables(self):
         self.bd.cursor()

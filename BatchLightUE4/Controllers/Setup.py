@@ -49,12 +49,14 @@ class Setup(object):
         self.config.read(self.config_path)
         data = self.config.options('Project Work')
 
-    def last_job_add(self):
+    def last_job_add(self, filename):
         self.config.read(self.config_path)
-        # data_project = self.config.options('Project Work')
-        data_list_project = self.config.options('All Projects')
+        data_project = self.config.set('Project Work', 'Run', filename)
+        # data_list_project = self.config.options('All Projects')
 
-        self.config.write(self.config_path)
+        with open(self.config_path, 'w') as configfile:
+            self.config.write(configfile)
+
         msg = 'Latest job update'
 
         return msg
