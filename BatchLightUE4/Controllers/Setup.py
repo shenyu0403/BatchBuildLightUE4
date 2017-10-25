@@ -10,7 +10,7 @@ class Setup(object):
     config_name = 'settings.ini'
     config_path = join(expanduser('~'), 'BBLUE4', config_name)
 
-    if not exists(config_path):
+    if not exists(dirname(config_path)):
         os.makedirs(dirname(config_path))
 
     def __init__(self):
@@ -24,6 +24,7 @@ class Setup(object):
         self.config.add_section('All Projects')
         self.config.add_section('Default')
 
+        self.config['Project Work'] = {'Run': '', }
         self.config['Default'] = {
             'Editor': '',
             'Project': '',
@@ -45,9 +46,11 @@ class Setup(object):
 
         return data
 
-    def last_job(self):
+    def last_job_run(self):
         self.config.read(self.config_path)
-        data = self.config.options('Project Work')
+        data = self.config.get('Project Work', 'run')
+
+        return data
 
     def last_job_add(self, filename):
         self.config.read(self.config_path)
