@@ -43,6 +43,10 @@ class TableProgram(object):
 
         self.bd.execute('''CREATE TABLE csv(
                 software    TEXT)''')
+
+        csv = 'False'
+        self.bd.execute('''INSERT INTO csv VALUES (?)''', (csv,))
+
         self.bd.commit()
         # self.bd.close()
 
@@ -129,13 +133,14 @@ class TableProgram(object):
 
         self.bd.commit()
 
-    def table_csv(self):
+    def table_csv(self, csv=str()):
         self.bd.cursor()
-        # Read
-        # Write
-        # Remove
+        if csv:
+            data = self.bd.execute('''UPDATE csv SET software = ?''', (csv, ))
+        else:
+            data = self.bd.execute('''SELECT * FROM csv''')
+            data = data.fetchone()
         self.bd.commit()
-        data = 'Table CSV'
 
         return data
 

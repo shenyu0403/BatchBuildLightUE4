@@ -29,7 +29,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         self.job = self.data.last_job_run()
 
         if self.job:
-            print('Load a Data Base')
+            # Project Tab
             self.data = TableProgram()
             data_paths = self.data.select_path(1)
 
@@ -42,29 +42,35 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             self.levels_path = os.path.abspath(self.levels_path)
             self.data_level = self.project_list_level(self.levels_path)
 
+            # CSV Tab
+            self.data_csv = self.data.table_csv()
+            if self.data_csv[0] == 'False':
+                self.csv_boolean = 0
+                self.csv_software = 2
+            else:
+                self.csv_boolean = 2
+                self.csv_software = self.data_csv[0]
+
         else:
-            print('No DB, use the Default Settings')
             news_DB = True
             self.ue4_path = self.data.base('editor')
             self.ue4_project = self.data.base('project')
             self.scene = self.data.base('sub folder')
             self.data_level = []
+            self.csv_boolean = 0
+            self.csv_software = 1
 
-        # Options Panel
+        # Project Panel
         self.levels_list = QtGui.QStandardItemModel()
         self.project_tree_generate(self.levels_list, self.data_level)
         self.treeViewLevels.setModel(self.levels_list)
         self.treeViewLevels.clicked.connect(self.project_update_level)
-
         self.levels_list.setHorizontalHeaderLabels([self.tr('Level Name')])
-
-        # Projects Panel
         self.pushPathOpenUnreal.clicked.connect(lambda: self.open_save(1))
         self.lineEditUnreal.setText(self.ue4_path)
         self.pushPathOpenProject.clicked.connect(lambda: self.open_save(2))
         self.lineEditProject.setText(self.ue4_project)
         name = project_name(self.lineEditProject.text())
-        print('Name > ', name)
         self.lineEditProjectName.setText(name)
         self.lineEditSubfolder.setText(self.scene)
 
@@ -73,7 +79,11 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
         # CSV Panel
         """All option about the CSV options."""
+        self.csv_checkBox_enable.setCheckState(self.csv_boolean)
         self.csv_checkBox_enable.clicked.connect(self.csv_enable)
+        if self.csv_software:
+            self.csv_comboBox.itemText(2)
+            print('ok')
 
         # Button Box, Save and Cancel
         btn = QtWidgets.QDialogButtonBox
@@ -122,7 +132,10 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
         tab = tab.currentIndex()
         setting = Setup()
 
-        if tab == 0:
+        if tab == 1:
+            print('Save Network')
+        else:
+            # Save projects Dataa
             editor = self.lineEditUnreal.text()
             project = self.lineEditProject.text()
             scene = self.lineEditSubfolder.text()
@@ -133,16 +146,13 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
             self.data.write_data_path(editor, project, scene)
             self.data.write_data_levels()
 
-        elif tab == 1:
-            print('Save Network')
-
-        elif tab == 2:
+            # Save State Data
             csv_state = self.csv_checkBox_enable
-            print(QtWidgets.QAbstractButton.isChecked(csv_state))
+            csv_item = 'False'
             if QtWidgets.QAbstractButton.isChecked(csv_state):
-                print('Write Data')
+                csv_item = self.csv_comboBox.currentText()
 
-            self.data.table_csv()
+            self.data.table_csv(csv_item)
 
         SetupTab.close(self)
 
@@ -156,7 +166,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
                                                options=options)
         edit = Setup()
         edit.last_job_add(database[0])
-
 
     def project_tree_generate(self, parent, elements):
         self.data = TableProgram()

@@ -20,7 +20,7 @@
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>1</number>
+   <number>2</number>
   </property>
   <widget class="QWidget" name="Project">
    <attribute name="icon">
@@ -470,9 +470,6 @@
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="csv_label_name">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
         <property name="text">
          <string>CSV Tools :</string>
         </property>
@@ -503,9 +500,6 @@
       </item>
       <item row="1" column="1">
        <widget class="QComboBox" name="csv_comboBox">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
         <item>
          <property name="text">
           <string>Perforce</string>
@@ -540,9 +534,6 @@
        <layout class="QHBoxLayout" name="horizontalLayout_8">
         <item>
          <widget class="QLineEdit" name="csv_lineEdit_file">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
           <property name="placeholderText">
            <string>p4.exe</string>
           </property>
@@ -550,9 +541,6 @@
         </item>
         <item>
          <widget class="QPushButton" name="csv_pushButton_file">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
           <property name="text">
            <string>Open</string>
           </property>
@@ -569,9 +557,6 @@
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="csv_label_file">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
         <property name="text">
          <string>Executable File</string>
         </property>
