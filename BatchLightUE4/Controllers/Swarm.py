@@ -4,8 +4,8 @@ import xml.etree.ElementTree as Element
 import json
 import subprocess
 
-from os.path import relpath, exists
-from ..Models.Database import TableProgram
+from os.path import relpath, exists, expanduser, join
+from BatchLightUE4.Models.Database import TableProgram
 
 
 # -----------------------------
@@ -37,9 +37,13 @@ def swarm_setup(boolean):
     path_exe = path_exe + '/DotNET'
 
     path_swarm_setup = path_exe + "/" + "SwarmAgent.Options.xml"
-    json_files = relpath(r'BatchLightUE4/Models/network.json')
-    if exists(json_files):
-        with open(json_files, 'r') as f:
+
+    network_dict = 'network.json'
+    network_path = join(expanduser('~'), 'BBLUE4', network_dict)
+
+    if exists(network_path):
+        with open(network_path, 'r') as f:
+            print(f)
             slave = json.load(f)
 
         # --------------------  --------------------
