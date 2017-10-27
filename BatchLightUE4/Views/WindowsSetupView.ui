@@ -20,7 +20,7 @@
    <string>TabWidget</string>
   </property>
   <property name="currentIndex">
-   <number>2</number>
+   <number>0</number>
   </property>
   <widget class="QWidget" name="Project">
    <attribute name="icon">
@@ -178,6 +178,9 @@
         <widget class="QLineEdit" name="lineEditProjectName">
          <property name="enabled">
           <bool>false</bool>
+         </property>
+         <property name="placeholderText">
+          <string>This projects contain no description and name.</string>
          </property>
         </widget>
        </item>

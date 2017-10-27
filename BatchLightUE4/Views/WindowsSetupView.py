@@ -267,7 +267,7 @@ class Ui_TabWidget(object):
         TabWidget.addTab(self.CSV, icon2, "")
 
         self.retranslateUi(TabWidget)
-        TabWidget.setCurrentIndex(2)
+        TabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(TabWidget)
 
     def retranslateUi(self, TabWidget):
@@ -283,6 +283,7 @@ class Ui_TabWidget(object):
         self.label_sub_folder.setText(_translate("TabWidget", "Sub folder (optionnal) :"))
         self.pushPathOpenProject.setText(_translate("TabWidget", "Open File"))
         self.label_project_name.setText(_translate("TabWidget", "Project Name :"))
+        self.lineEditProjectName.setPlaceholderText(_translate("TabWidget", "This projects contain no description and name."))
         self.groupBox_2.setTitle(_translate("TabWidget", "Levels"))
         self.label_6.setText(_translate("TabWidget", "level name"))
         TabWidget.setTabText(TabWidget.indexOf(self.Project), _translate("TabWidget", "Projects"))

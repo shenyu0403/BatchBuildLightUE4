@@ -260,9 +260,9 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.toolLevelsEdit.clicked.connect(lambda: self.edit_levels(0))
 
         # Enable CSV options
-        csv = True
-        if csv is not None:
-            p4 = perforce.connect()
+        csv = False
+        # if csv is not None:
+        #     p4 = perforce.connect()
         # Generate all Checkbox Levels.
 
         if self.job:
@@ -275,19 +275,19 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 key = level[i][1]
                 self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
                 self.checkBoxLevels[key].setObjectName(key)
-                for level_name in levels:
-                    if level_name[1] == key and csv is not None:
-                        path = level_name[2]
-                        filename = perforce.Revision(p4, path)
-                        other_use = filename._p4dict
-                        open_by = other_use.get('otherOpen')
-
-                        if open_by is not None:
-                            bubble_msg = other_use.get('otherOpen0')
-                            print(bubble_msg)
-                            tooltip = bubble_msg
-                            self.checkBoxLevels[key].setToolTip(tooltip)
-                            self.checkBoxLevels[key].setEnabled(False)
+                # for level_name in levels:
+                #     if level_name[1] == key and csv is not None:
+                #         path = level_name[2]
+                #         filename = perforce.Revision(p4, path)
+                #         other_use = filename._p4dict
+                #         open_by = other_use.get('otherOpen')
+                #
+                #         if open_by is not None:
+                #             bubble_msg = other_use.get('otherOpen0')
+                #             print(bubble_msg)
+                #             tooltip = bubble_msg
+                #             self.checkBoxLevels[key].setToolTip(tooltip)
+                #             self.checkBoxLevels[key].setEnabled(False)
                 self.allLevelsCheck.addWidget(self.checkBoxLevels[key])
                 self.allLevelsCheck.contentsMargins()
                 i = i + 1
