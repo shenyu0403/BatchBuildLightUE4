@@ -258,14 +258,16 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.actionExit.triggered.connect(self.close)
 
         #    Setup and Option Menu
-        self.actionOptions.triggered.connect(self.edit_levels)
-        self.actionProject.triggered.connect(lambda: self.edit_levels(0))
-        self.actionNetworks.triggered.connect(lambda: self.edit_levels(1))
-        self.actionCSV.triggered.connect(lambda: self.edit_levels(2))
+        self.actionOptions.triggered.connect(self.view_project)
+        self.actionProject.triggered.connect(lambda: self.view_project(0))
+        self.actionNetworks.triggered.connect(lambda: self.view_project(1))
+        self.actionCSV.triggered.connect(lambda: self.view_project(2))
+
+        self.actionAbout.triggered.connect(self.view_help)
 
         self.pushLevelsSelect.clicked.connect(lambda: self.select_level(True))
         self.pushLevelsDeselect.clicked.connect(self.select_level)
-        self.toolLevelsEdit.clicked.connect(lambda: self.edit_levels(0))
+        self.toolLevelsEdit.clicked.connect(lambda: self.view_project(0))
 
         # Enable CSV options
         csv = False
@@ -325,7 +327,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         dialog.setCurrentIndex(index)
 
     @staticmethod
-    def edit_levels(index):
+    def view_project(index):
         dialog = SetupTab()
         dialog.show()
         dialog.setCurrentIndex(index)
