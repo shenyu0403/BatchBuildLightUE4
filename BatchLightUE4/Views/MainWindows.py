@@ -18,6 +18,14 @@ from BatchLightUE4.Controllers.Swarm import build, swarm_setup
 # TODO Add a check if an UE version has launch
 
 
+class SetupHelp(QtWidgets.QTabWidget, Ui_TabWidget):
+    """This widget contains all setup tab"""
+    def __init__(self):
+        super(SetupHelp, self).__init__()
+        self.setupUi(self)
+        self.setWindowTitle('Tab Help')
+
+
 class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
     """This widget contains all setup tab"""
     def __init__(self):
