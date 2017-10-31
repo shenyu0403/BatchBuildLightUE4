@@ -3,6 +3,8 @@ import os
 from configparser import ConfigParser
 from os.path import dirname, join, exists, expanduser
 
+"""This files include the Object to work with the INI files, read, writes 
+and more"""
 # TODO The User path are good, but not inside the Document Folder
 
 
@@ -24,8 +26,10 @@ class Setup(object):
         self.config.add_section('Project Work')
         self.config.add_section('All Projects')
         self.config.add_section('Default')
+        self.config.add_section('Version')
 
         self.config['Project Work'] = {'Run': '', }
+        self.config['Version'] = {'Release': '0.9.0', }
         self.config['Default'] = {
             'Editor': '',
             'Project': '',
