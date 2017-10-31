@@ -19,7 +19,7 @@ from BatchLightUE4.Controllers.Swarm import build, swarm_setup
 
 
 class SetupHelp(QtWidgets.QTabWidget, Ui_TabWidget):
-    """This widget contains all setup tab"""
+    """This widget contains all help tab"""
     def __init__(self):
         super(SetupHelp, self).__init__()
         self.setupUi(self)
@@ -52,7 +52,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
 
             # CSV Tab
             self.data_csv = self.data.table_csv()
-            if self.data_csv[0] == 'False':
+            if self.data_csv[0] == 'False' or self.data_csv is None:
                 self.csv_boolean = 0
                 self.csv_software = 2
             else:
@@ -259,9 +259,9 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
 
         #    Setup and Option Menu
         self.actionOptions.triggered.connect(self.edit_levels)
-        self.actionPaths.triggered.connect(lambda: self.edit_levels(1))
-        self.actionNetworks.triggered.connect(lambda: self.edit_levels(2))
-        self.actionCSV.triggered.connect(lambda: self.edit_levels(3))
+        self.actionProject.triggered.connect(lambda: self.edit_levels(0))
+        self.actionNetworks.triggered.connect(lambda: self.edit_levels(1))
+        self.actionCSV.triggered.connect(lambda: self.edit_levels(2))
 
         self.pushLevelsSelect.clicked.connect(lambda: self.select_level(True))
         self.pushLevelsDeselect.clicked.connect(self.select_level)
@@ -318,12 +318,19 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             'Open a previous project',
             self.file_setup)
 
-    # Events
-    def edit_levels(self, id):
-        self.dialog = SetupTab()
-        self.dialog.show()
-        self.dialog.setCurrentIndex(id)
+    @staticmethod
+    def view_help(index):
+        dialog = SetupHelp()
+        dialog.show()
+        dialog.setCurrentIndex(index)
 
+    @staticmethod
+    def edit_levels(index):
+        dialog = SetupTab()
+        dialog.show()
+        dialog.setCurrentIndex(index)
+
+    # Events
     def select_level(self, state):
         boolean = False
         if state:

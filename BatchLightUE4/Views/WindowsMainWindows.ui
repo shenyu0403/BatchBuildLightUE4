@@ -333,7 +333,7 @@
     <property name="title">
      <string>Setup</string>
     </property>
-    <addaction name="actionPaths"/>
+    <addaction name="actionProject"/>
     <addaction name="actionNetworks"/>
     <addaction name="actionCSV"/>
    </widget>
@@ -408,7 +408,7 @@
     <string>Ctrl+Q</string>
    </property>
   </action>
-  <action name="actionPaths">
+  <action name="actionProject">
    <property name="text">
     <string>Projects</string>
    </property>
