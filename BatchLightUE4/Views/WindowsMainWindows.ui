@@ -368,10 +368,6 @@
    <property name="checked">
     <bool>false</bool>
    </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../Ressources/file.png</normaloff>../Ressources/file.png</iconset>
-   </property>
    <property name="text">
     <string>New Setup</string>
    </property>
@@ -396,7 +392,7 @@
   <action name="actionExit">
    <property name="icon">
     <iconset>
-     <normaloff>../Ressources/sign-out.png</normaloff>../Ressources/sign-out.png</iconset>
+     <normaloff>../Resources/sign-out.png</normaloff>../Resources/sign-out.png</iconset>
    </property>
    <property name="text">
     <string>Exit</string>
@@ -451,7 +447,7 @@
   <action name="actionAbout">
    <property name="icon">
     <iconset>
-     <normaloff>../Ressources/info.png</normaloff>../Ressources/info.png</iconset>
+     <normaloff>../Resources/info.png</normaloff>../Resources/info.png</iconset>
    </property>
    <property name="text">
     <string>About and Updates</string>
@@ -490,7 +486,7 @@
   <action name="actionSave_as">
    <property name="icon">
     <iconset>
-     <normaloff>../Ressources/pencil.png</normaloff>../Ressources/pencil.png</iconset>
+     <normaloff>../Resources/pencil.png</normaloff>../Resources/pencil.png</iconset>
    </property>
    <property name="text">
     <string>Save as</string>
