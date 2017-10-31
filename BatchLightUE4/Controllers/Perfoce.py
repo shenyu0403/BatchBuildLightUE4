@@ -10,7 +10,7 @@ from ..Models.Database import TableProgram
 # -----------------------------
 # Connect to Perfoce to check all map (and lvl .uasset)
 # -----------------------------
-def perforce_checkout(level_used):
+def p4_checkout(level_used):
     data = TableProgram()
     data_levels = data.select_levels(name=level_used)
     data_levels = data_levels[0][2]
@@ -41,5 +41,5 @@ def perforce_checkout(level_used):
     return cl
 
 
-def perforce_submit(cl):
+def p4_submit(cl):
     cl.submit()
