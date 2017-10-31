@@ -333,8 +333,6 @@
     <property name="title">
      <string>Setup</string>
     </property>
-    <addaction name="actionOptions"/>
-    <addaction name="separator"/>
     <addaction name="actionPaths"/>
     <addaction name="actionNetworks"/>
     <addaction name="actionCSV"/>
@@ -351,7 +349,6 @@
      <string>Help</string>
     </property>
     <addaction name="actionAbout"/>
-    <addaction name="actionUpdates"/>
     <addaction name="actionShortcut"/>
    </widget>
    <addaction name="menu_Fichier"/>
@@ -457,7 +454,7 @@
      <normaloff>../Ressources/info.png</normaloff>../Ressources/info.png</iconset>
    </property>
    <property name="text">
-    <string>About</string>
+    <string>About and Updates</string>
    </property>
    <property name="statusTip">
     <string>Information and Licence about this software</string>
