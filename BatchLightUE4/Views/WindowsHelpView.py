@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_TabWidgetHelp(object):
     def setupUi(self, TabWidgetHelp):
         TabWidgetHelp.setObjectName("TabWidgetHelp")
-        TabWidgetHelp.resize(400, 300)
+        TabWidgetHelp.resize(400, 303)
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.tab)
@@ -54,14 +54,18 @@ class Ui_TabWidgetHelp(object):
         TabWidgetHelp.addTab(self.tab, "")
         self.tab1 = QtWidgets.QWidget()
         self.tab1.setObjectName("tab1")
+        self.label_6 = QtWidgets.QLabel(self.tab1)
+        self.label_6.setGeometry(QtCore.QRect(160, 90, 47, 13))
+        self.label_6.setObjectName("label_6")
         TabWidgetHelp.addTab(self.tab1, "")
 
         self.retranslateUi(TabWidgetHelp)
+        TabWidgetHelp.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(TabWidgetHelp)
 
     def retranslateUi(self, TabWidgetHelp):
         _translate = QtCore.QCoreApplication.translate
-        TabWidgetHelp.setWindowTitle(_translate("TabWidgetHelp", "TabWidget"))
+        TabWidgetHelp.setWindowTitle(_translate("TabWidgetHelp", "Help and Shortcut"))
         self.pushOk.setText(_translate("TabWidgetHelp", "Ok"))
         self.label.setText(_translate("TabWidgetHelp", "Release :"))
         self.lineEdit.setPlaceholderText(_translate("TabWidgetHelp", "Number Version"))
@@ -70,5 +74,6 @@ class Ui_TabWidgetHelp(object):
         self.label_3.setText(_translate("TabWidgetHelp", "Website :"))
         self.label_5.setText(_translate("TabWidgetHelp", "url website"))
         TabWidgetHelp.setTabText(TabWidgetHelp.indexOf(self.tab), _translate("TabWidgetHelp", "Tab 1"))
+        self.label_6.setText(_translate("TabWidgetHelp", "Nothing"))
         TabWidgetHelp.setTabText(TabWidgetHelp.indexOf(self.tab1), _translate("TabWidgetHelp", "Tab 2"))
 

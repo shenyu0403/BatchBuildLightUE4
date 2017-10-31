@@ -12,7 +12,6 @@ class Ui_TabWidgetProjects(object):
     def setupUi(self, TabWidgetProjects):
         TabWidgetProjects.setObjectName("TabWidgetProjects")
         TabWidgetProjects.resize(662, 528)
-        TabWidgetProjects.setMaximumSize(QtCore.QSize(662, 16777215))
         self.Project = QtWidgets.QWidget()
         self.Project.setObjectName("Project")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.Project)
@@ -267,15 +266,14 @@ class Ui_TabWidgetProjects(object):
         TabWidgetProjects.addTab(self.CSV, icon2, "")
 
         self.retranslateUi(TabWidgetProjects)
-        TabWidgetProjects.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(TabWidgetProjects)
 
     def retranslateUi(self, TabWidgetProjects):
         _translate = QtCore.QCoreApplication.translate
-        TabWidgetProjects.setWindowTitle(_translate("TabWidgetProjects", "TabWidget"))
+        TabWidgetProjects.setWindowTitle(_translate("TabWidgetProjects", "Tab Setup"))
         self.label_15.setText(_translate("TabWidgetProjects", "Define your options with this project"))
         self.groupBox.setTitle(_translate("TabWidgetProjects", "Paths option"))
-        self.pushPathOpenUnreal.setText(_translate("TabWidgetProjects", "Open File"))
+        self.pushPathOpenUnreal.setText(_translate("TabWidgetProjects", "Choice File"))
         self.lineEditUnreal.setPlaceholderText(_translate("TabWidgetProjects", "UE4Editor.exe"))
         self.label_project_file.setText(_translate("TabWidgetProjects", "Unreal Project File :"))
         self.lineEditProject.setPlaceholderText(_translate("TabWidgetProjects", "Name.uproject"))

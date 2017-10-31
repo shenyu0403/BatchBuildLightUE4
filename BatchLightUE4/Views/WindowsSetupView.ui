@@ -10,17 +10,8 @@
     <height>528</height>
    </rect>
   </property>
-  <property name="maximumSize">
-   <size>
-    <width>662</width>
-    <height>16777215</height>
-   </size>
-  </property>
   <property name="windowTitle">
-   <string>TabWidget</string>
-  </property>
-  <property name="currentIndex">
-   <number>0</number>
+   <string>Tab Setup</string>
   </property>
   <widget class="QWidget" name="Project">
    <attribute name="icon">
@@ -106,7 +97,7 @@
        <item row="0" column="2">
         <widget class="QPushButton" name="pushPathOpenUnreal">
          <property name="text">
-          <string>Open File</string>
+          <string>Choice File</string>
          </property>
         </widget>
        </item>
