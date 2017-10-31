@@ -24,12 +24,9 @@ main windows. Now, select your level(s) and click built-it.
 
 ![Screen Capture](Resources/ScreenBatchBuildLight.jpg)
 
-## Batch File
-### Launch
-This .bat launch the program.
+## FAQ
+### What licence use this software
 
-### Update
-Use this .bat to download the latest git version.
+### How to setup the Network
 
-### Packages
-Install all python dependence.
+~\BBLUE4\network.json
