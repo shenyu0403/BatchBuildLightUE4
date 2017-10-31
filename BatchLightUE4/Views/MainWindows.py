@@ -7,10 +7,11 @@ from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QMessageBox, QFileDialog
 
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
-from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidget
+from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidgetProjects
+from BatchLightUE4.Views.WindowsHelpView import Ui_TabWidgetHelp
 from BatchLightUE4.Models.Database import TableProgram
 from BatchLightUE4.Controllers.Perfoce import \
-    perforce_checkout, perforce_submit
+    p4_checkout, p4_submit
 from BatchLightUE4.Controllers.Project import project_name
 from BatchLightUE4.Controllers.Setup import Setup
 from BatchLightUE4.Controllers.Swarm import build, swarm_setup
@@ -18,7 +19,7 @@ from BatchLightUE4.Controllers.Swarm import build, swarm_setup
 # TODO Add a check if an UE version has launch
 
 
-class SetupHelp(QtWidgets.QTabWidget, Ui_TabWidget):
+class SetupHelp(QtWidgets.QTabWidget, Ui_TabWidgetHelp):
     """This widget contains all help tab"""
     def __init__(self):
         super(SetupHelp, self).__init__()
@@ -26,7 +27,7 @@ class SetupHelp(QtWidgets.QTabWidget, Ui_TabWidget):
         self.setWindowTitle('Tab Help')
 
 
-class SetupTab(QtWidgets.QTabWidget, Ui_TabWidget):
+class SetupTab(QtWidgets.QTabWidget, Ui_TabWidgetProjects):
     """This widget contains all setup tab"""
     def __init__(self):
         super(SetupTab, self).__init__()
@@ -263,7 +264,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.actionNetworks.triggered.connect(lambda: self.view_project(1))
         self.actionCSV.triggered.connect(lambda: self.view_project(2))
 
-        self.actionAbout.triggered.connect(self.view_help)
+        self.actionAbout.triggered.connect(lambda: self.view_help(0))
+        self.actionShortcut.triggered.connect(lambda: self.view_help(1))
 
         self.pushLevelsSelect.clicked.connect(lambda: self.select_level(True))
         self.pushLevelsDeselect.clicked.connect(self.select_level)
@@ -368,11 +370,11 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             swarm_setup(QtWidgets.QAbstractButton.isChecked(machines))
 
             for i in range(len(level_rendering)):
-                cl = perforce_checkout(level_rendering[i])
+                cl = p4_checkout(level_rendering[i])
                 build(level_rendering[i])
                 submit = self.checkBoxSubmit
                 if QtWidgets.QAbstractButton.isChecked(submit):
-                    perforce_submit(cl)
+                    p4_submit(cl)
                 i = i + 1
 
             nbr = len(level_rendering)
