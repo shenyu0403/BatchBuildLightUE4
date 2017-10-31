@@ -6,6 +6,7 @@ from socket import *
 network = '192.168.2.'
 slave = {}
 
+
 def is_up(addr):
         s = socket(AF_INET, SOCK_STREAM)
         s.settimeout(0.01)
@@ -17,7 +18,8 @@ def is_up(addr):
         else:
             s.close()
 
-def SaveNetworkName():
+
+def save_network_name():
     for ip in range(1, 256):
         addr = network + str(ip)
         if is_up(addr):
