@@ -19,12 +19,14 @@ from BatchLightUE4.Controllers.Swarm import build, swarm_setup
 # TODO Add a check if an UE version has launch
 
 
-class SetupHelp(QtWidgets.QTabWidget, Ui_TabWidgetHelp):
+class SetupHelp(QtWidgets.QTabWidget, Ui_TabWidgetProjects):
     """This widget contains all help tab"""
     def __init__(self):
         super(SetupHelp, self).__init__()
         self.setupUi(self)
-        self.setWindowTitle('Tab Help')
+        # self.setWindowTitle('Tab Help')
+        #
+        print('Windows Help Show')
 
 
 class SetupTab(QtWidgets.QTabWidget, Ui_TabWidgetProjects):
@@ -32,7 +34,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidgetProjects):
     def __init__(self):
         super(SetupTab, self).__init__()
         self.setupUi(self)
-        self.setWindowTitle('Tab Setup')
 
         self.data = Setup()
         self.job = self.data.last_job_run()
@@ -92,7 +93,6 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidgetProjects):
         self.csv_checkBox_enable.clicked.connect(self.csv_enable)
         if self.csv_software:
             self.csv_comboBox.itemText(2)
-            print('ok')
 
         # Button Box, Save and Cancel
         btn = QtWidgets.QDialogButtonBox
@@ -264,6 +264,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.actionNetworks.triggered.connect(lambda: self.view_project(1))
         self.actionCSV.triggered.connect(lambda: self.view_project(2))
 
+        #   Help Tab
         self.actionAbout.triggered.connect(lambda: self.view_help(0))
         self.actionShortcut.triggered.connect(lambda: self.view_help(1))
 
@@ -272,13 +273,12 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.toolLevelsEdit.clicked.connect(lambda: self.view_project(0))
 
         # Enable CSV options
-        csv = False
-        # if csv is not None:
-        #     p4 = perforce.connect()
+        csv = True
+        if csv is not None:
+            p4 = perforce.connect()
         # Generate all Checkbox Levels.
 
         if self.job:
-            print('Data dispo, load a file')
             self.data = TableProgram()
             levels = self.data.select_levels()
             level = self.data.select_levels(state=2)
@@ -287,19 +287,17 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 key = level[i][1]
                 self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
                 self.checkBoxLevels[key].setObjectName(key)
-                # for level_name in levels:
-                #     if level_name[1] == key and csv is not None:
-                #         path = level_name[2]
-                #         filename = perforce.Revision(p4, path)
-                #         other_use = filename._p4dict
-                #         open_by = other_use.get('otherOpen')
-                #
-                #         if open_by is not None:
-                #             bubble_msg = other_use.get('otherOpen0')
-                #             print(bubble_msg)
-                #             tooltip = bubble_msg
-                #             self.checkBoxLevels[key].setToolTip(tooltip)
-                #             self.checkBoxLevels[key].setEnabled(False)
+                for level_name in levels:
+                    if level_name[1] == key and csv is not None:
+                        path = level_name[2]
+                        filename = perforce.Revision(p4, path)
+                        other_use = filename._p4dict
+
+                        if hasattr(other_use, 'otherOpen'):
+                            bubble_msg = other_use.get('otherOpen0')
+                            tooltip = bubble_msg
+                            self.checkBoxLevels[key].setToolTip(tooltip)
+                            self.checkBoxLevels[key].setEnabled(False)
                 self.allLevelsCheck.addWidget(self.checkBoxLevels[key])
                 self.allLevelsCheck.contentsMargins()
                 i = i + 1
@@ -323,14 +321,14 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             self.file_setup)
 
     @staticmethod
-    def view_help(index):
-        dialog = SetupHelp()
+    def view_project(index):
+        dialog = SetupTab()
         dialog.show()
         dialog.setCurrentIndex(index)
 
     @staticmethod
-    def view_project(index):
-        dialog = SetupTab()
+    def view_help(index):
+        dialog = SetupHelp()
         dialog.show()
         dialog.setCurrentIndex(index)
 
@@ -375,7 +373,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 submit = self.checkBoxSubmit
                 if QtWidgets.QAbstractButton.isChecked(submit):
                     p4_submit(cl)
-                i = i + 1
+                i += 1
 
             nbr = len(level_rendering)
             swarm_setup(False)
