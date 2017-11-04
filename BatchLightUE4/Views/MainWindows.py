@@ -19,7 +19,7 @@ from BatchLightUE4.Controllers.Swarm import build, swarm_setup
 # TODO Add a check if an UE version has launch
 
 
-class SetupHelp(QtWidgets.QTabWidget, Ui_TabWidgetProjects):
+class SetupHelp(QtWidgets.QTabWidget, Ui_TabWidgetHelp):
     """This widget contains all help tab"""
     def __init__(self):
         super(SetupHelp, self).__init__()
@@ -53,7 +53,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidgetProjects):
             self.data_level = self.project_list_level(self.levels_path)
 
             # CSV Tab
-            self.data_csv = self.data.table_csv()
+            self.data_csv = self.data.csv_data()
             if self.data_csv[0] == 'False' or self.data_csv is None:
                 self.csv_boolean = 0
                 self.csv_software = 2
@@ -161,7 +161,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidgetProjects):
             if QtWidgets.QAbstractButton.isChecked(csv_state):
                 csv_item = self.csv_comboBox.currentText()
 
-            self.data.table_csv(csv_item)
+            self.data.csv_data(csv_item)
 
         SetupTab.close(self)
 
@@ -241,7 +241,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidgetProjects):
 
 
 class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
-    """Main Windows, principal view, this windows can show all level,
+    """Main Window, principal view, this windows can show all level,
     access on many option -path setup, network, log... """
 
     def __init__(self, parent=None):
@@ -272,23 +272,20 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.pushLevelsDeselect.clicked.connect(self.select_level)
         self.toolLevelsEdit.clicked.connect(lambda: self.view_project(0))
 
-        # Enable CSV options
-        csv = True
-        if csv is not None:
-            p4 = perforce.connect()
         # Generate all Checkbox Levels.
-
         if self.job:
             self.data = TableProgram()
             levels = self.data.select_levels()
             level = self.data.select_levels(state=2)
+            csv = self.data.csv_data()
             i = 0
             while i < len(level):
                 key = level[i][1]
                 self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
                 self.checkBoxLevels[key].setObjectName(key)
                 for level_name in levels:
-                    if level_name[1] == key and csv is not None:
+                    if level_name[1] == key and csv[0] is not None:
+                        p4 = perforce.connect()
                         path = level_name[2]
                         filename = perforce.Revision(p4, path)
                         other_use = filename._p4dict

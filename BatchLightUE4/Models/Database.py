@@ -133,7 +133,7 @@ class TableProgram(object):
 
         self.bd.commit()
 
-    def table_csv(self, csv=str()):
+    def csv_data(self, csv=str()):
         self.bd.cursor()
         if csv:
             data = self.bd.execute('''UPDATE csv SET software = ?''', (csv, ))
