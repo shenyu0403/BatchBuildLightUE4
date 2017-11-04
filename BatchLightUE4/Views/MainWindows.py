@@ -284,7 +284,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
                 self.checkBoxLevels[key].setObjectName(key)
                 for level_name in levels:
-                    if level_name[1] == key and csv[0] is not None:
+                    if level_name[1] == key and csv[0] == 'Perforce':
                         p4 = perforce.connect()
                         path = level_name[2]
                         filename = perforce.Revision(p4, path)
