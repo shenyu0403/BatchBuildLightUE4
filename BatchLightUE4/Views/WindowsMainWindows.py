@@ -103,7 +103,7 @@ class Ui_MainWindow(object):
         self.checkBoxMachines.setObjectName("checkBoxMachines")
         self.horizontalLayout.addWidget(self.checkBoxMachines)
         self.checkBoxSubmit = QtWidgets.QCheckBox(self.groupBox_2)
-        self.checkBoxSubmit.setEnabled(True)
+        self.checkBoxSubmit.setEnabled(False)
         self.checkBoxSubmit.setObjectName("checkBoxSubmit")
         self.horizontalLayout.addWidget(self.checkBoxSubmit)
         self.horizontalLayout_2.addLayout(self.horizontalLayout)
