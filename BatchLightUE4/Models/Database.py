@@ -1,6 +1,5 @@
 import os
 import sqlite3
-from PyQt5 import QtWidgets
 
 from os.path import dirname
 from BatchLightUE4.Controllers.Setup import Setup
@@ -126,8 +125,9 @@ class TableProgram(object):
                                             VALUES(?, ?, ?)''',
                                     (file, path, 0))
                 elif index is not None:
-                    name = treeview.levels_list.data(index)
-                    state = treeview.levels_list.itemFromIndex(index).checkState()
+                    level_list = treeview.levels_list
+                    name = level_list.data(index)
+                    state = level_list.itemFromIndex(index).checkState()
                     self.bd.execute('''UPDATE levels SET state = ? WHERE 
                     name = ?''', (state, name, ))
 
@@ -155,4 +155,3 @@ class TableProgram(object):
 
         msg_func = 'Read Data from the base data'
         print(msg_func)
-
