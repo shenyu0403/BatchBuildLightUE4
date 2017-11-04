@@ -277,14 +277,14 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             self.data = TableProgram()
             levels = self.data.select_levels()
             level = self.data.select_levels(state=2)
-            csv = self.data.csv_data()
+            self.csv = self.data.csv_data()
             i = 0
             while i < len(level):
                 key = level[i][1]
                 self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
                 self.checkBoxLevels[key].setObjectName(key)
                 for level_name in levels:
-                    if level_name[1] == key and csv[0] is False:
+                    if level_name[1] == key and self.csv[0] is False:
                         p4 = perforce.connect()
                         path = level_name[2]
                         filename = perforce.Revision(p4, path)
@@ -299,7 +299,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.allLevelsCheck.contentsMargins()
                 i = i + 1
 
-            if csv[0] is not 'False':
+            if 'False' not in self.csv[0]:
                 self.checkBoxSubmit.isEnabled()
 
         self.pushToolsBuils.clicked.connect(self.build_level)
@@ -368,7 +368,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             swarm_setup(QtWidgets.QAbstractButton.isChecked(machines))
 
             for i in range(len(level_rendering)):
-                cl = p4_checkout(level_rendering[i])
+                if 'False' not in self.csv[0]:
+                    cl = p4_checkout(level_rendering[i])
                 build(level_rendering[i])
                 submit = self.checkBoxSubmit
                 if QtWidgets.QAbstractButton.isChecked(submit):
