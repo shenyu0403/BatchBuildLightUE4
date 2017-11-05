@@ -8,20 +8,26 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_GroupBox(object):
-    def setupUi(self, GroupBox):
-        GroupBox.setObjectName("GroupBox")
-        GroupBox.resize(400, 300)
-        self.label = QtWidgets.QLabel(GroupBox)
-        self.label.setGeometry(QtCore.QRect(110, 140, 47, 13))
+class Ui_DialogLog(object):
+    def setupUi(self, DialogLog):
+        DialogLog.setObjectName("DialogLog")
+        DialogLog.resize(400, 300)
+        self.buttonBox = QtWidgets.QDialogButtonBox(DialogLog)
+        self.buttonBox.setGeometry(QtCore.QRect(30, 240, 341, 32))
+        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.label = QtWidgets.QLabel(DialogLog)
+        self.label.setGeometry(QtCore.QRect(110, 90, 47, 13))
         self.label.setObjectName("label")
 
-        self.retranslateUi(GroupBox)
-        QtCore.QMetaObject.connectSlotsByName(GroupBox)
+        self.retranslateUi(DialogLog)
+        self.buttonBox.accepted.connect(DialogLog.accept)
+        self.buttonBox.rejected.connect(DialogLog.reject)
+        QtCore.QMetaObject.connectSlotsByName(DialogLog)
 
-    def retranslateUi(self, GroupBox):
+    def retranslateUi(self, DialogLog):
         _translate = QtCore.QCoreApplication.translate
-        GroupBox.setWindowTitle(_translate("GroupBox", "GroupBox"))
-        GroupBox.setTitle(_translate("GroupBox", "GroupBox"))
-        self.label.setText(_translate("GroupBox", "log test"))
+        DialogLog.setWindowTitle(_translate("DialogLog", "Log Setup"))
+        self.label.setText(_translate("DialogLog", "dzq"))
 

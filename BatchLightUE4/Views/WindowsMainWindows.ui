@@ -384,11 +384,6 @@
     <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="actionUpdate">
-   <property name="text">
-    <string>Update</string>
-   </property>
-  </action>
   <action name="actionExit">
    <property name="icon">
     <iconset>
@@ -456,14 +451,6 @@
     <string>Information and Licence about this software</string>
    </property>
   </action>
-  <action name="actionUpdates">
-   <property name="text">
-    <string>Updates</string>
-   </property>
-   <property name="statusTip">
-    <string>Check if a news update are avaible</string>
-   </property>
-  </action>
   <action name="actionShortcut">
    <property name="text">
     <string>Shortcut</string>
@@ -512,15 +499,6 @@
   <action name="actionProj_blabla">
    <property name="text">
     <string>Proj blabla</string>
-   </property>
-  </action>
-  <action name="actionOptions">
-   <property name="icon">
-    <iconset>
-     <normaloff>../Ressources/tools.png</normaloff>../Ressources/tools.png</iconset>
-   </property>
-   <property name="text">
-    <string>Options</string>
    </property>
   </action>
  </widget>
