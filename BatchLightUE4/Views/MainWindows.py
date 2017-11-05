@@ -8,7 +8,8 @@ from PyQt5.QtWidgets import QMessageBox, QFileDialog
 
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
 from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidgetProjects
-from BatchLightUE4.Views.WindowsHelpView import Ui_TabWidgetHelp
+from BatchLightUE4.Views.WindowsHelpView import Ui_Help
+from BatchLightUE4.Views.WindowsLogView import Ui_DialogLog
 from BatchLightUE4.Models.Database import TableProgram
 from BatchLightUE4.Controllers.Perfoce import \
     p4_checkout, p4_submit
@@ -19,20 +20,40 @@ from BatchLightUE4.Controllers.Swarm import build, swarm_setup
 # TODO Add a check if an UE version has launch
 
 
-class SetupHelp(QtWidgets.QTabWidget, Ui_TabWidgetHelp):
-    """This widget contains all help tab"""
-    def __init__(self):
-        super(SetupHelp, self).__init__()
+class LogView(QtWidgets.QDialog, Ui_DialogLog):
+    """Log Panel"""
+    def __init__(self, parent=None):
+        super(LogView, self).__init__(parent)
         self.setupUi(self)
-        # self.setWindowTitle('Tab Help')
-        #
-        print('Windows Help Show')
+
+        print('Windows Log Show')
 
 
-class SetupTab(QtWidgets.QTabWidget, Ui_TabWidgetProjects):
+class ViewTabHelp(QtWidgets.QDialog, Ui_Help):
+    """This widget contains all help tabs ; information about number
+    version, release and licence, and all shortcut inside the program."""
+    def __init__(self, parent=None):
+        super(ViewTabHelp, self).__init__(parent)
+        self.setupUi(self)
+
+        self.data = Setup()
+
+        # Version Panel
+        # self.label_url_octicons.clicked.connect(self.open_url)
+        # self.label_url_website.clicked.connect(self.open_url)
+
+        self.pushButtonClose.clicked.connect(self.close)
+
+    def open_url(self):
+        # url = str(self.label_url_website.text())
+        # webbroser.open(url)
+        self.label_url_website.openExternalLinks()
+
+
+class ViewTabSetup(QtWidgets.QTabWidget, Ui_TabWidgetProjects):
     """This widget contains all setup tab"""
     def __init__(self):
-        super(SetupTab, self).__init__()
+        super(ViewTabSetup, self).__init__()
         self.setupUi(self)
 
         self.data = Setup()
@@ -163,7 +184,7 @@ class SetupTab(QtWidgets.QTabWidget, Ui_TabWidgetProjects):
 
             self.data.csv_data(csv_item)
 
-        SetupTab.close(self)
+        ViewTabSetup.close(self)
 
     def data_base_save(self):
         options = QFileDialog.Options()
@@ -259,14 +280,17 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.actionExit.triggered.connect(self.close)
 
         #    Setup and Option Menu
-        self.actionOptions.triggered.connect(self.view_project)
-        self.actionProject.triggered.connect(lambda: self.view_project(0))
+        self.actionProject.triggered.connect(self.view_project)
         self.actionNetworks.triggered.connect(lambda: self.view_project(1))
         self.actionCSV.triggered.connect(lambda: self.view_project(2))
 
+        #   Log Panel
+        self.actionShow_log_folder.triggered.connect(self.view_log)
+        self.actionClean_Log.triggered.connect(self.view_log)
+
         #   Help Tab
-        self.actionAbout.triggered.connect(lambda: self.view_help(0))
-        self.actionShortcut.triggered.connect(lambda: self.view_help(1))
+        self.actionAbout.triggered.connect(self.view_help)
+        # self.actionShortcut.triggered.connect(lambda: self.view_help(1))
 
         self.pushLevelsSelect.clicked.connect(lambda: self.select_level(True))
         self.pushLevelsDeselect.clicked.connect(self.select_level)
@@ -320,17 +344,18 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             'Open a previous project',
             self.file_setup)
 
-    @staticmethod
-    def view_project(index):
-        dialog = SetupTab()
-        dialog.show()
-        dialog.setCurrentIndex(index)
+    def view_project(self, index):
+        dialog_setup = ViewTabSetup()
+        dialog_setup.show()
+        dialog_setup.setCurrentIndex(index)
 
-    @staticmethod
-    def view_help(index):
-        dialog = SetupHelp()
-        dialog.show()
-        dialog.setCurrentIndex(index)
+    def view_log(self):
+        dialog_log = LogView(self)
+        dialog_log.show()
+
+    def view_help(self):
+        dialog_help = ViewTabHelp(self)
+        dialog_help.show()
 
     # Events
     def select_level(self, state):
@@ -384,3 +409,10 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         else:
             msg = 'Rendering abort.'
             self.statusbar.showMessage(msg)
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    window = MainWindows()
+    app.exec_()
