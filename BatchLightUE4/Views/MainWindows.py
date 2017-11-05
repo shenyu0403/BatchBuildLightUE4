@@ -44,10 +44,10 @@ class ViewTabHelp(QtWidgets.QDialog, Ui_Help):
 
         self.pushButtonClose.clicked.connect(self.close)
 
-    def open_url(self):
+    # def open_url(self):
         # url = str(self.label_url_website.text())
         # webbroser.open(url)
-        self.label_url_website.openExternalLinks()
+        # self.label_url_website.openExternalLinks()
 
 
 class ViewTabSetup(QtWidgets.QTabWidget, Ui_TabWidgetProjects):
@@ -290,7 +290,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
 
         #   Help Tab
         self.actionAbout.triggered.connect(self.view_help)
-        # self.actionShortcut.triggered.connect(lambda: self.view_help(1))
+        self.actionShortcut.triggered.connect(self.view_help)
 
         self.pushLevelsSelect.clicked.connect(lambda: self.select_level(True))
         self.pushLevelsDeselect.clicked.connect(self.select_level)
