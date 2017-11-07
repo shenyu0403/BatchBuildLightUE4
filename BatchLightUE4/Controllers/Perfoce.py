@@ -24,7 +24,10 @@ def p4_checkout(level_used):
 
     for filename in os.listdir(dirname(data_levels)):
         filename = '/' + depot + "/" + filename
-        if '.uasset' or '.umap' in filename:
+        if '.uasset' in filename:
+            revisions.append(filename)
+
+        if '.umap' in filename:
             revisions.append(filename)
 
     level_used = level_used.replace('.umap', '')
