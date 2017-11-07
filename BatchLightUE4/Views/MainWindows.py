@@ -324,7 +324,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 i = i + 1
 
             if 'False' not in self.csv[0]:
-                self.checkBoxSubmit.isEnabled()
+                self.checkBoxSubmit.setEnabled(True)
 
         self.pushToolsBuils.clicked.connect(self.build_level)
         self.pushToolsBuils.setToolTip(self.pushToolsBuils.statusTip())
