@@ -63,3 +63,16 @@ class Setup(object):
 
         with open(self.config_path, 'w') as configfile:
             self.config.write(configfile)
+
+    def version(self, update=None):
+        self.config.read(self.config_path)
+        data = self.config.get('Version', 'release')
+
+        if update is not None:
+            print('Update the Version to : ', update)
+            self.config.set('Version', 'release', update)
+
+            with open(self.config_path, 'w') as configfile:
+                self.config.write(configfile)
+
+        return data
