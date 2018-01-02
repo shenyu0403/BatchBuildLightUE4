@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QApplication
 
 from BatchLightUE4.Views.MainWindows import MainWindows
 
-app_info = 'B-BlUE4'
+app_info = 'B-BLUE4'
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
