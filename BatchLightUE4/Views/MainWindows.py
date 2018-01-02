@@ -37,19 +37,17 @@ class ViewTabHelp(QtWidgets.QDialog, Ui_Help):
         self.setupUi(self)
 
         self.data = Setup()
-        # self.tabWidget.setCurrentIndex(1)
 
-        print('Index Test > ', self.tabWidget.currentIndex())
         # Version Panel
-        # self.label_url_octicons.clicked.connect(self.open_url)
-        # self.label_url_website.clicked.connect(self.open_url)
+        url_octi = self.label_url_octicons
+        url_website = self.label_url_website
+        url_octi.setText('''<a 
+        href='https://octicons.github.com/'>Github's Icons - Octicons</a>''')
+        url_website.setText('''<a 
+        href='https://github.com/stilobique/BatchBuildLightUE4/'>Github 
+        Depot</a>''')
 
         self.pushButtonClose.clicked.connect(self.close)
-
-    # def open_url(self):
-        # url = str(self.label_url_website.text())
-        # webbroser.open(url)
-        # self.label_url_website.openExternalLinks()
 
 
 class ViewTabSetup(QtWidgets.QTabWidget, Ui_TabWidgetProjects):
