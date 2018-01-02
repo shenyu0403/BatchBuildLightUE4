@@ -6,11 +6,17 @@ from PyQt5 import QtWidgets, QtGui
 
 from PyQt5.QtWidgets import QMessageBox, QFileDialog
 
+# Adding all view used
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
 from BatchLightUE4.Views.WindowsSetupView import Ui_TabWidgetProjects
 from BatchLightUE4.Views.WindowsHelpView import Ui_Help
 from BatchLightUE4.Views.WindowsLogView import Ui_DialogLog
+from BatchLightUE4.Views.WindowsRendering import Ui_Rendering
+
+# Adding Data Base utils
 from BatchLightUE4.Models.Database import TableProgram
+
+# Adding all Operator used
 from BatchLightUE4.Controllers.Perfoce import \
     p4_checkout, p4_submit
 from BatchLightUE4.Controllers.Project import project_name
@@ -18,6 +24,10 @@ from BatchLightUE4.Controllers.Setup import Setup
 from BatchLightUE4.Controllers.Swarm import build, swarm_setup
 
 # TODO Add a check if an UE version has launch
+
+
+class RenderingView(QtWidgets.QDialog, Ui_Rendering):
+    print('Show Rendering View')
 
 
 class LogView(QtWidgets.QDialog, Ui_DialogLog):
