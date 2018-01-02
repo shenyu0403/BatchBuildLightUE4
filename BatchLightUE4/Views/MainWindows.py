@@ -1,7 +1,7 @@
 import os
 import perforce
 
-from os.path import join, isdir, expanduser
+from os.path import join, isdir, expanduser, basename, dirname
 from PyQt5 import QtWidgets, QtGui
 
 from PyQt5.QtWidgets import QMessageBox, QFileDialog
@@ -300,25 +300,31 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.job:
             self.data = TableProgram()
             levels = self.data.select_levels()
-            level = self.data.select_levels(state=2)
+            level_checkbox = self.data.select_levels(state=2)
             self.csv = self.data.csv_data()
             i = 0
-            while i < len(level):
-                key = level[i][1]
+            while i < len(level_checkbox):
+                key = level_checkbox[i][1]
+                key_folder = basename(dirname(level_checkbox[i][2]))
                 self.checkBoxLevels[key] = QtWidgets.QCheckBox(key)
                 self.checkBoxLevels[key].setObjectName(key)
-                for level_name in levels:
-                    if level_name[1] == key and self.csv[0] is False:
-                        p4 = perforce.connect()
-                        path = level_name[2]
-                        filename = perforce.Revision(p4, path)
-                        other_use = filename._p4dict
+                csv_value = self.csv[0]
+                if csv_value != str('False'):
+                    for level_name in levels:
+                        if key_folder in level_name[2]:
+                            p4 = perforce.connect()
+                            path = level_name[2]
+                            filename = perforce.Revision(p4, path)
+                            other_use = filename._p4dict
 
-                        if hasattr(other_use, 'otherOpen'):
-                            bubble_msg = other_use.get('otherOpen0')
-                            tooltip = bubble_msg
-                            self.checkBoxLevels[key].setToolTip(tooltip)
-                            self.checkBoxLevels[key].setEnabled(False)
+                            if 'otherOpen' in other_use:
+                                bubble_msg = other_use.get('otherOpen0')
+                                tooltip = bubble_msg
+                                self.checkBoxLevels[key].setToolTip(tooltip)
+                                self.checkBoxLevels[key].setEnabled(False)
+                                print('other use > ', key)
+                            else:
+                                print('pas de attribut')
                 self.allLevelsCheck.addWidget(self.checkBoxLevels[key])
                 self.allLevelsCheck.contentsMargins()
                 i = i + 1
