@@ -400,6 +400,10 @@
    </property>
   </action>
   <action name="actionProject">
+   <property name="icon">
+    <iconset>
+     <normaloff>../Resources/package.png</normaloff>../Resources/package.png</iconset>
+   </property>
    <property name="text">
     <string>Projects</string>
    </property>
@@ -408,6 +412,10 @@
    </property>
   </action>
   <action name="actionNetworks">
+   <property name="icon">
+    <iconset>
+     <normaloff>../Resources/globe.png</normaloff>../Resources/globe.png</iconset>
+   </property>
    <property name="text">
     <string>Networks</string>
    </property>
@@ -416,6 +424,10 @@
    </property>
   </action>
   <action name="actionCSV">
+   <property name="icon">
+    <iconset>
+     <normaloff>../Resources/git-branch.png</normaloff>../Resources/git-branch.png</iconset>
+   </property>
    <property name="text">
     <string>CSV</string>
    </property>
