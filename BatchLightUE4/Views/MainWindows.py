@@ -310,6 +310,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 self.checkBoxLevels[key].setObjectName(key)
                 csv_value = self.csv[0]
                 if csv_value != str('False'):
+                    # TODO Add a progress bar, the the soft check many levels
+                    #  the request can be long.
                     for level_name in levels:
                         if key_folder in level_name[2]:
                             p4 = perforce.connect()
