@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'WindowsMainWindows.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -70,7 +70,6 @@ class Ui_MainWindow(object):
         self.allLevelsWidget.setGeometry(QtCore.QRect(0, 0, 464, 274))
         self.allLevelsWidget.setObjectName("allLevelsWidget")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.allLevelsWidget)
-        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.allLevelsCheck = QtWidgets.QVBoxLayout()
         self.allLevelsCheck.setContentsMargins(6, 6, 6, 6)
@@ -174,16 +173,17 @@ class Ui_MainWindow(object):
         self.actionClean_Log.setObjectName("actionClean_Log")
         self.actionAbout = QtWidgets.QAction(MainWindow)
         icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap("BatchLightUE4/Resources/info.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon9.addPixmap(QtGui.QPixmap("BatchLightUE4/Resources/issues-closed.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionAbout.setIcon(icon9)
         self.actionAbout.setObjectName("actionAbout")
         self.actionShortcut = QtWidgets.QAction(MainWindow)
+        icon10 = QtGui.QIcon()
+        icon10.addPixmap(QtGui.QPixmap("BatchLightUE4/Resources/pencil.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionShortcut.setIcon(icon10)
         self.actionShortcut.setObjectName("actionShortcut")
         self.actionOuvrir = QtWidgets.QAction(MainWindow)
         self.actionOuvrir.setObjectName("actionOuvrir")
         self.actionSave_as = QtWidgets.QAction(MainWindow)
-        icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap("BatchLightUE4/Resources/pencil.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionSave_as.setIcon(icon10)
         self.actionSave_as.setObjectName("actionSave_as")
         self.actionLast_project = QtWidgets.QAction(MainWindow)

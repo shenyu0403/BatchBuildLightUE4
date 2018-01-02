@@ -442,7 +442,7 @@
   <action name="actionAbout">
    <property name="icon">
     <iconset>
-     <normaloff>../Resources/info.png</normaloff>../Resources/info.png</iconset>
+     <normaloff>../Resources/issues-closed.png</normaloff>../Resources/issues-closed.png</iconset>
    </property>
    <property name="text">
     <string>About and Updates</string>
@@ -452,6 +452,10 @@
    </property>
   </action>
   <action name="actionShortcut">
+   <property name="icon">
+    <iconset>
+     <normaloff>../Resources/pencil.png</normaloff>../Resources/pencil.png</iconset>
+   </property>
    <property name="text">
     <string>Shortcut</string>
    </property>

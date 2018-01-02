@@ -37,7 +37,9 @@ class ViewTabHelp(QtWidgets.QDialog, Ui_Help):
         self.setupUi(self)
 
         self.data = Setup()
+        # self.tabWidget.setCurrentIndex(1)
 
+        print('Index Test > ', self.tabWidget.currentIndex())
         # Version Panel
         # self.label_url_octicons.clicked.connect(self.open_url)
         # self.label_url_website.clicked.connect(self.open_url)
@@ -290,7 +292,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
 
         #   Help Tab
         self.actionAbout.triggered.connect(self.view_help)
-        self.actionShortcut.triggered.connect(self.view_help)
+        self.actionShortcut.triggered.connect(lambda: self.view_help(1))
 
         self.pushLevelsSelect.clicked.connect(lambda: self.select_level(True))
         self.pushLevelsDeselect.clicked.connect(self.select_level)
@@ -344,7 +346,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             'Open a previous project',
             self.file_setup)
 
-    def view_project(self, index):
+    @staticmethod
+    def view_project(index):
         dialog_setup = ViewTabSetup()
         dialog_setup.show()
         dialog_setup.setCurrentIndex(index)
@@ -353,9 +356,10 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         dialog_log = LogView(self)
         dialog_log.show()
 
-    def view_help(self):
+    def view_help(self, index):
         dialog_help = ViewTabHelp(self)
         dialog_help.show()
+        dialog_help.tabWidget.setCurrentIndex(index)
 
     # Events
     def select_level(self, state):
