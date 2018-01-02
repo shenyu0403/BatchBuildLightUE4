@@ -315,18 +315,14 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                     for level_name in levels:
                         if key_folder in level_name[2]:
                             p4 = perforce.connect()
-                            path = level_name[2]
-                            filename = perforce.Revision(p4, path)
-                            other_use = filename._p4dict
+                            filename = perforce.Revision(p4, level_name[2])
 
-                            if 'otherOpen' in other_use:
-                                bubble_msg = other_use.get('otherOpen0')
+                            if 'otherOpen' in filename._p4dict:
+                                bubble_msg = filename._p4dict.get('otherOpen0')
                                 tooltip = bubble_msg
                                 self.checkBoxLevels[key].setToolTip(tooltip)
                                 self.checkBoxLevels[key].setEnabled(False)
-                                print('other use > ', key)
-                            else:
-                                print('pas de attribut')
+
                 self.allLevelsCheck.addWidget(self.checkBoxLevels[key])
                 self.allLevelsCheck.contentsMargins()
                 i = i + 1
