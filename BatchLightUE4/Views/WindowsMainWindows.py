@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(526, 489)
+        MainWindow.resize(526, 597)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.centralwidget)
@@ -67,7 +67,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.allLevelsWidget = QtWidgets.QWidget()
-        self.allLevelsWidget.setGeometry(QtCore.QRect(0, 0, 464, 274))
+        self.allLevelsWidget.setGeometry(QtCore.QRect(0, 0, 464, 382))
         self.allLevelsWidget.setObjectName("allLevelsWidget")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.allLevelsWidget)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -249,6 +249,8 @@ class Ui_MainWindow(object):
         self.menuSetup.setTitle(_translate("MainWindow", "Setup"))
         self.menuLog.setTitle(_translate("MainWindow", "Log"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
+        self.statusbar.setToolTip(_translate("MainWindow", "Information"))
+        self.statusbar.setStatusTip(_translate("MainWindow", "Statut Bars | B-Blue4"))
         self.actionNouveau_Setup.setText(_translate("MainWindow", "New Setup"))
         self.actionNouveau_Setup.setIconText(_translate("MainWindow", "New Setup"))
         self.actionNouveau_Setup.setToolTip(_translate("MainWindow", "New Setup"))

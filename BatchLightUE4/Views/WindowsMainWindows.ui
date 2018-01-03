@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>526</width>
-    <height>489</height>
+    <height>597</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -131,7 +131,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>464</width>
-                 <height>274</height>
+                 <height>382</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -359,6 +359,12 @@
   <widget class="QStatusBar" name="statusbar">
    <property name="enabled">
     <bool>true</bool>
+   </property>
+   <property name="toolTip">
+    <string>Information</string>
+   </property>
+   <property name="statusTip">
+    <string>Statut Bars | B-Blue4</string>
    </property>
    <property name="autoFillBackground">
     <bool>false</bool>
