@@ -26,8 +26,20 @@ from BatchLightUE4.Controllers.Swarm import build, swarm_setup
 # TODO Add a check if an UE version has launch
 
 
-class RenderingView(QtWidgets.QDialog, Ui_Rendering):
-    print('Show Rendering View')
+class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
+    """Rendering Dialog Box."""
+
+    def __init__(self, parent, lvl_list):
+        super(ViewRendering, self).__init__(parent)
+        self.setupUi(self)
+
+        # TODO Split the rendering process on a another thread.
+        lvl_count = len(lvl_list)
+
+        i = 0
+        while i < lvl_count:
+            self.label_lvl_name.setText(lvl_list[i])
+            i += 1
 
 
 class LogView(QtWidgets.QDialog, Ui_DialogLog):
@@ -307,6 +319,8 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
         self.toolLevelsEdit.clicked.connect(lambda: self.view_project(0))
 
         # Generate all Checkbox Levels.
+        # TODO Refactoring the Check perforce (not OO and fonctional only
+        # with Perforce ! Need to be think with Subversion and Git.
         if self.job:
             self.data = TableProgram()
             levels = self.data.select_levels()
@@ -340,7 +354,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             if 'False' not in self.csv[0]:
                 self.checkBoxSubmit.setEnabled(True)
 
-        self.pushToolsBuils.clicked.connect(self.build_level)
+        self.pushToolsBuils.clicked.connect(self.view_rendering)
         self.pushToolsBuils.setToolTip(self.pushToolsBuils.statusTip())
 
     # File Menu
@@ -385,46 +399,52 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             if QtWidgets.QAbstractButton.isEnabled(btn):
                 btn.setCheckState(boolean)
 
-    def build_level(self):
-        # TODO Split the rendering process on a another thread.
-        # TODO Add the perfoce base integration
+    def view_rendering(self):
         level_rendering = []
-        text = ''
+        level_count = 0
 
         for key, value in self.checkBoxLevels.items():
             btn = self.checkBoxLevels[key]
             if QtWidgets.QAbstractButton.isChecked(btn):
                 level_rendering.append(key)
-                nbr = len(level_rendering)
-                text = 'Build '
-                text = text + str(nbr) + ' level(s).'
-            elif len(level_rendering) == 0:
-                text = 'No level selected.'
+                level_count = len(level_rendering)
 
-        reply = QMessageBox.question(self, 'Rendering', text)
-        level_rendering.sort()
+        # Check si je peut faire un build (More than 1 levels selected ?
+        # -> Non, abort rendering
+        # -> Oui, je lance mon thread et ma progress bar.
 
-        if reply == QMessageBox.Yes:
-            machines = self.checkBoxMachines
-            swarm_setup(QtWidgets.QAbstractButton.isChecked(machines))
-
-            for i in range(len(level_rendering)):
-                if 'False' not in self.csv[0]:
-                    cl = p4_checkout(level_rendering[i])
-                build(level_rendering[i])
-                submit = self.checkBoxSubmit
-                if QtWidgets.QAbstractButton.isChecked(submit):
-                    p4_submit(cl)
-                i += 1
-
-            nbr = len(level_rendering)
-            swarm_setup(False)
-            msg = 'Rendering Complete, ' + str(nbr) + ' level(s) build.'
-            self.statusbar.showMessage(msg)
+        if level_count == 0:
+            text = 'No level(s) selected !'
+            QMessageBox.information(self, 'Information', text)
 
         else:
-            msg = 'Rendering abort.'
-            self.statusbar.showMessage(msg)
+            dialog_rendering = ViewRendering(self, lvl_list=level_rendering)
+            dialog_rendering.show()
+
+        # reply = QMessageBox.question(self, 'Rendering', text)
+        # level_rendering.sort()
+        #
+        # if reply == QMessageBox.Yes:
+        #     machines = self.checkBoxMachines
+        #     swarm_setup(QtWidgets.QAbstractButton.isChecked(machines))
+        #
+        #     for i in range(len(level_rendering)):
+        #         if 'False' not in self.csv[0]:
+        #             cl = p4_checkout(level_rendering[i])
+        #         build(level_rendering[i])
+        #         submit = self.checkBoxSubmit
+        #         if QtWidgets.QAbstractButton.isChecked(submit):
+        #             p4_submit(cl)
+        #         i += 1
+        #
+        #     nbr = len(level_rendering)
+        #     swarm_setup(False)
+        #     msg = 'Rendering Complete, ' + str(nbr) + ' level(s) build.'
+        #     self.statusbar.showMessage(msg)
+        #
+        # else:
+        #     msg = 'Rendering abort.'
+        #     self.statusbar.showMessage(msg)
 
 
 if __name__ == "__main__":
