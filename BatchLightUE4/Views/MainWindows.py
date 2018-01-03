@@ -2,7 +2,7 @@ import os
 import perforce
 
 from os.path import join, isdir, expanduser, basename, dirname
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets, QtGui, QtCore
 
 from PyQt5.QtWidgets import QMessageBox, QFileDialog
 
@@ -26,6 +26,41 @@ from BatchLightUE4.Controllers.Swarm import build, swarm_setup
 # TODO Add a check if an UE version has launch
 
 
+class ThreadRendering(QtCore.QThread):
+    def __init__(self, level_rendering):
+        """
+        This Class use the building operator in a separated thread, without
+        this class the program freeze when a built it.
+
+        :param level_rendering: A list with all level built-it
+        :type level_rendering: list
+        """
+        QtCore.QThread.__init__(self)
+        self.lvl_list = level_rendering
+
+    def __del__(self):
+        self.wait()
+
+    def building(self, level):
+        """
+        Launch the swarm build operator.
+
+        :param level: A list with all level built-it
+        :type level: basestring
+        :return: Nothing, a job finished
+        """
+
+        print('Level Name > ', level, ' | ID Number > ')
+
+    def run(self):
+        # My Thread :) .
+        print('Hello, i am a thread')
+
+        for i in range(len(self.lvl_list)):
+            self.building(self.lvl_list[i])
+            self.sleep(2)
+
+
 class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
     """Rendering Dialog Box."""
 
@@ -37,17 +72,26 @@ class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
 
         # TODO Split the rendering process on a another thread.
         lvl_count = len(lvl_list)
-
-        self.progress_built(lvl_count, lvl_list, csv)
-
-    def progress_built(self, lvl_count, lvl_list, csv):
+        self.progress_built(lvl_count)
         i = 0
         while i < lvl_count:
             self.label_lvl_name.setText(lvl_list[i])
-            i += 1
+            print('Level run > ', lvl_list[i])
             if 'False' not in csv[0]:
-                print('Build avec CSV')
+                cl = p4_checkout(lvl_list[i])
 
+            # threading.Thread(target=build, args=(lvl_list[i],)).run()
+            # build(lvl_list[i])
+
+            thread_render = ThreadRendering(lvl_list)
+            thread_render.start()
+
+            i += 1
+
+    def progress_built(self, lvl_count):
+        i = 0
+        while i < lvl_count:
+            i += 1
             value = i * 100 / lvl_count
             self.progressBar.setValue(value)
 
@@ -294,10 +338,11 @@ class ViewTabSetup(QtWidgets.QTabWidget, Ui_TabWidgetProjects):
 
 
 class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
-    """Main Window, principal view, this windows can show all level,
-    access on many option -path setup, network, log... """
-
     def __init__(self, parent=None):
+        """
+        Main Window, principal view, this windows can show all level,
+        access on many option -path setup, network, log...
+        """
         super(MainWindows, self).__init__(parent)
         self.setupUi(self)
         # Setup settings base
@@ -436,9 +481,13 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 machines = self.checkBoxMachines
                 swarm_setup(QtWidgets.QAbstractButton.isChecked(machines))
 
-                dialog_rendering = ViewRendering(self,
-                                                 lvl_list=lvl_rendering,
-                                                 csv=self.csv).show()
+                dialog_render = ViewRendering(self, lvl_rendering, self.csv[0])
+                dialog_render.show()
+
+                swarm_setup(False)
+                # submit = self.checkBoxSubmit
+                # if QtWidgets.QAbstractButton.isChecked(submit):
+                #     p4_submit(cl)
                 msg = 'Level Build'
 
             else:
