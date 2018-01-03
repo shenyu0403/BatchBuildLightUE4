@@ -43,7 +43,6 @@ def swarm_setup(boolean):
 
     if exists(network_path):
         with open(network_path, 'r') as f:
-            print(f)
             slave = json.load(f)
 
         # --------------------  --------------------
