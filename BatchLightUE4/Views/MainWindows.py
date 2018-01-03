@@ -38,29 +38,18 @@ class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
         # TODO Split the rendering process on a another thread.
         lvl_count = len(lvl_list)
 
+        self.progress_built(lvl_count, lvl_list, csv)
+
+    def progress_built(self, lvl_count, lvl_list, csv):
         i = 0
         while i < lvl_count:
             self.label_lvl_name.setText(lvl_list[i])
+            i += 1
             if 'False' not in csv[0]:
                 print('Build avec CSV')
 
-            print('Build rendering (swarm)')
-            print('Push')
-
-            i += 1
-
-        #     for i in range(len(lvl_rendering)):
-        #         if 'False' not in self.csv[0]:
-        #             cl = p4_checkout(lvl_rendering[i])
-        #         build(lvl_rendering[i])
-        #         submit = self.checkBoxSubmit
-        #         if QtWidgets.QAbstractButton.isChecked(submit):
-        #             p4_submit(cl)
-        #         i += 1
-        #
-        #     nbr = len(lvl_rendering)
-        #     swarm_setup(False)
-        #     msg = 'Rendering Complete, ' + str(nbr) + ' level(s) build.'
+            value = i * 100 / lvl_count
+            self.progressBar.setValue(value)
 
 
 class LogView(QtWidgets.QDialog, Ui_DialogLog):
@@ -449,9 +438,7 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
 
                 dialog_rendering = ViewRendering(self,
                                                  lvl_list=lvl_rendering,
-                                                 csv=self.csv)
-                dialog_rendering.show()
-
+                                                 csv=self.csv).show()
                 msg = 'Level Build'
 
             else:
