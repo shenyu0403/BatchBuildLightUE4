@@ -32,7 +32,7 @@ class ThreadRendering(QtCore.QThread):
         This Class use the building operator in a separated thread, without
         this class the program freeze when a built it.
 
-        :param level_rendering: A list with all level built-it
+        :param level_rendering: A level list we want build it
         :type level_rendering: list
         """
         QtCore.QThread.__init__(self)
@@ -45,20 +45,27 @@ class ThreadRendering(QtCore.QThread):
         """
         Launch the swarm build operator.
 
-        :param level: A list with all level built-it
+        :param level: A level name we want build
         :type level: basestring
         :return: Nothing, a job finished
         """
 
-        print('Level Name > ', level, ' | ID Number > ')
+        print('Level Name > ', level)
+
+        return 'Finished'
 
     def run(self):
         # My Thread :) .
         print('Hello, i am a thread')
-
-        for i in range(len(self.lvl_list)):
+        lvl_count = len(self.lvl_list)
+        i = 0
+        while i < lvl_count:
             self.building(self.lvl_list[i])
             self.sleep(2)
+            i += 1
+
+        # self.terminate()
+        # self.wait()
 
 
 class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
@@ -71,29 +78,26 @@ class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
         self.setupUi(self)
 
         # TODO Split the rendering process on a another thread.
-        lvl_count = len(lvl_list)
-        self.progress_built(lvl_count)
-        i = 0
-        while i < lvl_count:
-            self.label_lvl_name.setText(lvl_list[i])
-            print('Level run > ', lvl_list[i])
-            if 'False' not in csv[0]:
-                cl = p4_checkout(lvl_list[i])
+        # Je setup ma progress bar avec les data de base
+        self.progressBar.setMaximum(len(lvl_list))
+        self.progressBar.setValue(0)
+        # Thread
+        thread_render = ThreadRendering(lvl_list)
+        thread_render.start()
+        thread_render.finished.connect(self.progress_built)
+        # thread_render.quit()
+        # thread_render.wait()
 
-            # threading.Thread(target=build, args=(lvl_list[i],)).run()
-            # build(lvl_list[i])
+        # self.progress_built(lvl_count)
+        # while i < lvl_count:
+        #     self.label_lvl_name.setText(lvl_list[i])
+        #     if 'False' not in csv[0]:
+        #         cl = p4_checkout(lvl_list[i])
+        # build(lvl_list[i])
+        # i += 1
 
-            thread_render = ThreadRendering(lvl_list)
-            thread_render.start()
-
-            i += 1
-
-    def progress_built(self, lvl_count):
-        i = 0
-        while i < lvl_count:
-            i += 1
-            value = i * 100 / lvl_count
-            self.progressBar.setValue(value)
+    def progress_built(self):
+        self.progressBar.setValue(self.progress_bar.value()+1)
 
 
 class LogView(QtWidgets.QDialog, Ui_DialogLog):
