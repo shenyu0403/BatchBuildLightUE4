@@ -29,7 +29,9 @@ from BatchLightUE4.Controllers.Swarm import build, swarm_setup
 class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
     """Rendering Dialog Box."""
 
-    def __init__(self, parent, lvl_list):
+    def __init__(self, parent, lvl_list, csv='False'):
+        """lvl_list: list with all level rendering.
+        csv: data with the CSV used (booelan or list)"""
         super(ViewRendering, self).__init__(parent)
         self.setupUi(self)
 
@@ -39,7 +41,26 @@ class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
         i = 0
         while i < lvl_count:
             self.label_lvl_name.setText(lvl_list[i])
+            if 'False' not in csv[0]:
+                print('Build avec CSV')
+
+            print('Build rendering (swarm)')
+            print('Push')
+
             i += 1
+
+        #     for i in range(len(lvl_rendering)):
+        #         if 'False' not in self.csv[0]:
+        #             cl = p4_checkout(lvl_rendering[i])
+        #         build(lvl_rendering[i])
+        #         submit = self.checkBoxSubmit
+        #         if QtWidgets.QAbstractButton.isChecked(submit):
+        #             p4_submit(cl)
+        #         i += 1
+        #
+        #     nbr = len(lvl_rendering)
+        #     swarm_setup(False)
+        #     msg = 'Rendering Complete, ' + str(nbr) + ' level(s) build.'
 
 
 class LogView(QtWidgets.QDialog, Ui_DialogLog):
@@ -400,51 +421,43 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 btn.setCheckState(boolean)
 
     def view_rendering(self):
-        level_rendering = []
+        lvl_rendering = []
         level_count = 0
 
         for key, value in self.checkBoxLevels.items():
             btn = self.checkBoxLevels[key]
             if QtWidgets.QAbstractButton.isChecked(btn):
-                level_rendering.append(key)
-                level_count = len(level_rendering)
+                lvl_rendering.append(key)
+                level_count = len(lvl_rendering)
 
         # Check si je peut faire un build (More than 1 levels selected ?
         # -> Non, abort rendering
         # -> Oui, je lance mon thread et ma progress bar.
 
         if level_count == 0:
-            text = 'No level(s) selected !'
-            QMessageBox.information(self, 'Information', text)
+            msg = 'No level(s) selected !'
+            QMessageBox.information(self, 'Information', msg)
 
         else:
-            dialog_rendering = ViewRendering(self, lvl_list=level_rendering)
-            dialog_rendering.show()
+            text = 'Launch the rendering ?'
+            reply = QMessageBox.question(self, 'Rendering', text)
+            lvl_rendering.sort()
 
-        # reply = QMessageBox.question(self, 'Rendering', text)
-        # level_rendering.sort()
-        #
-        # if reply == QMessageBox.Yes:
-        #     machines = self.checkBoxMachines
-        #     swarm_setup(QtWidgets.QAbstractButton.isChecked(machines))
-        #
-        #     for i in range(len(level_rendering)):
-        #         if 'False' not in self.csv[0]:
-        #             cl = p4_checkout(level_rendering[i])
-        #         build(level_rendering[i])
-        #         submit = self.checkBoxSubmit
-        #         if QtWidgets.QAbstractButton.isChecked(submit):
-        #             p4_submit(cl)
-        #         i += 1
-        #
-        #     nbr = len(level_rendering)
-        #     swarm_setup(False)
-        #     msg = 'Rendering Complete, ' + str(nbr) + ' level(s) build.'
-        #     self.statusbar.showMessage(msg)
-        #
-        # else:
-        #     msg = 'Rendering abort.'
-        #     self.statusbar.showMessage(msg)
+            if reply == QMessageBox.Yes:
+                machines = self.checkBoxMachines
+                swarm_setup(QtWidgets.QAbstractButton.isChecked(machines))
+
+                dialog_rendering = ViewRendering(self,
+                                                 lvl_list=lvl_rendering,
+                                                 csv=self.csv)
+                dialog_rendering.show()
+
+                msg = 'Level Build'
+
+            else:
+                msg = 'Rendering abort.'
+
+        self.statusbar.showMessage(msg)
 
 
 if __name__ == "__main__":
