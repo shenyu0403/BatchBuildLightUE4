@@ -28,16 +28,22 @@ from BatchLightUE4.Controllers.Swarm import build, swarm_setup
 
 
 class ThreadRendering(QtCore.QThread):
-    def __init__(self, level_rendering):
+    def __init__(self, level_rendering, csv, submit):
         """
         This Class use the building operator in a separated thread, without
         this class the program freeze when a built it.
 
         :param level_rendering: A level list we want build it
         :type level_rendering: list
+        :param csv: infomartion about the CSV used (False or other)
+        :type csv: String
+        :param submit: Info if the instance need to submit the rendering
+        :type submit: bool
         """
         QtCore.QThread.__init__(self)
         self.lvl_list = level_rendering
+        self.csv_data = csv
+        self.submit = submit
 
     def __del__(self):
         self.wait()
@@ -45,8 +51,12 @@ class ThreadRendering(QtCore.QThread):
     def run(self):
         # My Thread :) .
         print('Hello, i am a thread')
+        self.sleep(4)
+        print(self.csv_data)
 
         for level in self.lvl_list:
+            # if 'False' not in self.csv_data:
+            #     cl = p4_checkout(self.lvl_list)
             swarm = build(level)
             while swarm:
                 self.sleep(30)
@@ -57,13 +67,16 @@ class ThreadRendering(QtCore.QThread):
                     print('Update progress bar')
                     break
 
+            if self.submit:
+                p4_submit(cl)
+
             print('End Looping')
 
 
 class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
     """Rendering Dialog Box."""
 
-    def __init__(self, parent, lvl_list, csv='False'):
+    def __init__(self, parent, lvl_list, csv='False', submit=False):
         """lvl_list: list with all level rendering.
         csv: data with the CSV used (booelan or list)"""
         super(ViewRendering, self).__init__(parent)
@@ -75,34 +88,8 @@ class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
         self.progressBar.setValue(0)
         btn = QtWidgets.QDialogButtonBox
         self.buttonBox.button(btn.Ok).setEnabled(False)
-        self.swarm = ThreadRendering(lvl_list)
+        self.swarm = ThreadRendering(lvl_list, csv, submit)
         self.swarm.start()
-
-        # i = 0
-        # for i in range(len(lvl_list)):
-        #     if 'False' not in csv[0]:
-        #         cl = p4_checkout(lvl_list[i])
-            # swarm = build(lvl_list[i])
-
-            # while True:
-            #     line = swarm.stdout.readline()
-            #     print('line >> ', line)
-            #     if not line:
-            #         break
-            #     print(line)
-
-            # submit = self.checkBoxSubmit
-            # if QtWidgets.QAbstractButton.isChecked(submit):
-            #     p4_submit(cl)
-            # i += 1
-
-        # self.progress_built(lvl_count)
-        # while i < lvl_count:
-        #     self.label_lvl_name.setText(lvl_list[i])
-        #     if 'False' not in csv[0]:
-        #         cl = p4_checkout(lvl_list[i])
-        # build(lvl_list[i])
-        # i += 1
 
     def progress_built(self):
         # value = QtCore.pyqtSignal([int], ['ProgressValue'])
@@ -494,8 +481,12 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
             if reply == QMessageBox.Yes:
                 machines = self.checkBoxMachines
                 swarm_setup(QtWidgets.QAbstractButton.isChecked(machines))
+                submit = self.checkBoxSubmit
 
-                dialog_render = ViewRendering(self, lvl_rendering, self.csv[0])
+                dialog_render = ViewRendering(self,
+                                              lvl_rendering,
+                                              self.csv[0],
+                                              submit)
                 dialog_render.show()
 
                 swarm_setup(False)
