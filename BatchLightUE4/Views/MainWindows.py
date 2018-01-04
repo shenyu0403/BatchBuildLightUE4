@@ -51,6 +51,7 @@ class ThreadRendering(QtCore.QThread):
         """
 
         print('Level Name > ', level)
+        print('Update progress bar')
 
         return 'Finished'
 
@@ -62,6 +63,7 @@ class ThreadRendering(QtCore.QThread):
         while i < lvl_count:
             self.building(self.lvl_list[i])
             self.sleep(2)
+            # ViewRendering.progress_built.connect()
             i += 1
 
         # self.terminate()
@@ -84,9 +86,9 @@ class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
         # Thread
         thread_render = ThreadRendering(lvl_list)
         thread_render.start()
-        thread_render.finished.connect(self.progress_built)
-        # thread_render.quit()
-        # thread_render.wait()
+        # thread_render.finished.connect(self.progress_built)
+        thread_render.quit()
+        thread_render.wait()
 
         # self.progress_built(lvl_count)
         # while i < lvl_count:
@@ -97,7 +99,9 @@ class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
         # i += 1
 
     def progress_built(self):
-        self.progressBar.setValue(self.progress_bar.value()+1)
+        # value = QtCore.pyqtSignal([int], ['ProgressValue'])
+        # self.progressBar.setValue(self.progress_bar.value()+1)
+        print('+1 progress bar')
 
 
 class LogView(QtWidgets.QDialog, Ui_DialogLog):
