@@ -1,5 +1,6 @@
 import os
 import perforce
+import psutil
 
 from os.path import join, isdir, expanduser, basename, dirname
 from PyQt5 import QtWidgets, QtGui, QtCore
@@ -41,33 +42,22 @@ class ThreadRendering(QtCore.QThread):
     def __del__(self):
         self.wait()
 
-    def building(self, level):
-        """
-        Launch the swarm build operator.
-
-        :param level: A level name we want build
-        :type level: basestring
-        :return: Nothing, a job finished
-        """
-
-        print('Level Name > ', level)
-        print('Update progress bar')
-
-        return 'Finished'
-
     def run(self):
         # My Thread :) .
         print('Hello, i am a thread')
-        lvl_count = len(self.lvl_list)
-        i = 0
-        while i < lvl_count:
-            self.building(self.lvl_list[i])
-            self.sleep(2)
-            # ViewRendering.progress_built.connect()
-            i += 1
 
-        # self.terminate()
-        # self.wait()
+        for level in self.lvl_list:
+            swarm = build(level)
+            while swarm:
+                self.sleep(30)
+                if swarm.pid in psutil.pids():
+                    print('looping 30s | ', swarm.pid)
+
+                else:
+                    print('Update progress bar')
+                    break
+
+            print('End Looping')
 
 
 class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
@@ -83,12 +73,28 @@ class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
         # Je setup ma progress bar avec les data de base
         self.progressBar.setMaximum(len(lvl_list))
         self.progressBar.setValue(0)
-        # Thread
-        thread_render = ThreadRendering(lvl_list)
-        thread_render.start()
-        # thread_render.finished.connect(self.progress_built)
-        thread_render.quit()
-        thread_render.wait()
+        btn = QtWidgets.QDialogButtonBox
+        self.buttonBox.button(btn.Ok).setEnabled(False)
+        self.swarm = ThreadRendering(lvl_list)
+        self.swarm.start()
+
+        # i = 0
+        # for i in range(len(lvl_list)):
+        #     if 'False' not in csv[0]:
+        #         cl = p4_checkout(lvl_list[i])
+            # swarm = build(lvl_list[i])
+
+            # while True:
+            #     line = swarm.stdout.readline()
+            #     print('line >> ', line)
+            #     if not line:
+            #         break
+            #     print(line)
+
+            # submit = self.checkBoxSubmit
+            # if QtWidgets.QAbstractButton.isChecked(submit):
+            #     p4_submit(cl)
+            # i += 1
 
         # self.progress_built(lvl_count)
         # while i < lvl_count:
@@ -100,7 +106,7 @@ class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
 
     def progress_built(self):
         # value = QtCore.pyqtSignal([int], ['ProgressValue'])
-        # self.progressBar.setValue(self.progress_bar.value()+1)
+        self.progressBar.setValue(self.progress_bar.value()+1)
         print('+1 progress bar')
 
 
