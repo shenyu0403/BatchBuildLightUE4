@@ -4,28 +4,33 @@ import xml.etree.ElementTree as Element
 import json
 import subprocess
 
-from os.path import relpath, exists, expanduser, join
+from os.path import exists, expanduser, join
 from BatchLightUE4.Models.Database import TableProgram
 
 
-# -----------------------------
-# Build level
-# -----------------------------
 def build(level_used):
-    """Build all selected levels. Need a list with all level name.
-    - level_used : List contains all level you want calculate."""
+    """
+    Build all selected levels. Need a list with all level name.
+    - level_used : List contains all level you want calculate.
+
+    :param level_used: the level name. This data has send to the swarm
+    process
+    :type level_used: basestring
+    :return The process ID, wait to communicate it
+    """
     paths = TableProgram().select_path(1)
     ue4_editor = paths[0][1]
     ue4_project = paths[0][2]
-    subprocess.run([ue4_editor,
-                    ue4_project,
-                    '-run=resavepackages',
-                    '-buildlighting',
-                    '-AllowCommandletRendering',
-                    '-MapsOnly',
-                    '-ProjectOnly',
-                    '-map=' + level_used
-                    ])
+    swarm = subprocess.Popen([ue4_editor,
+                              ue4_project,
+                              '-run=resavepackages',
+                              '-buildlighting',
+                              '-AllowCommandletRendering',
+                              '-MapsOnly',
+                              '-ProjectOnly',
+                              '-map=' + level_used])
+
+    return swarm
 
 
 def swarm_setup(boolean):
