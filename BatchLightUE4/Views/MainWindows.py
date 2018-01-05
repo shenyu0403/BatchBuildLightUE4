@@ -6,6 +6,7 @@ from os.path import join, isdir, expanduser, basename, dirname
 from PyQt5 import QtWidgets, QtGui, QtCore
 
 from PyQt5.QtWidgets import QMessageBox, QFileDialog
+from PyQt5.QtCore import pyqtSlot, pyqtSignal
 
 # Adding all view used
 from BatchLightUE4.Views.WindowsMainWindows import Ui_MainWindow
@@ -25,7 +26,9 @@ from BatchLightUE4.Controllers.Setup import Setup
 from BatchLightUE4.Controllers.Swarm import build, swarm_setup
 
 # TODO Add a check if an UE version has launch
-
+# TODO WIP Signal See previous comment
+# https://blog.manash.me/quick-pyqt5-1-signal-and-slot-example-in-pyqt5
+# -bf502ccaf11d
 
 class ThreadRendering(QtCore.QThread):
     def __init__(self, level_rendering, csv, submit):
@@ -51,6 +54,7 @@ class ThreadRendering(QtCore.QThread):
     def run(self):
         # My Thread :) .
         print('Hello, i am a thread')
+
         self.sleep(4)
 
         for level in self.lvl_list:
@@ -64,17 +68,21 @@ class ThreadRendering(QtCore.QThread):
 
                 else:
                     print('Update progress bar')
+                    self.value_progress()
                     break
 
-            print('Submit Pass :> ', self.submit)
             if QtWidgets.QAbstractButton.isChecked(self.submit):
                 p4_submit(cl)
 
             print('End Looping')
 
+    def progress_built(self, value):
+        self.value_slide.emit(value)
+
 
 class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
     """Rendering Dialog Box."""
+    value_slide = pyqtSignal(int)
 
     def __init__(self, parent, lvl_list, csv='False', submit=False):
         """lvl_list: list with all level rendering.
@@ -89,23 +97,31 @@ class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
         btn = QtWidgets.QDialogButtonBox
         self.buttonBox.button(btn.Ok).setEnabled(False)
         self.swarm = ThreadRendering(lvl_list, csv, submit)
-        self.swarm.finished.connect(self.progress_built)
+        self.progressBar.valueChanged.connect(self.progress_built)
         self.swarm.start()
 
-    def progress_built(self):
-        # value = QtCore.pyqtSignal([int], ['ProgressValue'])
-        print('+1 progress bar')
-        print(self.progressBar.value())
-        value = self.progressBar.value() + 1
-        print(value)
-        max_value = self.progressBar.maximum()
-        print('Max > ', max_value)
+    def value_connect(self, slider_object):
+        slider_object.changedValue.connect(self.get_slider_value)
+
+    @pyqtSlot(int)
+    def get_progress_value(self, value):
         self.progressBar.setValue(value)
 
-        if value == max_value:
-            print('Rendering Finished')
-            btn = QtWidgets.QDialogButtonBox
-            self.buttonBox.button(btn.Ok).setEnabled(True)
+    # def progress_built(self, value):
+    #     self.value_slide.emit(value)
+        # # value = QtCore.pyqtSignal([int], ['ProgressValue'])
+        # print('+1 progress bar')
+        # print(self.progressBar.value())
+        # value = self.progressBar.value() + 1
+        # print(value)
+        # max_value = self.progressBar.maximum()
+        # print('Max > ', max_value)
+        # self.progressBar.setValue(value)
+        #
+        # if value == max_value:
+        #     print('Rendering Finished')
+        #     btn = QtWidgets.QDialogButtonBox
+        #     self.buttonBox.button(btn.Ok).setEnabled(True)
 
 
 
