@@ -52,11 +52,10 @@ class ThreadRendering(QtCore.QThread):
         # My Thread :) .
         print('Hello, i am a thread')
         self.sleep(4)
-        print(self.csv_data)
 
         for level in self.lvl_list:
-            # if 'False' not in self.csv_data:
-            #     cl = p4_checkout(self.lvl_list)
+            if 'False' not in self.csv_data:
+                cl = p4_checkout(self.lvl_list[0])
             swarm = build(level)
             while swarm:
                 self.sleep(30)
@@ -67,7 +66,8 @@ class ThreadRendering(QtCore.QThread):
                     print('Update progress bar')
                     break
 
-            if self.submit:
+            print('Submit Pass :> ', self.submit)
+            if QtWidgets.QAbstractButton.isChecked(self.submit):
                 p4_submit(cl)
 
             print('End Looping')
@@ -89,12 +89,24 @@ class ViewRendering(QtWidgets.QDialog, Ui_Rendering):
         btn = QtWidgets.QDialogButtonBox
         self.buttonBox.button(btn.Ok).setEnabled(False)
         self.swarm = ThreadRendering(lvl_list, csv, submit)
+        self.swarm.finished.connect(self.progress_built)
         self.swarm.start()
 
     def progress_built(self):
         # value = QtCore.pyqtSignal([int], ['ProgressValue'])
-        self.progressBar.setValue(self.progress_bar.value()+1)
         print('+1 progress bar')
+        print(self.progressBar.value())
+        value = self.progressBar.value() + 1
+        print(value)
+        max_value = self.progressBar.maximum()
+        print('Max > ', max_value)
+        self.progressBar.setValue(value)
+
+        if value == max_value:
+            print('Rendering Finished')
+            btn = QtWidgets.QDialogButtonBox
+            self.buttonBox.button(btn.Ok).setEnabled(True)
+
 
 
 class LogView(QtWidgets.QDialog, Ui_DialogLog):
@@ -483,16 +495,12 @@ class MainWindows(QtWidgets.QMainWindow, Ui_MainWindow):
                 swarm_setup(QtWidgets.QAbstractButton.isChecked(machines))
                 submit = self.checkBoxSubmit
 
-                dialog_render = ViewRendering(self,
-                                              lvl_rendering,
-                                              self.csv[0],
-                                              submit)
-                dialog_render.show()
+                ViewRendering(self,
+                              lvl_rendering,
+                              self.csv[0],
+                              submit).show()
 
                 swarm_setup(False)
-                # submit = self.checkBoxSubmit
-                # if QtWidgets.QAbstractButton.isChecked(submit):
-                #     p4_submit(cl)
                 msg = 'Level Build'
 
             else:
